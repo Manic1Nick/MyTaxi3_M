@@ -1,11 +1,10 @@
 package ua.artcode.taxi.dao;
 
-import ua.artcode.taxi.model.Address;
-import ua.artcode.taxi.model.Order;
-import ua.artcode.taxi.model.User;
+import ua.artcode.taxi.model.*;
 import ua.artcode.taxi.utils.ConnectionFactory;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -14,6 +13,8 @@ import java.util.List;
  */
 public class UserJdbcDao implements UserDao {
 
+    AddressDao addressDao = new AddressDao();
+    CarDao carDao = new CarDao();
 
     @Override
     public User createUser(User user) {
@@ -67,9 +68,9 @@ public class UserJdbcDao implements UserDao {
     @Override
     public User deleteUser(int id) {
 
-        try(Connection connection =
-                    ConnectionFactory.createConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM clients c WHERE c.id = ?;")){
+        try (Connection connection =
+                     ConnectionFactory.createConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM clients c WHERE c.id = ?;")) {
 
             preparedStatement.setInt((int) 1, id);
             preparedStatement.execute();
@@ -88,16 +89,67 @@ public class UserJdbcDao implements UserDao {
 
     @Override
     public List<User> getAllPassenger() {
-        return null;
+        List<User> passengers = new ArrayList<>();
+        try (Connection connection = ConnectionFactory.createConnection();
+             Statement statement = connection.createStatement()) {
+            ResultSet resultSetId = statement.executeQuery("SELECT id FROM identifiers WHERE type = 'P';");
+            int idForPassenger = resultSetId.getInt("id");
+            String sqlSelect = String.format("SELECT pass, identifier_id, phone, name, address_id FROM users WHERE identifier_id = %d;", idForPassenger);
+            ResultSet resultSet = statement.executeQuery(sqlSelect);
+            while (resultSet.next()) {
+                //int id = resultSet.getInt("id");
+                String pass = resultSet.getString("pass");
+                UserIdentifier identifier_id = getUserIdenyifier(resultSet.getInt("identifier_id"));
+                String phone = resultSet.getString("phone");
+                String name = resultSet.getString("name");
+                Address address_id = addressDao.findById(resultSet.getInt("address_id"));
+
+                passengers.add(new User(identifier_id, phone, pass, name, address_id));
+            }
+            connection.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return passengers;
     }
 
     @Override
     public List<User> getAllDrivers() {
-        return null;
+        List<User> drivers = new ArrayList<>();
+        try (Connection connection = ConnectionFactory.createConnection();
+             Statement statement = connection.createStatement()) {
+            ResultSet resultSetId = statement.executeQuery("SELECT id FROM identifiers WHERE type = 'D';");
+            int idForDriver = resultSetId.getInt("id");
+            String sqlSelect = String.format("SELECT pass, identifier_id, phone, name, car FROM users WHERE car_id = %d;", idForDriver);
+            ResultSet resultSet = statement.executeQuery(sqlSelect);
+            while (resultSet.next()) {
+                //int id = resultSet.getInt("id");
+                String pass = resultSet.getString("pass");
+                UserIdentifier identifier_id = getUserIdenyifier(resultSet.getInt("identifier_id"));
+                String phone = resultSet.getString("phone");
+                String name = resultSet.getString("name");
+                Car car = carDao.findById(resultSet.getInt("car"));
+
+                drivers.add(new User(identifier_id, phone, pass, name, car));
+            }
+
+            connection.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return drivers;
     }
+
 
     @Override
     public List<Order> getOrdersOfUser(User user) {
+
         return null;
     }
+
+    public UserIdentifier getUserIdenyifier(int identifier_id) {
+        return null;
+    }
+
+
 }
