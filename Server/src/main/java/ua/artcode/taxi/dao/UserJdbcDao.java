@@ -92,14 +92,14 @@ public class UserJdbcDao implements UserDao {
         List<User> passengers = new ArrayList<>();
         try (Connection connection = ConnectionFactory.createConnection();
              Statement statement = connection.createStatement()) {
-            ResultSet resultSetId = statement.executeQuery("SELECT id FROM identifiers WHERE type = 'P';");
+            ResultSet resultSetId = statement.executeQuery("SELECT id FROM identifiers WHERE type = 'P' LIMIT 1;");
             int idForPassenger = resultSetId.getInt("id");
             String sqlSelect = String.format("SELECT pass, identifier_id, phone, name, address_id FROM users WHERE identifier_id = %d;", idForPassenger);
             ResultSet resultSet = statement.executeQuery(sqlSelect);
             while (resultSet.next()) {
                 //int id = resultSet.getInt("id");
                 String pass = resultSet.getString("pass");
-                UserIdentifier identifier_id = getUserIdenyifier(resultSet.getInt("identifier_id"));
+                UserIdentifier identifier_id = getUserIdentifier(resultSet.getInt("identifier_id"));
                 String phone = resultSet.getString("phone");
                 String name = resultSet.getString("name");
                 Address address_id = addressDao.findById(resultSet.getInt("address_id"));
@@ -125,7 +125,7 @@ public class UserJdbcDao implements UserDao {
             while (resultSet.next()) {
                 //int id = resultSet.getInt("id");
                 String pass = resultSet.getString("pass");
-                UserIdentifier identifier_id = getUserIdenyifier(resultSet.getInt("identifier_id"));
+                UserIdentifier identifier_id = getUserIdentifier(resultSet.getInt("identifier_id"));
                 String phone = resultSet.getString("phone");
                 String name = resultSet.getString("name");
                 Car car = carDao.findById(resultSet.getInt("car"));
@@ -147,7 +147,20 @@ public class UserJdbcDao implements UserDao {
         return null;
     }
 
-    public UserIdentifier getUserIdenyifier(int identifier_id) {
+    public UserIdentifier getUserIdentifier(int identifier_id) {
+
+        try(Connection connection = ConnectionFactory.createConnection();
+            Statement statement = connection.createStatement()) {
+            ResultSet resultSetId = statement.executeQuery(String.format("SELECT type FROM identifiers WHERE id = %d", identifier_id));
+
+            String type = resultSetId.getString("type");
+            UserIdentifier userIdentifier = UserIdentifier.valueOf(type);
+
+            return userIdentifier;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        //
         return null;
     }
 
