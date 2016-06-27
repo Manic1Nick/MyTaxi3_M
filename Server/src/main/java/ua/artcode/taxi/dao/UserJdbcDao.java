@@ -160,7 +160,7 @@ public class UserJdbcDao implements UserDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        //
+        //  just a stub
         return null;
     }
 
