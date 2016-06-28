@@ -13,7 +13,7 @@ public interface GenericDao<T> {
 
     boolean delete(T el);
 
-    T findById(int id);
+    T findById(long id);
 
     List<T> getAll(int offset, int length);
 

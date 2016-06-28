@@ -50,7 +50,7 @@ public class OrderDaoInnerDbImpl implements OrderDao {
     }
 
     @Override
-    public Order find(long id) {
+    public Order findById(long id) {
 
         return appDB.findOrder(id);
     }
@@ -73,5 +73,10 @@ public class OrderDaoInnerDbImpl implements OrderDao {
     @Override
     public Order addToDriver(User user, Order order) {
         return appDB.addOrderToDriver(user, order);
+    }
+
+    @Override
+    public OrderStatus getOrderStatusById(long id) {
+        return null;
     }
 }

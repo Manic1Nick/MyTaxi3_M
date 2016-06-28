@@ -234,7 +234,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Order getOrderInfo(long orderId) throws OrderNotFoundException {
 
-        Order found = orderDao.find(orderId);
+        Order found = orderDao.findById(orderId);
 
         if (found == null) {
 
@@ -281,7 +281,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Order cancelOrder(long orderId) throws OrderNotFoundException {
 
-        Order cancelled = orderDao.find(orderId);
+        Order cancelled = orderDao.findById(orderId);
 
         if (cancelled == null) {
 
@@ -305,7 +305,7 @@ public class UserServiceImpl implements UserService {
                                             WrongStatusOrderException, DriverOrderActionException {
 
         User user = accessKeys.get(accessToken);
-        Order closed = orderDao.find(orderId);
+        Order closed = orderDao.findById(orderId);
         List<Order> ordersUser = userDao.getOrdersOfUser(user);
         Order result = null;
 
@@ -351,7 +351,7 @@ public class UserServiceImpl implements UserService {
                                         WrongStatusOrderException, DriverOrderActionException {
 
         User user = accessKeys.get(accessToken);
-        Order inProgress = orderDao.find(orderId);
+        Order inProgress = orderDao.findById(orderId);
         List<Order> ordersUser = userDao.getOrdersOfUser(user);
 
         for (Order order : ordersUser) {

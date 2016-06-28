@@ -9,6 +9,7 @@ package ua.artcode.taxi.model;
  */
 public class Car {
 
+    private long id;
     String type;
     String model;
     String number;
@@ -21,6 +22,14 @@ public class Car {
         this.number = number;
         this.model = model;
         this.type = type;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getType() {

@@ -68,30 +68,19 @@ public class UserDaoInnerDbImpl implements UserDao {
     }
 
     @Override
-    public List<User> getAllPassenger() {
+    public List<User> getAllUsersByIdentifier(UserIdentifier identifier) {
 
-        List<User> passengers = new ArrayList<>();
-
-        for (User user : appDB.getUsers().keySet()) {
-            if (user.getIdentifier().equals(UserIdentifier.P)) {
-                passengers.add(user);
-            }
-        }
-        return passengers;
-    }
-
-    @Override
-    public List<User> getAllDrivers() {
-
-        List<User> drivers = new ArrayList<>();
+        List<User> users = new ArrayList<>();
 
         for (User user : appDB.getUsers().keySet()) {
-            if (user.getIdentifier().equals(UserIdentifier.D)) {
-                drivers.add(user);
+            if (user.getIdentifier().equals(identifier)) {
+                users.add(user);
             }
         }
-        return drivers;
+
+        return users;
     }
+
 
     @Override
     public List<Order> getOrdersOfUser(User user) {

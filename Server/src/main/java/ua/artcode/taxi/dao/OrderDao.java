@@ -14,7 +14,9 @@ public interface OrderDao {
     Order update(Order newOrder);
     Order delete(long id);
 
-    Order find(long id);
+    Order findById(long id);
     List<Order> getOrdersByStatus(OrderStatus status);
     Order addToDriver(User user, Order order);
+
+    OrderStatus getOrderStatusById(long id);
 }

@@ -5,6 +5,7 @@ package ua.artcode.taxi.model;
  */
 public class Address {
 
+    private long id;
     private String country;
     private String city;
     private String street;
@@ -44,6 +45,14 @@ public class Address {
             this.street = "";
             this.houseNum = "";
         }
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getCountry() {

@@ -1,18 +1,23 @@
 package ua.artcode.taxi.run;
 
 import com.google.gson.Gson;
-import ua.artcode.taxi.dao.*;
+import ua.artcode.taxi.dao.OrderJdbcDao;
+import ua.artcode.taxi.dao.UserJdbcDao;
 import ua.artcode.taxi.exception.*;
-import ua.artcode.taxi.model.*;
+import ua.artcode.taxi.model.Order;
+import ua.artcode.taxi.model.User;
 import ua.artcode.taxi.service.UserService;
-import ua.artcode.taxi.service.UserServiceImpl;
-import ua.artcode.taxi.service.ValidatorImpl;
+import ua.artcode.taxi.service.UserServiceJdbcImpl;
+import ua.artcode.taxi.service.ValidatorJdbcImpl;
 import ua.artcode.taxi.to.Message;
 import ua.artcode.taxi.to.MessageBody;
 import ua.artcode.taxi.utils.ReflectionFormatter;
 
 import javax.security.auth.login.LoginException;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -28,12 +33,13 @@ public class RunServer {
         Gson gson = new Gson();
 
         //create test data
-        AppDB appDB = new AppDB();
-        UserDao userDao = new UserJdbcDao();
-        OrderDao orderDao = new OrderDaoInnerDbImpl(appDB);
-        ValidatorImpl validator = new ValidatorImpl(appDB);
+        UserJdbcDao userDao = new UserJdbcDao();
+        OrderJdbcDao orderDao = new OrderJdbcDao();
 
-        UserService userService = new UserServiceImpl(userDao, orderDao, validator);
+        UserService userService = new UserServiceJdbcImpl(
+                userDao,
+                orderDao,
+                new ValidatorJdbcImpl(userDao));
 /*
         User passenger1 = new User(UserIdentifier.P,
                 "1234", "test", "Vasya", new Address("Ukraine", "Kiev", "Khreschatik", "5"));
@@ -191,6 +197,9 @@ class ClientThreadLogic implements Runnable {
                     pw.flush();
 
                 } catch (LoginException e) {
+                    pw.println(e);
+                    pw.flush();
+                } catch (Exception e) {
                     pw.println(e);
                     pw.flush();
                 }

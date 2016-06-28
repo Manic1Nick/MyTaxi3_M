@@ -944,3 +944,25 @@
 2016-06-15 19:45:37 INFO  UserServiceImpl:408 - Get all orders of user Kolia
 2016-06-15 19:45:37 INFO  UserServiceImpl:264 - User Kolia get information for his last order 1
 2016-06-15 19:45:41 INFO  UserServiceImpl:398 - Request user Kolia
+2016-06-28 17:21:28 ERROR UserServiceImpl:102 - LoginException: failed attempt to log in with phone 1234
+2016-06-28 17:22:30 INFO  UserServiceImpl:58 - New passenger Kolia registered
+2016-06-28 17:22:30 ERROR UserServiceImpl:102 - LoginException: failed attempt to log in with phone 1234
+2016-06-28 17:28:49 INFO  UserServiceImpl:58 - New passenger Kolia registered
+2016-06-28 17:28:49 ERROR UserServiceImpl:102 - LoginException: failed attempt to log in with phone 1234
+2016-06-28 17:31:07 INFO  UserServiceImpl:58 - New passenger Kolia registered
+2016-06-28 17:31:07 ERROR UserServiceImpl:102 - LoginException: failed attempt to log in with phone 1234
+2016-06-28 17:32:49 INFO  UserServiceImpl:58 - New passenger Kolia registered
+2016-06-28 17:32:49 ERROR UserServiceImpl:102 - LoginException: failed attempt to log in with phone 1234
+2016-06-28 17:37:02 ERROR UserServiceImpl:102 - LoginException: failed attempt to log in with phone 1234
+2016-06-28 17:38:19 INFO  UserServiceImpl:58 - New passenger Kolia registered
+2016-06-28 17:38:19 ERROR UserServiceImpl:102 - LoginException: failed attempt to log in with phone 1234
+2016-06-28 17:38:24 INFO  UserServiceImpl:58 - New passenger Kolia registered
+2016-06-28 17:38:24 ERROR UserServiceImpl:102 - LoginException: failed attempt to log in with phone 4321
+2016-06-28 17:38:27 INFO  UserServiceImpl:58 - New passenger Kolia registered
+2016-06-28 17:38:27 ERROR UserServiceImpl:102 - LoginException: failed attempt to log in with phone 4321
+2016-06-28 17:38:45 INFO  UserServiceImpl:58 - New passenger Kolia registered
+2016-06-28 17:38:45 ERROR UserServiceImpl:102 - LoginException: failed attempt to log in with phone 2222
+2016-06-28 17:45:58 ERROR UserServiceJdbcImpl:102 - LoginException: failed attempt to log in with phone 1234
+2016-06-28 17:47:13 INFO  UserServiceJdbcImpl:58 - New passenger 2222 registered
+2016-06-28 17:47:13 ERROR UserServiceJdbcImpl:102 - LoginException: failed attempt to log in with phone 2222
+2016-06-28 18:12:39 ERROR UserServiceJdbcImpl:102 - LoginException: failed attempt to log in with phone 2222

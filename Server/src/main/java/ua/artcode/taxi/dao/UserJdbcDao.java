@@ -11,50 +11,53 @@ import java.util.List;
 
 public class UserJdbcDao implements UserDao {
 
+    private AddressDao addressDao;
+    private OrderJdbcDao orderDao;
+    private CarDao carDao;
 
     @Override
     public User createUser(User user) {
 
-        Address address = user.getHomeAddress();
-        Car car = user.getCar();
         UserIdentifier identifier = user.getIdentifier();
 
-        try (Connection connection =
-                     ConnectionFactory.createConnection();
+        try (Connection connection = ConnectionFactory.createConnection();
              Statement statement = connection.createStatement()) {
 
             connection.setAutoCommit(false);
 
-            int addressId = insertAddressToJdbcAndGetId(address);
-            int carId = insertCarToJdbcAndGetId(car);
             int identifierId = getIdIdentifierFromJdbs(identifier);
 
-            if (addressId >= 0) {
-                String sqlInsert = String.format
-                        ("INSERT INTO users(identifier_id, phone, name, pass, address_id) VALUES (%d, '%s', '%s','%s', %d)",
-                                identifierId,
+            String sqlInsert = String.format
+                    ("INSERT INTO users(identifier_id, phone, name) VALUES (%d, '%s', '%s')",
+                            identifierId,
+                            user.getPhone(),
+                            user.getName());
+            statement.execute(sqlInsert);
+
+            //for passenger
+            if (identifier.equals(UserIdentifier.P)) {
+                sqlInsert = String.format
+                        ("INSERT INTO users(pass, address_id) WHERE phone='%s' VALUES ('%s', %d)",
                                 user.getPhone(),
-                                user.getName(),
                                 user.getPass(),
-                                addressId);
+                                addressDao.create(user.getHomeAddress()).getId());
                 statement.execute(sqlInsert);
             }
 
             //for driver
-            if (carId >= 0) {
-                String sqlInsert = String.format
-                        ("INSERT INTO users(identifier_id, phone, name, pass, car_id) VALUES (%d, '%s', '%s','%s', %d)",
-                                identifierId,
+            else if (identifier.equals(UserIdentifier.D)) {
+                sqlInsert = String.format
+                        ("INSERT INTO users(pass, car_id) WHERE phone='%s' VALUES ('%s', %d)",
                                 user.getPhone(),
-                                user.getName(),
                                 user.getPass(),
-                                carId);
+                                carDao.create(user.getCar()).getId());
                 statement.execute(sqlInsert);
-                //todo user.getCar().setId(carId);
             }
 
             //set id for new user
-            user.setId(find(user.getPhone()).getId());
+            ResultSet resultSet = statement.executeQuery("SELECT id FROM users s ORDER BY id DESC LIMIT 1;");
+            resultSet.next();
+            user.setId(resultSet.getInt("id"));
 
             connection.commit();
 
@@ -68,21 +71,18 @@ public class UserJdbcDao implements UserDao {
     @Override
     public Collection<User> getAllUsers() {
 
-        //todo take from gelAllPassengers and getAllDrivers
+        List<User> users = new ArrayList<>();
 
-        return null;
-    }
-
-    @Override
-    public User updateUser(User newUser) {
-
-        try (Connection connection =
-                     ConnectionFactory.createConnection()) {
+        try (Connection connection = ConnectionFactory.createConnection();
+             Statement statement = connection.createStatement();) {
 
             connection.setAutoCommit(false);
 
-            deleteUser(newUser.getId());
-            createUser(newUser);
+            ResultSet resultSet = statement.executeQuery("SELECT id FROM users");
+
+            while (resultSet.next()) {
+                users.add(findById(resultSet.getInt("id")));
+            }
 
             connection.commit();
 
@@ -90,11 +90,21 @@ public class UserJdbcDao implements UserDao {
             e.printStackTrace();
         }
 
-        return newUser;
+        return users;
+    }
+
+    @Override
+    public User updateUser(User newUser) {
+
+        deleteUser(newUser.getId());
+
+        return createUser(newUser);
     }
 
     @Override
     public User deleteUser(int id) {
+
+        User user = findById(id);
 
         try(Connection connection =
                     ConnectionFactory.createConnection();
@@ -108,11 +118,12 @@ public class UserJdbcDao implements UserDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+
+        return user;
     }
 
     @Override
-    public User find(String phone) {
+    public User findByPhone(String phone) {
 
         User user = null;
 
@@ -127,7 +138,7 @@ public class UserJdbcDao implements UserDao {
             statement.execute(sqlSelect);
 
             ResultSet resultSet = statement.executeQuery(sqlSelect);
-            user = findUserById(resultSet.getInt("id"));
+            user = findById(resultSet.getInt("id"));
 
             connection.commit();
 
@@ -139,19 +150,30 @@ public class UserJdbcDao implements UserDao {
     }
 
     @Override
-    public List<User> getAllPassenger() {
+    public List<User> getAllUsersByIdentifier(UserIdentifier identifier) {
 
-        //todo by Ivan
+        List<User> users = new ArrayList<>();
 
-        return null;
-    }
+        try (Connection connection = ConnectionFactory.createConnection();
+             Statement statement = connection.createStatement();) {
 
-    @Override
-    public List<User> getAllDrivers() {
+            connection.setAutoCommit(false);
 
-        //todo by Ivan
+            String sqlSelect = String.format("SELECT id FROM users WHERE identifier_id=%d",
+                    getIdIdentifierFromJdbs(identifier));
+            ResultSet resultSet = statement.executeQuery(sqlSelect);
 
-        return null;
+            while (resultSet.next()) {
+                users.add(findById(resultSet.getInt("id")));
+            }
+
+            connection.commit();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return users;
     }
 
     @Override
@@ -165,32 +187,13 @@ public class UserJdbcDao implements UserDao {
 
             connection.setAutoCommit(false);
 
-            String sqlSelect = null;
-            if (user.getIdentifier().equals(UserIdentifier.P)) {
-                sqlSelect = String.format
-                        ("SELECT id, status_id, addressfrom, addressto, passenger_id, driver_id, distance, price, message FROM orders WHERE passenger_id='%s'", user.getId());
-
-            } else if (user.getIdentifier().equals(UserIdentifier.D)) {
-                sqlSelect = String.format
-                        ("SELECT id, status_id, addressfrom, addressto, passenger_id, driver_id, distance, price, message FROM orders WHERE driver_id='%s'", user.getId());
-            }
-
+            String sqlSelect = String.format
+                    ("SELECT id FROM orders WHERE passenger_id='%s' OR driver_id='%s'",
+                            user.getId(), user.getId());
             ResultSet resultSet = statement.executeQuery(sqlSelect);
 
             while (resultSet.next()) {
-                int id = resultSet.getInt("id");
-
-                sqlSelect = String.format("SELECT type FROM statuses WHERE id='%s';", resultSet.getInt("status_id"));
-                ResultSet resultSetId = statement.executeQuery(sqlSelect);
-                int typeOrderStatus = resultSetId.getInt("type");
-
-                //OrderStatus status = resultSet.getString("pass");
-                UserIdentifier identifier_id = getUserIdentifier(resultSet.getInt("identifier_id"));
-                String phone = resultSet.getString("phone");
-                String name = resultSet.getString("name");
-                Address address_id = addressDao.findById(resultSet.getInt("address_id"));
-
-                passengers.add(new User(identifier_id, phone, pass, name, address_id));
+                orders.add(orderDao.findById(resultSet.getLong("id")));
             }
 
             connection.commit();
@@ -199,53 +202,72 @@ public class UserJdbcDao implements UserDao {
             e.printStackTrace();
         }
 
-        return null;
+        return orders;
     }
 
+    @Override
+    public User findById(int id) {
+
+        User user = null;
+
+        try (Connection connection = ConnectionFactory.createConnection();
+             Statement statement = connection.createStatement();) {
+
+            connection.setAutoCommit(false);
+
+            String sqlSelect = String.format("SELECT * FROM users WHERE id=%d", id);
+            ResultSet resultSet = statement.executeQuery(sqlSelect);
+
+            user.setIdentifier(getUserIdentifierByIdFromJdbc(resultSet.getInt("identifier_id")));
+            user.setPhone(resultSet.getString("phone"));
+            user.setPass(resultSet.getString("pass"));
+            user.setName(resultSet.getString("name"));
+            user.setHomeAddress(addressDao.findById(resultSet.getInt("address_id")));
+            user.setCar(carDao.findById(resultSet.getInt("car_id")));
+
+            connection.commit();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return user;
+    }
 
 
     //------------------------------------------------------------------------------------
     //additional methods
 
-    public int insertAddressToJdbcAndGetId(Address address) throws SQLException {
+    public UserIdentifier getUserIdentifierByIdFromJdbc(int id) {
 
-        Connection connection =
-                ConnectionFactory.createConnection();
-        Statement statement = connection.createStatement();
+        UserIdentifier identifier = null;
 
-        String sqlInsert = String.format
-                ("INSERT INTO addresses (country, city, street, num) VALUES ('%s', '%s','%s','%s')",
-                        address.getCountry(),
-                        address.getCity(),
-                        address.getStreet(),
-                        address.getHouseNum());
-        statement.execute(sqlInsert);
+        try(Connection connection = ConnectionFactory.createConnection();
+            Statement statement = connection.createStatement();) {
 
-        ResultSet resultSet = statement.executeQuery
-                ("SELECT id FROM addresses s ORDER BY id DESC LIMIT 1;");
-        resultSet.next();
+            connection.setAutoCommit(false);
 
-        return resultSet.getInt("id");
+            String sqlSelect = String.format("SELECT type FROM identifiers WHERE id=%d;", id);
+            ResultSet resultSet = statement.executeQuery(sqlSelect);
+            String typeUserIdentifier = resultSet.getString("type");
+
+            if (typeUserIdentifier.equals("P")) {
+                identifier = UserIdentifier.P;
+            } else if (typeUserIdentifier.equals("D")) {
+                identifier = UserIdentifier.D;
+            } else if (typeUserIdentifier.equals("A")) {
+                identifier = UserIdentifier.A;
+            }
+
+            connection.commit();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return identifier;
     }
 
-    public int insertCarToJdbcAndGetId(Car car) throws SQLException {
-        Connection connection =
-                ConnectionFactory.createConnection();
-        Statement statement = connection.createStatement();
-
-        String sqlInsert = String.format
-                ("INSERT INTO cars (type, model, number) VALUES ('%s', '%s','%s')",
-                        car.getType(),
-                        car.getModel(),
-                        car.getNumber());
-        statement.execute(sqlInsert);
-
-        ResultSet resultSet = statement.executeQuery
-                ("SELECT id FROM cars s ORDER BY id DESC LIMIT 1;");
-        resultSet.next();
-
-        return resultSet.getInt("id");
-    }
 
     public int getIdIdentifierFromJdbs(UserIdentifier identifier) throws SQLException {
         Connection connection =
@@ -258,26 +280,6 @@ public class UserJdbcDao implements UserDao {
         ResultSet resultSet = statement.executeQuery(sqlSelect);
 
         return resultSet.getInt("id");
-    }
-
-    public User findUserById(int id) throws SQLException {
-
-        User user = null;
-
-        Connection connection =
-                ConnectionFactory.createConnection();
-        Statement statement = connection.createStatement();
-
-        //todo take create user from getAllPassengers and getAllDrivers
-
-        /*String sqlSelect = String.format
-                ("SELECT identifier, phone, pass, name, address, car FROM users WHERE id VALUE '%d'", id);
-        statement.execute(sqlSelect);
-
-        ResultSet resultSet = statement.executeQuery(sqlSelect);
-        resultSet.next();*/
-
-        return user;
     }
 }
 
