@@ -63,7 +63,7 @@ public class UserDaoInnerDbImpl implements UserDao {
     }
 
     @Override
-    public User find(String phone) {
+    public User findByPhone(String phone) {
         return appDB.findUser(phone);
     }
 
@@ -96,5 +96,10 @@ public class UserDaoInnerDbImpl implements UserDao {
     @Override
     public List<Order> getOrdersOfUser(User user) {
         return appDB.getUsers().get(user);
+    }
+
+    @Override
+    public User findById(int id) {
+        return null;
     }
 }

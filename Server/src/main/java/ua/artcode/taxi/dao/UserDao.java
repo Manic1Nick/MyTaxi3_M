@@ -14,7 +14,8 @@ public interface UserDao {
     User updateUser(User newUser);
     User deleteUser(int id);
 
-    User find(String phone);
+    User findByPhone(String phone);
+    User findById(int id);
     List<User> getAllPassenger();
     List<User> getAllDrivers();
     List<Order> getOrdersOfUser(User user);
