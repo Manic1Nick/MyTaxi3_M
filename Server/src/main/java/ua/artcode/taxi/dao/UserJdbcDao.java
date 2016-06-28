@@ -11,9 +11,9 @@ import java.util.List;
 
 public class UserJdbcDao implements UserDao {
 
-    private AddressDao addressDao;
-    private OrderJdbcDao orderDao;
-    private CarDao carDao;
+    private AddressDao addressDao = new AddressDao();
+    private OrderDao orderDao = new OrderJdbcDao();
+    private CarDao carDao = new CarDao();
 
     @Override
     public User createUser(User user) {
@@ -28,18 +28,18 @@ public class UserJdbcDao implements UserDao {
             int identifierId = getIdIdentifierFromJdbs(identifier);
 
             String sqlInsert = String.format
-                    ("INSERT INTO users(identifier_id, phone, name) VALUES (%d, '%s', '%s')",
+                    ("INSERT INTO users(identifier_id, phone, pass, name) VALUES (%d, '%s', '%s', '%s');",
                             identifierId,
                             user.getPhone(),
+                            user.getPass(),
                             user.getName());
             statement.execute(sqlInsert);
 
             //for passenger
             if (identifier.equals(UserIdentifier.P)) {
                 sqlInsert = String.format
-                        ("INSERT INTO users(pass, address_id) WHERE phone='%s' VALUES ('%s', %d)",
+                        ("INSERT INTO users(pass, address_id) WHERE phone='%s' VALUES (%d);",
                                 user.getPhone(),
-                                user.getPass(),
                                 addressDao.create(user.getHomeAddress()).getId());
                 statement.execute(sqlInsert);
             }
@@ -47,9 +47,8 @@ public class UserJdbcDao implements UserDao {
             //for driver
             else if (identifier.equals(UserIdentifier.D)) {
                 sqlInsert = String.format
-                        ("INSERT INTO users(pass, car_id) WHERE phone='%s' VALUES ('%s', %d)",
+                        ("INSERT INTO users(phone, pass, car_id) WHERE phone='%s' VALUES (%d);",
                                 user.getPhone(),
-                                user.getPass(),
                                 carDao.create(user.getCar()).getId());
                 statement.execute(sqlInsert);
             }
@@ -78,7 +77,7 @@ public class UserJdbcDao implements UserDao {
 
             connection.setAutoCommit(false);
 
-            ResultSet resultSet = statement.executeQuery("SELECT id FROM users");
+            ResultSet resultSet = statement.executeQuery("SELECT id FROM users;");
 
             while (resultSet.next()) {
                 users.add(findById(resultSet.getInt("id")));
@@ -96,9 +95,29 @@ public class UserJdbcDao implements UserDao {
     @Override
     public User updateUser(User newUser) {
 
-        deleteUser(newUser.getId());
+        try (Connection connection = ConnectionFactory.createConnection();
+             Statement statement = connection.createStatement();) {
 
-        return createUser(newUser);
+            connection.setAutoCommit(false);
+
+            String sqlUpdate = String.format
+                    ("UPDATE users SET identifier_id=%d, phone='%s', pass='%s', name='%s', address_id=%d, car_id=%d WHERE id=%d;",
+                            getIdIdentifierFromJdbs(newUser.getIdentifier()),
+                            newUser.getPhone(),
+                            newUser.getPass(),
+                            newUser.getName(),
+                            addressDao.update(newUser.getHomeAddress()).getId(),
+                            carDao.update(newUser.getCar()).getId(),
+                            newUser.getId());
+            statement.executeQuery(sqlUpdate);
+
+            connection.commit();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return newUser;
     }
 
     @Override
@@ -134,10 +153,11 @@ public class UserJdbcDao implements UserDao {
             connection.setAutoCommit(false);
 
             String sqlSelect = String.format
-                    ("SELECT id FROM users WHERE phone='%s'", phone);
+                    ("SELECT id FROM users WHERE phone='%s';", phone);
             statement.execute(sqlSelect);
 
             ResultSet resultSet = statement.executeQuery(sqlSelect);
+            resultSet.next();
             user = findById(resultSet.getInt("id"));
 
             connection.commit();
@@ -159,7 +179,7 @@ public class UserJdbcDao implements UserDao {
 
             connection.setAutoCommit(false);
 
-            String sqlSelect = String.format("SELECT id FROM users WHERE identifier_id=%d",
+            String sqlSelect = String.format("SELECT id FROM users WHERE identifier_id=%d;",
                     getIdIdentifierFromJdbs(identifier));
             ResultSet resultSet = statement.executeQuery(sqlSelect);
 
@@ -188,7 +208,7 @@ public class UserJdbcDao implements UserDao {
             connection.setAutoCommit(false);
 
             String sqlSelect = String.format
-                    ("SELECT id FROM orders WHERE passenger_id='%s' OR driver_id='%s'",
+                    ("SELECT id FROM orders WHERE passenger_id='%s' OR driver_id='%s';",
                             user.getId(), user.getId());
             ResultSet resultSet = statement.executeQuery(sqlSelect);
 
@@ -215,8 +235,9 @@ public class UserJdbcDao implements UserDao {
 
             connection.setAutoCommit(false);
 
-            String sqlSelect = String.format("SELECT * FROM users WHERE id=%d", id);
+            String sqlSelect = String.format("SELECT * FROM users WHERE id=%d;", id);
             ResultSet resultSet = statement.executeQuery(sqlSelect);
+            resultSet.next();
 
             user.setIdentifier(getUserIdentifierByIdFromJdbc(resultSet.getInt("identifier_id")));
             user.setPhone(resultSet.getString("phone"));
@@ -249,6 +270,7 @@ public class UserJdbcDao implements UserDao {
 
             String sqlSelect = String.format("SELECT type FROM identifiers WHERE id=%d;", id);
             ResultSet resultSet = statement.executeQuery(sqlSelect);
+            resultSet.next();
             String typeUserIdentifier = resultSet.getString("type");
 
             if (typeUserIdentifier.equals("P")) {
@@ -270,14 +292,16 @@ public class UserJdbcDao implements UserDao {
 
 
     public int getIdIdentifierFromJdbs(UserIdentifier identifier) throws SQLException {
+
         Connection connection =
                 ConnectionFactory.createConnection();
         Statement statement = connection.createStatement();
 
-        String sqlSelect = String.format("SELECT id FROM identifiers WHERE identifier='%s'",
-                identifier);
+        String sqlSelect = String.format("SELECT id FROM identifiers WHERE type='%s';",
+                identifier.toString());
 
         ResultSet resultSet = statement.executeQuery(sqlSelect);
+        resultSet.next();
 
         return resultSet.getInt("id");
     }

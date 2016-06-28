@@ -20,7 +20,7 @@ public class CarDao implements GenericDao<Car> {
             connection.setAutoCommit(false);
 
             String sqlSelect = String.format
-                    ("INSERT INTO cars(type, model, number) VALUES ('%s', '%s', '%s')",
+                    ("INSERT INTO cars(type, model, number) VALUES ('%s', '%s', '%s');",
                             el.getType(),
                             el.getModel(),
                             el.getNumber());
@@ -57,8 +57,9 @@ public class CarDao implements GenericDao<Car> {
             connection.setAutoCommit(false);
 
             String sqlSelect = String.format
-                    ("SELECT * FROM cars WHERE id=%d", id);
+                    ("SELECT * FROM cars WHERE id=%d;", id);
             ResultSet resultSet = statement.executeQuery(sqlSelect);
+            resultSet.next();
 
             car = new Car(
                     resultSet.getString("type"),

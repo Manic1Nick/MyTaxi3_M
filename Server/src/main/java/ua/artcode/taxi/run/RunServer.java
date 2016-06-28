@@ -126,7 +126,6 @@ class ClientThreadLogic implements Runnable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            System.out.print("\nCLIENT OUT ---> SERVER TAKE: " + requestBody);
 
             Message message = gson.fromJson(requestBody, Message.class);
 

@@ -24,10 +24,10 @@ public class OrderJdbcDao implements OrderDao {
             Statement statement = connection.createStatement();){
             connection.setAutoCommit(false);
 
-            ResultSet resultSet = statement.executeQuery("SELECT status_id FROM statuses WHERE type='NEW'");
+            ResultSet resultSet = statement.executeQuery("SELECT status_id FROM statuses WHERE type='NEW';");
 
             String sqlInsert = String.format
-                    ("INSERT INTO orders(status_id, addressfrom_id, addressto_id, passenger_id, distance, price, message) VALUES (%d, %d, %d, %d, '%s', '%s', '%s')",
+                    ("INSERT INTO orders(status_id, addressfrom_id, addressto_id, passenger_id, distance, price, message) VALUES (%d, %d, %d, %d, '%s', '%s', '%s');",
                             resultSet.getInt("status_id"),
                             addressDao.create(order.getFrom()).getId(),
                             addressDao.create(order.getTo()).getId(),
@@ -64,7 +64,7 @@ public class OrderJdbcDao implements OrderDao {
 
             connection.setAutoCommit(false);
 
-            ResultSet resultSet = statement.executeQuery("SELECT id FROM orders");
+            ResultSet resultSet = statement.executeQuery("SELECT id FROM orders;");
 
             while (resultSet.next()) {
                 orders.add(orderDao.findById(resultSet.getLong("id")));
@@ -82,9 +82,30 @@ public class OrderJdbcDao implements OrderDao {
     @Override
     public Order update(Order newOrder) {
 
-        delete(newOrder.getId());
+        try (Connection connection = ConnectionFactory.createConnection();
+             Statement statement = connection.createStatement();) {
 
-        return create(newOrder.getPassenger(), newOrder);
+            connection.setAutoCommit(false);
+
+            String sqlUpdate = String.format
+                    ("UPDATE orders SET addressfrom_id=%d, addressto_id=%d, passenger_id=%d, driver_id=%d, distance=%d, price=%d, message='%s' WHERE id=%d;",
+                            addressDao.update(newOrder.getFrom()).getId(),
+                            addressDao.update(newOrder.getTo()).getId(),
+                            userDao.updateUser(newOrder.getPassenger()).getId(),
+                            userDao.updateUser(newOrder.getDriver()).getId(),
+                            newOrder.getDistance(),
+                            newOrder.getPrice(),
+                            newOrder.getMessage(),
+                            newOrder.getId());
+            statement.executeQuery(sqlUpdate);
+
+            connection.commit();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return newOrder;
     }
 
     @Override
@@ -118,8 +139,9 @@ public class OrderJdbcDao implements OrderDao {
 
             connection.setAutoCommit(false);
 
-            String sqlSelect = String.format("SELECT * FROM orders WHERE id=%d", id);
+            String sqlSelect = String.format("SELECT * FROM orders WHERE id=%d;", id);
             ResultSet resultSet = statement.executeQuery(sqlSelect);
+            resultSet.next();
 
             order.setOrderStatus(getOrderStatusById(id));
             order.setFrom(addressDao.findById(resultSet.getInt("addressfrom_id")));
@@ -150,11 +172,12 @@ public class OrderJdbcDao implements OrderDao {
             connection.setAutoCommit(false);
 
             String sqlSelectStatus = String.format
-                    ("SELECT id FROM statuses WHERE type='%s'" , status);
+                    ("SELECT id FROM statuses WHERE type='%s';" , status.toString());
             ResultSet resultSet = statement.executeQuery(sqlSelectStatus);
+            resultSet.next();
 
             String sqlSelect = String.format
-                    ("SELECT * FROM orders WHERE status_id='%s'" , resultSet.getInt("id"));
+                    ("SELECT * FROM orders WHERE status_id=%d;", resultSet.getInt("id"));
             resultSet = statement.executeQuery(sqlSelect);
 
             while (resultSet.next()) {
@@ -179,7 +202,7 @@ public class OrderJdbcDao implements OrderDao {
             connection.setAutoCommit(false);
 
             String sqlInsert = String.format
-                    ("INSERT INTO orders(driver_id) VALUES (%d)", user.getId());
+                    ("INSERT INTO orders(driver_id) VALUES (%d);", user.getId());
             statement.executeQuery(sqlInsert);
 
             connection.commit();
@@ -201,13 +224,15 @@ public class OrderJdbcDao implements OrderDao {
             Statement statement = connection.createStatement();){
             connection.setAutoCommit(false);
 
-            String sqlSelect = String.format("SELECT status_id FROM orders WHERE id=%d",
+            String sqlSelect = String.format("SELECT status_id FROM orders WHERE id=%d;",
                     id);
             ResultSet resultSet = statement.executeQuery(sqlSelect);
+            resultSet.next();
 
             String sqlSelect2 = String.format("SELECT type FROM statuses WHERE id=%d;",
                     resultSet.getInt("status_id"));
             ResultSet resultSetId = statement.executeQuery(sqlSelect2);
+            resultSetId.next();
             String typeOrderStatus = resultSetId.getString("type");
 
             if (typeOrderStatus.equals("NEW")) {

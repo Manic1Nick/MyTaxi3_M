@@ -23,7 +23,7 @@ public class AddressDao implements GenericDao<Address> {
             connection.setAutoCommit(false);
 
             String sqlSelect = String.format
-                    ("INSERT INTO addresses(country, city, street, house_num) VALUES ('%s', '%s', '%s', '%s')",
+                    ("INSERT INTO addresses(country, city, street, house_num) VALUES ('%s', '%s', '%s', '%s');",
                             el.getCountry(),
                             el.getCity(),
                             el.getStreet(),
@@ -61,8 +61,9 @@ public class AddressDao implements GenericDao<Address> {
             connection.setAutoCommit(false);
 
             String sqlSelect = String.format
-                    ("SELECT * FROM addresses WHERE id=%d", id);
+                    ("SELECT * FROM addresses WHERE id=%d;", id);
             ResultSet resultSet = statement.executeQuery(sqlSelect);
+            resultSet.next();
 
             address = new Address(
                     resultSet.getString("country"),
