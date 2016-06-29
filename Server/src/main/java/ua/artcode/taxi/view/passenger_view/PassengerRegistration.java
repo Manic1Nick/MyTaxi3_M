@@ -118,6 +118,8 @@ public class PassengerRegistration extends JFrame {
                         JOptionPane.showMessageDialog(getParent(), "User not found or incorrect password");
                     } catch (RegisterException e1) {
                         JOptionPane.showMessageDialog(getParent(), "You enter wrong data! Try a different phone number");
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
                     }
                 }
             }

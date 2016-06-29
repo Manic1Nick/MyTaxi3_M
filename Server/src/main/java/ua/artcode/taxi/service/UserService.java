@@ -19,7 +19,7 @@ public interface UserService {
     User registerDriver(Map<String, String> map) throws RegisterException;
 
     //login (return accessToken)
-    String login(String phone, String pass) throws LoginException;
+    String login(String phone, String pass) throws Exception;
 
     //actions for passenger
     Order makeOrder(String accessToken, String lineFrom, String lineTo, String message) throws OrderMakeException,

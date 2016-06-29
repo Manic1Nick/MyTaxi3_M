@@ -1,7 +1,7 @@
 package ua.artcode.taxi.dao;
 
-import ua.artcode.taxi.model.Order;
 import ua.artcode.taxi.model.User;
+import ua.artcode.taxi.model.UserIdentifier;
 
 import java.util.Collection;
 import java.util.List;
@@ -14,8 +14,9 @@ public interface UserDao {
     User updateUser(User newUser);
     User deleteUser(int id);
 
-    User find(String phone);
-    List<User> getAllPassenger();
-    List<User> getAllDrivers();
-    List<Order> getOrdersOfUser(User user);
+    User findByPhone(String phone);
+    User findById(int id);
+    List<User> getAllUsersByIdentifier(UserIdentifier identifier);
+
+    List<String> getAllRegisteredPhones();
 }

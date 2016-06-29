@@ -1,11 +1,14 @@
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import ua.artcode.taxi.dao.*;
+import ua.artcode.taxi.dao.AddressDao;
+import ua.artcode.taxi.dao.CarDao;
+import ua.artcode.taxi.dao.OrderJdbcDao;
+import ua.artcode.taxi.dao.UserJdbcDao;
 import ua.artcode.taxi.model.*;
 import ua.artcode.taxi.service.UserService;
-import ua.artcode.taxi.service.UserServiceImpl;
-import ua.artcode.taxi.service.ValidatorImpl;
+import ua.artcode.taxi.service.UserServiceJdbcImpl;
+import ua.artcode.taxi.service.ValidatorJdbcImpl;
 import ua.artcode.taxi.utils.geolocation.GoogleMapsAPI;
 import ua.artcode.taxi.utils.geolocation.GoogleMapsAPIImpl;
 
@@ -13,11 +16,11 @@ import java.util.*;
 
 public class TestMyTaxi {
 
-    private static AppDB appDB;
-
-    private static UserDao userDao;
-    private static OrderDao orderDao;
-    private static ValidatorImpl validator;
+    private static UserJdbcDao userDao;
+    private static OrderJdbcDao orderDao;
+    private static AddressDao addressDao;
+    private static CarDao carDao;
+    private static ValidatorJdbcImpl validator;
     private static double pricePerKilometer = 5;
     private static GoogleMapsAPI googleMapsAPI = new GoogleMapsAPIImpl();
     private static Map<String, User> accessKeys = new HashMap<>();
@@ -32,11 +35,12 @@ public class TestMyTaxi {
 
     @BeforeClass
     public static void beforeClass() {
-        appDB = new AppDB();
-        userDao = new UserDaoInnerDbImpl(appDB);
-        orderDao = new OrderDaoInnerDbImpl(appDB);
-        validator = new ValidatorImpl(appDB);
-        userService = new UserServiceImpl(userDao, orderDao, validator);
+        addressDao = new AddressDao();
+        carDao = new CarDao();
+        userDao = new UserJdbcDao(addressDao, carDao);
+        orderDao = new OrderJdbcDao(userDao, addressDao);
+        validator = new ValidatorJdbcImpl(userDao);
+        userService = new UserServiceJdbcImpl(userDao, orderDao, validator);
 
         //delete after sharing to methods below
         passenger = new User(UserIdentifier.P,
@@ -161,7 +165,7 @@ public class TestMyTaxi {
     @Test()
     public void _09getOrderInfoPositive() {
 
-        Order testOrder = orderDao.find(order.getId());
+        Order testOrder = orderDao.findById(order.getId());
 
         Assert.assertEquals(order, testOrder);
     }
@@ -169,7 +173,7 @@ public class TestMyTaxi {
     @Test()
     public void _10getOrderInfoNegative() {
 
-        Order testOrder = orderDao.find(-1);
+        Order testOrder = orderDao.findById(-1);
 
         Assert.assertNotEquals(order, testOrder);
     }
@@ -177,7 +181,7 @@ public class TestMyTaxi {
     @Test()
     public void _11getLastOrderInfoPositive() {
 
-        List<Order> allUserOrders = userDao.getOrdersOfUser(passenger);
+        List<Order> allUserOrders = orderDao.getOrdersOfUser(passenger);
 
         Order testOrder = allUserOrders.get(allUserOrders.size() - 1);
 
@@ -187,7 +191,7 @@ public class TestMyTaxi {
     @Test()
     public void _12getLastOrderInfoNegative() {
 
-        List<Order> allUserOrders = userDao.getOrdersOfUser(passenger);
+        List<Order> allUserOrders = orderDao.getOrdersOfUser(passenger);
 
         Order testOrder = allUserOrders.get(-1);
 
@@ -197,10 +201,10 @@ public class TestMyTaxi {
     @Test()
     public void _13cancelOrderPositive() {
 
-        Order testOrder = orderDao.find(order.getId());
+        Order testOrder = orderDao.findById(order.getId());
         testOrder.setOrderStatus(OrderStatus.CANCELLED);
         orderDao.update(testOrder);
-        testOrder = orderDao.find(testOrder.getId());
+        testOrder = orderDao.findById(testOrder.getId());
 
         Assert.assertEquals(OrderStatus.CANCELLED, testOrder.getOrderStatus());
     }
@@ -208,10 +212,10 @@ public class TestMyTaxi {
     @Test()
     public void _14cancelOrderNegative() {
 
-        Order testOrder = orderDao.find(order.getId());
+        Order testOrder = orderDao.findById(order.getId());
         testOrder.setOrderStatus(null);
         orderDao.update(testOrder);
-        testOrder = orderDao.find(testOrder.getId());
+        testOrder = orderDao.findById(testOrder.getId());
 
         Assert.assertNotEquals(OrderStatus.CANCELLED, testOrder.getOrderStatus());
     }
@@ -219,10 +223,10 @@ public class TestMyTaxi {
     @Test()
     public void _15closeOrderPositive() {
 
-        Order testOrder = orderDao.find(order.getId());
+        Order testOrder = orderDao.findById(order.getId());
         testOrder.setOrderStatus(OrderStatus.DONE);
         orderDao.update(testOrder);
-        testOrder = orderDao.find(testOrder.getId());
+        testOrder = orderDao.findById(testOrder.getId());
 
         Assert.assertEquals(OrderStatus.DONE, testOrder.getOrderStatus());
     }
@@ -230,10 +234,10 @@ public class TestMyTaxi {
     @Test()
     public void _16closeOrderNegative() {
 
-        Order testOrder = orderDao.find(order.getId());
+        Order testOrder = orderDao.findById(order.getId());
         testOrder.setOrderStatus(null);
         orderDao.update(testOrder);
-        testOrder = orderDao.find(testOrder.getId());
+        testOrder = orderDao.findById(testOrder.getId());
 
         Assert.assertNotEquals(OrderStatus.DONE, testOrder.getOrderStatus());
     }
@@ -241,7 +245,7 @@ public class TestMyTaxi {
     @Test()
     public void _17takeOrderPositive() {
 
-        Order testOrder = orderDao.find(order.getId());
+        Order testOrder = orderDao.findById(order.getId());
 
         testOrder.setDriver(driver);
         testOrder.setOrderStatus(OrderStatus.IN_PROGRESS);
@@ -258,7 +262,7 @@ public class TestMyTaxi {
     @Test()
     public void _18takeOrderNegative() {
 
-        Order testOrder = orderDao.find(order.getId());
+        Order testOrder = orderDao.findById(order.getId());
 
         testOrder.setDriver(null);
         testOrder.setOrderStatus(null);
@@ -291,7 +295,7 @@ public class TestMyTaxi {
     @Test()
     public void _21getAllOrdersUserPositive() {
 
-        List<Order> testList = userDao.getOrdersOfUser(accessKeys.get(accessKey));
+        List<Order> testList = orderDao.getOrdersOfUser(accessKeys.get(accessKey));
         int count = 0;
 
         for (int i = 0; i < testList.size(); i++) {
@@ -306,7 +310,7 @@ public class TestMyTaxi {
     @Test()
     public void _22getAllOrdersUserNegative() {
 
-        List<Order> testList = userDao.getOrdersOfUser(null);
+        List<Order> testList = orderDao.getOrdersOfUser(null);
         int count = 0;
 
         for (int i = 0; i < testList.size(); i++) {

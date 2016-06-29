@@ -5,6 +5,7 @@ import java.util.List;
 /**
  * Created by serhii on 26.06.16.
  */
+
 public interface GenericDao<T> {
 
     // return entity with id
@@ -12,7 +13,7 @@ public interface GenericDao<T> {
 
     boolean delete(T el);
 
-    T findById(int id);
+    T findById(long id);
 
     List<T> getAll(int offset, int length);
 

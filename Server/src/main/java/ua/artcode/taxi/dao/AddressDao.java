@@ -1,16 +1,44 @@
 package ua.artcode.taxi.dao;
 
 import ua.artcode.taxi.model.Address;
+import ua.artcode.taxi.utils.ConnectionFactory;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
-/**
- * Created by serhii on 26.06.16.
- */
 public class AddressDao implements GenericDao<Address> {
+
     @Override
     public Address create(Address el) {
-        return null;
+
+        try (Connection connection = ConnectionFactory.createConnection();
+             Statement statement = connection.createStatement();) {
+
+            connection.setAutoCommit(false);
+
+            String sqlInsert = String.format
+                    ("INSERT INTO addresses(country, city, street, house_num) VALUES ('%s', '%s', '%s', '%s');",
+                            el.getCountry(),
+                            el.getCity(),
+                            el.getStreet(),
+                            el.getHouseNum());
+            statement.execute(sqlInsert);
+
+            ResultSet resultSet = statement.executeQuery
+                    ("SELECT id FROM addresses s ORDER BY id DESC LIMIT 1;");
+            resultSet.next();
+            el.setId(resultSet.getLong("id"));
+
+            connection.commit();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return el;
     }
 
     @Override
@@ -19,9 +47,36 @@ public class AddressDao implements GenericDao<Address> {
     }
 
     @Override
-    public Address findById(int id) {
+    public Address findById(long id) {
 
-        return null;
+        Address address = null;
+
+        try (Connection connection =
+                     ConnectionFactory.createConnection();
+             Statement statement = connection.createStatement();) {
+
+            connection.setAutoCommit(false);
+
+            String sqlSelect = String.format
+                    ("SELECT * FROM addresses WHERE id=%d;", id);
+            ResultSet resultSet = statement.executeQuery(sqlSelect);
+
+            while (resultSet.next()) {
+                address = new Address(
+                        resultSet.getString("country"),
+                        resultSet.getString("city"),
+                        resultSet.getString("street"),
+                        resultSet.getString("house_num"));
+                address.setId(resultSet.getLong("id"));
+            }
+
+            connection.commit();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return address;
     }
 
     @Override

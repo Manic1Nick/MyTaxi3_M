@@ -82,6 +82,8 @@ public class UserLogin extends JFrame {
                         JOptionPane.showMessageDialog(getParent(), "Login or password is wrong!");
                         dispose();
                         new UserLogin(userService);
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
                     }
                 }
             }
