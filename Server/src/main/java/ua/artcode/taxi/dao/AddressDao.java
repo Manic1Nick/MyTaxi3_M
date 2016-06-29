@@ -43,6 +43,8 @@ public class AddressDao implements GenericDao<Address> {
 
     @Override
     public boolean delete(Address el) {
+
+
         return false;
     }
 
@@ -86,7 +88,27 @@ public class AddressDao implements GenericDao<Address> {
 
     @Override
     public Address update(Address el) {
-        return null;
+        try (Connection connection = ConnectionFactory.createConnection();
+             Statement statement = connection.createStatement();) {
+
+            connection.setAutoCommit(false);
+
+            String sqlUpdate = String.format
+                    ("UPDATE addresses SET country='%s', city='%s', street='%s', house_num=%s, WHERE id=%d;",
+                            el.getCountry(),
+                            el.getCity(),
+                            el.getStreet(),
+                            el.getHouseNum(),
+                            findById(el.getId()));
+            statement.executeQuery(sqlUpdate);
+
+            connection.commit();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return el;
     }
 
     @Override
