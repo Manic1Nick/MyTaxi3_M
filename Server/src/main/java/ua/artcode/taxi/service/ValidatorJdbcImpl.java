@@ -1,20 +1,19 @@
 package ua.artcode.taxi.service;
 
 import ua.artcode.taxi.dao.UserDao;
-import ua.artcode.taxi.dao.UserJdbcDao;
 import ua.artcode.taxi.exception.InputDataWrongException;
 import ua.artcode.taxi.exception.RegisterException;
 import ua.artcode.taxi.model.Address;
 import ua.artcode.taxi.model.User;
 import ua.artcode.taxi.model.UserIdentifier;
 
-import java.util.Collection;
+import java.util.List;
 
 public class ValidatorJdbcImpl implements Validator {
 
     private UserDao userDao;
 
-    public ValidatorJdbcImpl(UserJdbcDao userDao) {
+    public ValidatorJdbcImpl(UserDao userDao) {
         this.userDao = userDao;
     }
 
@@ -22,11 +21,15 @@ public class ValidatorJdbcImpl implements Validator {
     public boolean validateLogin(String phone, String password) {
         boolean result = false;
 
-        Collection<User> users = userDao.getAllUsers();
+        List<String> phones = userDao.getAllRegisteredPhones();
 
-        for (User user : users) {
-            if (user.getPhone().equals(phone) && user.getPass().equals(password)) {
-                result = true;
+        for (String s : phones) {
+            if (phone.equals(s)) {
+                String foundPass = userDao.findByPhone(phone).getPass();
+
+                if(password.equals(foundPass)){
+                    result = true;
+                }
             }
         }
 
@@ -36,10 +39,10 @@ public class ValidatorJdbcImpl implements Validator {
     @Override
     public boolean validateRegistration(String phone) throws RegisterException {
 
-        Collection<User> users = userDao.getAllUsers();
+        List<String> phones = userDao.getAllRegisteredPhones();
 
-        for (User user : users) {
-            if (user.getPhone().equals(phone)) {
+        for (String s : phones) {
+            if (phone.equals(s)) {
                 throw new RegisterException("This phone using already");
             }
         }
@@ -71,12 +74,14 @@ public class ValidatorJdbcImpl implements Validator {
     public boolean validateChangeRegistration(UserIdentifier identifier, int id, String phone)
             throws RegisterException {
 
-        Collection<User> users = userDao.getAllUsers();
+        List<String> phones = userDao.getAllRegisteredPhones();
 
-        for (User user : users) {
-            if (user.getPhone().equals(phone) && user.getId() != id &&
-                    user.getIdentifier().equals(identifier)) {
-                throw new RegisterException("This phone using already");
+        for (String s : phones) {
+            if (phone.equals(s)) {
+                User foundUser = userDao.findByPhone(phone);
+                if (id != foundUser.getId() && !identifier.equals(foundUser.getIdentifier())) {
+                    throw new RegisterException("This phone using already");
+                }
             }
         }
 

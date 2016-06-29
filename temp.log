@@ -999,3 +999,251 @@
 2016-06-28 20:49:33 ERROR UserServiceJdbcImpl:102 - LoginException: failed attempt to log in with phone 1234
 2016-06-28 20:53:44 INFO  UserServiceJdbcImpl:58 - New passenger 1234 registered
 2016-06-28 20:53:44 ERROR UserServiceJdbcImpl:102 - LoginException: failed attempt to log in with phone 1234
+2016-06-28 21:15:54 INFO  UserServiceJdbcImpl:58 - New passenger 1234 registered
+2016-06-28 21:15:54 ERROR UserServiceJdbcImpl:102 - LoginException: failed attempt to log in with phone 1234
+2016-06-28 21:30:42 INFO  UserServiceJdbcImpl:58 - New passenger 1234 registered
+2016-06-28 21:30:42 ERROR UserServiceJdbcImpl:102 - LoginException: failed attempt to log in with phone 1234
+2016-06-28 21:33:05 INFO  UserServiceJdbcImpl:58 - New passenger 1234 registered
+2016-06-28 21:33:05 ERROR UserServiceJdbcImpl:102 - LoginException: failed attempt to log in with phone 1234
+2016-06-28 21:33:52 INFO  UserServiceJdbcImpl:58 - New passenger 2222 registered
+2016-06-28 21:33:52 ERROR UserServiceJdbcImpl:102 - LoginException: failed attempt to log in with phone 2222
+2016-06-28 21:56:44 INFO  UserServiceJdbcImpl:58 - New passenger 1234 registered
+2016-06-28 23:02:46 ERROR UserServiceJdbcImpl:102 - LoginException: failed attempt to log in with phone 1234
+2016-06-28 23:03:05 INFO  UserServiceJdbcImpl:58 - New passenger 1234 registered
+2016-06-28 23:06:43 INFO  UserServiceJdbcImpl:58 - New passenger 3333 registered
+2016-06-28 23:07:57 INFO  UserServiceJdbcImpl:58 - New passenger 5555 registered
+2016-06-29 00:13:04 INFO  UserServiceJdbcImpl:82 - New driver 1111 registered
+2016-06-29 00:15:42 INFO  UserServiceJdbcImpl:82 - New driver 666 registered
+2016-06-29 11:20:34 INFO  UserServiceJdbcImpl:108 - User 1234 logged in
+2016-06-29 11:20:34 INFO  UserServiceJdbcImpl:401 - Request user 1234
+2016-06-29 11:24:02 INFO  UserServiceJdbcImpl:108 - User 1234 logged in
+2016-06-29 11:24:02 INFO  UserServiceJdbcImpl:401 - Request user 1234
+2016-06-29 11:28:56 INFO  UserServiceJdbcImpl:108 - User 1234 logged in
+2016-06-29 11:28:56 INFO  UserServiceJdbcImpl:401 - Request user 1234
+2016-06-29 11:34:10 INFO  UserServiceJdbcImpl:108 - User 1234 logged in
+2016-06-29 11:34:10 INFO  UserServiceJdbcImpl:401 - Request user 1234
+2016-06-29 11:34:18 INFO  UserServiceJdbcImpl:413 - Get all orders of user 1234
+2016-06-29 11:34:18 ERROR UserServiceJdbcImpl:267 - OrderNotFoundException: failed attempt to get info about last order of user 1234
+2016-06-29 11:34:21 INFO  UserServiceJdbcImpl:401 - Request user 1234
+2016-06-29 11:34:21 INFO  UserServiceJdbcImpl:413 - Get all orders of user 1234
+2016-06-29 11:34:26 INFO  UserServiceJdbcImpl:413 - Get all orders of user 1234
+2016-06-29 11:34:26 ERROR UserServiceJdbcImpl:267 - OrderNotFoundException: failed attempt to get info about last order of user 1234
+2016-06-29 11:34:30 INFO  UserServiceJdbcImpl:401 - Request user 1234
+2016-06-29 11:34:34 INFO  UserServiceJdbcImpl:401 - Request user 1234
+2016-06-29 11:35:46 INFO  UserServiceJdbcImpl:108 - User 1234 logged in
+2016-06-29 11:35:46 INFO  UserServiceJdbcImpl:401 - Request user 1234
+2016-06-29 11:35:49 INFO  UserServiceJdbcImpl:401 - Request user 1234
+2016-06-29 11:36:43 INFO  UserServiceJdbcImpl:229 - Someone calculates order from Ukraine Kiev Starokievskaya 10 to Ukraine Brovary Postisheva 10
+2016-06-29 11:36:45 INFO  UserServiceJdbcImpl:152 - User 1234 makes new order 0
+2016-06-29 11:36:49 INFO  UserServiceJdbcImpl:413 - Get all orders of user 1234
+2016-06-29 11:36:49 ERROR UserServiceJdbcImpl:267 - OrderNotFoundException: failed attempt to get info about last order of user 1234
+2016-06-29 11:36:52 INFO  UserServiceJdbcImpl:401 - Request user 1234
+2016-06-29 11:36:52 INFO  UserServiceJdbcImpl:413 - Get all orders of user 1234
+2016-06-29 11:39:20 INFO  UserServiceJdbcImpl:108 - User 1234 logged in
+2016-06-29 11:39:20 INFO  UserServiceJdbcImpl:401 - Request user 1234
+2016-06-29 11:39:24 INFO  UserServiceJdbcImpl:401 - Request user 1234
+2016-06-29 11:39:44 INFO  UserServiceJdbcImpl:229 - Someone calculates order from Ukraine Kiev Starokievskaya 10 to Ukraine Brovary Nezalezhnosti 3
+2016-06-29 11:39:48 INFO  UserServiceJdbcImpl:152 - User 1234 makes new order 0
+2016-06-29 11:39:51 INFO  UserServiceJdbcImpl:413 - Get all orders of user 1234
+2016-06-29 11:39:51 ERROR UserServiceJdbcImpl:267 - OrderNotFoundException: failed attempt to get info about last order of user 1234
+2016-06-29 11:39:54 INFO  UserServiceJdbcImpl:401 - Request user 1234
+2016-06-29 11:39:54 INFO  UserServiceJdbcImpl:413 - Get all orders of user 1234
+2016-06-29 11:41:52 INFO  UserServiceJdbcImpl:108 - User 1234 logged in
+2016-06-29 11:41:52 INFO  UserServiceJdbcImpl:401 - Request user 1234
+2016-06-29 11:41:55 INFO  UserServiceJdbcImpl:401 - Request user 1234
+2016-06-29 11:42:09 INFO  UserServiceJdbcImpl:152 - User 1234 makes new order 0
+2016-06-29 11:42:13 INFO  UserServiceJdbcImpl:413 - Get all orders of user 1234
+2016-06-29 11:42:13 ERROR UserServiceJdbcImpl:267 - OrderNotFoundException: failed attempt to get info about last order of user 1234
+2016-06-29 11:42:16 INFO  UserServiceJdbcImpl:401 - Request user 1234
+2016-06-29 11:42:16 INFO  UserServiceJdbcImpl:413 - Get all orders of user 1234
+2016-06-29 11:55:10 ERROR UserServiceJdbcImpl:100 - LoginException: failed attempt to log in with phone 1234
+2016-06-29 11:55:34 INFO  UserServiceJdbcImpl:58 - New passenger 1234 registered
+2016-06-29 11:58:58 INFO  UserServiceJdbcImpl:58 - New passenger 2222 registered
+2016-06-29 12:05:25 INFO  UserServiceJdbcImpl:58 - New passenger 3333 registered
+2016-06-29 12:05:58 INFO  UserServiceJdbcImpl:108 - User 1234 logged in
+2016-06-29 12:05:58 INFO  UserServiceJdbcImpl:401 - Request user 1234
+2016-06-29 12:06:02 INFO  UserServiceJdbcImpl:401 - Request user 1234
+2016-06-29 12:06:17 INFO  UserServiceJdbcImpl:152 - User 1234 makes new order 0
+2016-06-29 12:06:20 INFO  UserServiceJdbcImpl:413 - Get all orders of user 1234
+2016-06-29 12:06:20 ERROR UserServiceJdbcImpl:267 - OrderNotFoundException: failed attempt to get info about last order of user 1234
+2016-06-29 12:06:22 INFO  UserServiceJdbcImpl:401 - Request user 1234
+2016-06-29 12:06:22 INFO  UserServiceJdbcImpl:413 - Get all orders of user 1234
+2016-06-29 12:11:19 INFO  UserServiceJdbcImpl:108 - User 1234 logged in
+2016-06-29 12:11:19 INFO  UserServiceJdbcImpl:401 - Request user 1234
+2016-06-29 12:11:22 INFO  UserServiceJdbcImpl:401 - Request user 1234
+2016-06-29 12:11:34 INFO  UserServiceJdbcImpl:152 - User 1234 makes new order 0
+2016-06-29 12:13:32 INFO  UserServiceJdbcImpl:108 - User 1234 logged in
+2016-06-29 12:13:32 INFO  UserServiceJdbcImpl:401 - Request user 1234
+2016-06-29 12:13:35 INFO  UserServiceJdbcImpl:401 - Request user 1234
+2016-06-29 12:17:16 INFO  UserServiceJdbcImpl:108 - User 1234 logged in
+2016-06-29 12:17:16 INFO  UserServiceJdbcImpl:401 - Request user 1234
+2016-06-29 12:17:19 INFO  UserServiceJdbcImpl:401 - Request user 1234
+2016-06-29 12:17:36 INFO  UserServiceJdbcImpl:229 - Someone calculates order from Ukraine Kiev Starokievskaya 10 to Ukraine Brovary Nezalezhnosti 6
+2016-06-29 12:20:04 INFO  UserServiceJdbcImpl:108 - User 1234 logged in
+2016-06-29 12:20:05 INFO  UserServiceJdbcImpl:403 - Request user 1234
+2016-06-29 12:22:23 INFO  UserServiceJdbcImpl:108 - User 1234 logged in
+2016-06-29 12:22:23 INFO  UserServiceJdbcImpl:403 - Request user 1234
+2016-06-29 12:34:25 INFO  UserServiceJdbcImpl:108 - User 1234 logged in
+2016-06-29 12:34:25 INFO  UserServiceJdbcImpl:401 - Request user 1234
+2016-06-29 12:35:13 INFO  UserServiceJdbcImpl:401 - Request user 1234
+2016-06-29 12:39:24 INFO  UserServiceJdbcImpl:108 - User 1234 logged in
+2016-06-29 12:39:24 INFO  UserServiceJdbcImpl:402 - Request user 1234
+2016-06-29 12:40:50 INFO  UserServiceJdbcImpl:108 - User 1234 logged in
+2016-06-29 12:40:50 INFO  UserServiceJdbcImpl:405 - Request user 1234
+2016-06-29 12:40:53 INFO  UserServiceJdbcImpl:405 - Request user 1234
+2016-06-29 12:41:35 INFO  UserServiceJdbcImpl:108 - User 1234 logged in
+2016-06-29 12:41:35 INFO  UserServiceJdbcImpl:405 - Request user 1234
+2016-06-29 12:43:09 INFO  UserServiceJdbcImpl:108 - User 1234 logged in
+2016-06-29 12:43:10 INFO  UserServiceJdbcImpl:402 - Request user 1234
+2016-06-29 12:44:55 INFO  UserServiceJdbcImpl:108 - User 1234 logged in
+2016-06-29 12:44:55 INFO  UserServiceJdbcImpl:402 - Request user 1234
+2016-06-29 12:44:59 INFO  UserServiceJdbcImpl:402 - Request user 1234
+2016-06-29 12:46:32 INFO  UserServiceJdbcImpl:108 - User 1234 logged in
+2016-06-29 12:46:32 INFO  UserServiceJdbcImpl:402 - Request user 1234
+2016-06-29 12:56:06 INFO  UserServiceJdbcImpl:58 - New passenger 5555 registered
+2016-06-29 13:18:30 INFO  UserServiceJdbcImpl:106 - User 1234 logged in
+2016-06-29 13:18:30 INFO  UserServiceJdbcImpl:400 - Request user 1234
+2016-06-29 13:18:33 INFO  UserServiceJdbcImpl:400 - Request user 1234
+2016-06-29 13:18:43 INFO  UserServiceJdbcImpl:151 - User 1234 makes new order 0
+2016-06-29 13:19:32 INFO  UserServiceJdbcImpl:56 - New passenger 6666 registered
+2016-06-29 13:20:25 INFO  UserServiceJdbcImpl:106 - User 6666 logged in
+2016-06-29 13:20:25 INFO  UserServiceJdbcImpl:400 - Request user 6666
+2016-06-29 13:20:28 INFO  UserServiceJdbcImpl:400 - Request user 6666
+2016-06-29 13:20:32 INFO  UserServiceJdbcImpl:151 - User 6666 makes new order 0
+2016-06-29 13:21:33 INFO  UserServiceJdbcImpl:106 - User 6666 logged in
+2016-06-29 13:21:33 INFO  UserServiceJdbcImpl:400 - Request user 6666
+2016-06-29 13:21:36 INFO  UserServiceJdbcImpl:400 - Request user 6666
+2016-06-29 13:21:39 INFO  UserServiceJdbcImpl:151 - User 6666 makes new order 0
+2016-06-29 13:23:34 INFO  UserServiceJdbcImpl:106 - User 6666 logged in
+2016-06-29 13:23:34 INFO  UserServiceJdbcImpl:400 - Request user 6666
+2016-06-29 13:23:38 INFO  UserServiceJdbcImpl:400 - Request user 6666
+2016-06-29 13:23:41 INFO  UserServiceJdbcImpl:151 - User 6666 makes new order 0
+2016-06-29 13:24:47 INFO  UserServiceJdbcImpl:106 - User 6666 logged in
+2016-06-29 13:24:47 INFO  UserServiceJdbcImpl:402 - Request user 6666
+2016-06-29 13:24:50 INFO  UserServiceJdbcImpl:402 - Request user 6666
+2016-06-29 13:25:01 INFO  UserServiceJdbcImpl:153 - User 6666 makes new order 0
+2016-06-29 13:29:27 INFO  UserServiceJdbcImpl:106 - User 6666 logged in
+2016-06-29 13:29:27 INFO  UserServiceJdbcImpl:400 - Request user 6666
+2016-06-29 13:29:30 INFO  UserServiceJdbcImpl:400 - Request user 6666
+2016-06-29 13:29:32 INFO  UserServiceJdbcImpl:151 - User 6666 makes new order 0
+2016-06-29 13:32:06 INFO  UserServiceJdbcImpl:106 - User 6666 logged in
+2016-06-29 13:32:06 INFO  UserServiceJdbcImpl:400 - Request user 6666
+2016-06-29 13:32:08 INFO  UserServiceJdbcImpl:400 - Request user 6666
+2016-06-29 13:32:14 INFO  UserServiceJdbcImpl:151 - User 6666 makes new order 0
+2016-06-29 13:33:40 INFO  UserServiceJdbcImpl:80 - New driver 7777 registered
+2016-06-29 13:35:56 INFO  UserServiceJdbcImpl:106 - User 7777 logged in
+2016-06-29 13:35:56 INFO  UserServiceJdbcImpl:400 - Request user 7777
+2016-06-29 13:35:56 INFO  UserServiceJdbcImpl:400 - Request user 7777
+2016-06-29 13:35:57 INFO  UserServiceJdbcImpl:519 - Get all order by status NEW
+2016-06-29 13:35:57 INFO  UserServiceJdbcImpl:424 - Found 0 orders with status NEW
+2016-06-29 13:36:01 INFO  UserServiceJdbcImpl:442 - Create map of distances from orders to driver address Ukraine Kiev Starokievskaya 10
+2016-06-29 13:37:05 INFO  UserServiceJdbcImpl:519 - Get all order by status NEW
+2016-06-29 13:37:05 INFO  UserServiceJdbcImpl:424 - Found 0 orders with status NEW
+2016-06-29 13:37:05 INFO  UserServiceJdbcImpl:442 - Create map of distances from orders to driver address Ukraine Kiev Starokievskaya 10
+2016-06-29 13:37:36 INFO  UserServiceJdbcImpl:106 - User 7777 logged in
+2016-06-29 13:37:36 INFO  UserServiceJdbcImpl:400 - Request user 7777
+2016-06-29 13:37:36 INFO  UserServiceJdbcImpl:400 - Request user 7777
+2016-06-29 13:37:37 INFO  UserServiceJdbcImpl:519 - Get all order by status NEW
+2016-06-29 13:37:37 INFO  UserServiceJdbcImpl:424 - Found 0 orders with status NEW
+2016-06-29 13:37:43 INFO  UserServiceJdbcImpl:442 - Create map of distances from orders to driver address Ukraine Kiev Starokievskaya 10
+2016-06-29 13:38:02 INFO  UserServiceJdbcImpl:412 - Get all orders of user 7777
+2016-06-29 13:38:02 ERROR UserServiceJdbcImpl:266 - OrderNotFoundException: failed attempt to get info about last order of user 7777
+2016-06-29 13:38:05 INFO  UserServiceJdbcImpl:400 - Request user 7777
+2016-06-29 13:38:05 INFO  UserServiceJdbcImpl:412 - Get all orders of user 7777
+2016-06-29 13:38:08 INFO  UserServiceJdbcImpl:400 - Request user 7777
+2016-06-29 13:38:16 INFO  UserServiceJdbcImpl:106 - User 1234 logged in
+2016-06-29 13:38:16 INFO  UserServiceJdbcImpl:400 - Request user 1234
+2016-06-29 13:38:20 INFO  UserServiceJdbcImpl:400 - Request user 1234
+2016-06-29 13:38:30 INFO  UserServiceJdbcImpl:400 - Request user 1234
+2016-06-29 13:38:42 INFO  UserServiceJdbcImpl:106 - User 6666 logged in
+2016-06-29 13:38:42 INFO  UserServiceJdbcImpl:400 - Request user 6666
+2016-06-29 13:38:45 INFO  UserServiceJdbcImpl:400 - Request user 6666
+2016-06-29 13:38:58 INFO  UserServiceJdbcImpl:151 - User 6666 makes new order 0
+2016-06-29 13:40:33 INFO  UserServiceJdbcImpl:106 - User 6666 logged in
+2016-06-29 13:40:33 INFO  UserServiceJdbcImpl:400 - Request user 6666
+2016-06-29 13:40:37 INFO  UserServiceJdbcImpl:400 - Request user 6666
+2016-06-29 13:40:39 INFO  UserServiceJdbcImpl:151 - User 6666 makes new order 0
+2016-06-29 13:44:51 INFO  UserServiceJdbcImpl:106 - User 6666 logged in
+2016-06-29 13:44:51 INFO  UserServiceJdbcImpl:400 - Request user 6666
+2016-06-29 13:44:53 INFO  UserServiceJdbcImpl:400 - Request user 6666
+2016-06-29 13:44:56 INFO  UserServiceJdbcImpl:151 - User 6666 makes new order 0
+2016-06-29 13:46:39 INFO  UserServiceJdbcImpl:106 - User 6666 logged in
+2016-06-29 13:46:39 INFO  UserServiceJdbcImpl:405 - Request user 6666
+2016-06-29 13:46:42 INFO  UserServiceJdbcImpl:405 - Request user 6666
+2016-06-29 13:46:44 INFO  UserServiceJdbcImpl:156 - User 6666 makes new order 0
+2016-06-29 13:47:44 INFO  UserServiceJdbcImpl:111 - User 6666 logged in
+2016-06-29 13:47:44 INFO  UserServiceJdbcImpl:406 - Request user 6666
+2016-06-29 13:47:47 INFO  UserServiceJdbcImpl:406 - Request user 6666
+2016-06-29 13:47:49 INFO  UserServiceJdbcImpl:157 - User 6666 makes new order 0
+2016-06-29 13:49:11 INFO  UserServiceJdbcImpl:113 - User 6666 logged in
+2016-06-29 13:49:11 INFO  UserServiceJdbcImpl:408 - Request user 6666
+2016-06-29 13:49:13 INFO  UserServiceJdbcImpl:408 - Request user 6666
+2016-06-29 13:49:16 INFO  UserServiceJdbcImpl:159 - User 6666 makes new order 0
+2016-06-29 13:51:02 INFO  UserServiceJdbcImpl:106 - User 6666 logged in
+2016-06-29 13:51:02 INFO  UserServiceJdbcImpl:401 - Request user 6666
+2016-06-29 13:51:04 INFO  UserServiceJdbcImpl:401 - Request user 6666
+2016-06-29 13:51:07 INFO  UserServiceJdbcImpl:152 - User 6666 makes new order 0
+2016-06-29 13:51:49 ERROR UserServiceJdbcImpl:98 - LoginException: failed attempt to log in with phone 8888
+2016-06-29 13:52:12 INFO  UserServiceJdbcImpl:56 - New passenger 8888 registered
+2016-06-29 13:53:49 INFO  UserServiceJdbcImpl:56 - New passenger 9999 registered
+2016-06-29 13:56:13 INFO  UserServiceJdbcImpl:108 - User 8888 logged in
+2016-06-29 13:56:13 INFO  UserServiceJdbcImpl:403 - Request user 8888
+2016-06-29 14:03:46 INFO  UserServiceJdbcImpl:106 - User 8888 logged in
+2016-06-29 14:03:46 INFO  UserServiceJdbcImpl:401 - Request user 8888
+2016-06-29 14:03:49 INFO  UserServiceJdbcImpl:401 - Request user 8888
+2016-06-29 14:03:51 INFO  UserServiceJdbcImpl:152 - User 8888 makes new order 0
+2016-06-29 14:06:06 INFO  UserServiceJdbcImpl:106 - User 8888 logged in
+2016-06-29 14:06:06 INFO  UserServiceJdbcImpl:401 - Request user 8888
+2016-06-29 14:06:09 INFO  UserServiceJdbcImpl:401 - Request user 8888
+2016-06-29 14:06:12 INFO  UserServiceJdbcImpl:401 - Request user 8888
+2016-06-29 14:06:20 INFO  UserServiceJdbcImpl:152 - User 8888 makes new order 0
+2016-06-29 14:07:18 INFO  UserServiceJdbcImpl:106 - User 8888 logged in
+2016-06-29 14:07:19 INFO  UserServiceJdbcImpl:401 - Request user 8888
+2016-06-29 14:07:31 INFO  UserServiceJdbcImpl:401 - Request user 8888
+2016-06-29 14:07:36 INFO  UserServiceJdbcImpl:152 - User 8888 makes new order 0
+2016-06-29 14:09:07 INFO  UserServiceJdbcImpl:106 - User 8888 logged in
+2016-06-29 14:09:07 INFO  UserServiceJdbcImpl:401 - Request user 8888
+2016-06-29 14:09:10 INFO  UserServiceJdbcImpl:401 - Request user 8888
+2016-06-29 14:09:13 INFO  UserServiceJdbcImpl:152 - User 8888 makes new order 17
+2016-06-29 14:10:06 INFO  UserServiceJdbcImpl:413 - Get all orders of user 8888
+2016-06-29 14:10:06 INFO  UserServiceJdbcImpl:275 - User 8888 get information for his last order 0
+2016-06-29 14:11:58 INFO  UserServiceJdbcImpl:401 - Request user 8888
+2016-06-29 14:12:03 INFO  UserServiceJdbcImpl:152 - User 8888 makes new order 18
+2016-06-29 14:12:16 INFO  UserServiceJdbcImpl:413 - Get all orders of user 8888
+2016-06-29 14:12:16 INFO  UserServiceJdbcImpl:275 - User 8888 get information for his last order 0
+2016-06-29 14:13:57 INFO  UserServiceJdbcImpl:401 - Request user 8888
+2016-06-29 14:13:59 INFO  UserServiceJdbcImpl:152 - User 8888 makes new order 19
+2016-06-29 14:14:02 INFO  UserServiceJdbcImpl:413 - Get all orders of user 8888
+2016-06-29 14:14:02 INFO  UserServiceJdbcImpl:275 - User 8888 get information for his last order 0
+2016-06-29 14:16:17 INFO  UserServiceJdbcImpl:401 - Request user 8888
+2016-06-29 14:16:19 INFO  UserServiceJdbcImpl:152 - User 8888 makes new order 20
+2016-06-29 14:16:22 INFO  UserServiceJdbcImpl:413 - Get all orders of user 8888
+2016-06-29 14:16:22 INFO  UserServiceJdbcImpl:275 - User 8888 get information for his last order 0
+2016-06-29 14:16:52 INFO  UserServiceJdbcImpl:106 - User 8888 logged in
+2016-06-29 14:16:52 INFO  UserServiceJdbcImpl:401 - Request user 8888
+2016-06-29 14:16:55 INFO  UserServiceJdbcImpl:401 - Request user 8888
+2016-06-29 14:16:58 INFO  UserServiceJdbcImpl:152 - User 8888 makes new order 21
+2016-06-29 14:17:02 INFO  UserServiceJdbcImpl:413 - Get all orders of user 8888
+2016-06-29 14:17:02 INFO  UserServiceJdbcImpl:275 - User 8888 get information for his last order 0
+2016-06-29 14:17:29 INFO  UserServiceJdbcImpl:401 - Request user 8888
+2016-06-29 14:17:29 INFO  UserServiceJdbcImpl:413 - Get all orders of user 8888
+2016-06-29 14:19:27 INFO  UserServiceJdbcImpl:106 - User 8888 logged in
+2016-06-29 14:19:27 INFO  UserServiceJdbcImpl:401 - Request user 8888
+2016-06-29 14:19:40 INFO  UserServiceJdbcImpl:152 - User 8888 makes new order 22
+2016-06-29 14:19:43 INFO  UserServiceJdbcImpl:413 - Get all orders of user 8888
+2016-06-29 14:19:43 INFO  UserServiceJdbcImpl:275 - User 8888 get information for his last order 22
+2016-06-29 14:19:50 INFO  UserServiceJdbcImpl:401 - Request user 8888
+2016-06-29 14:19:50 INFO  UserServiceJdbcImpl:413 - Get all orders of user 8888
+2016-06-29 14:20:12 INFO  UserServiceJdbcImpl:401 - Request user 8888
+2016-06-29 14:20:18 INFO  UserServiceJdbcImpl:106 - User 7777 logged in
+2016-06-29 14:20:18 INFO  UserServiceJdbcImpl:401 - Request user 7777
+2016-06-29 14:20:18 INFO  UserServiceJdbcImpl:401 - Request user 7777
+2016-06-29 14:20:20 INFO  UserServiceJdbcImpl:520 - Get all order by status NEW
+2016-06-29 14:20:20 INFO  UserServiceJdbcImpl:425 - Found 6 orders with status NEW
+2016-06-29 14:20:31 INFO  UserServiceJdbcImpl:443 - Create map of distances from orders to driver address Ukraine Kiev Starokievskaya 10
+2016-06-29 14:21:44 INFO  UserServiceJdbcImpl:106 - User 7777 logged in
+2016-06-29 14:21:44 INFO  UserServiceJdbcImpl:401 - Request user 7777
+2016-06-29 14:21:44 INFO  UserServiceJdbcImpl:401 - Request user 7777
+2016-06-29 14:21:46 INFO  UserServiceJdbcImpl:520 - Get all order by status NEW
+2016-06-29 14:21:46 INFO  UserServiceJdbcImpl:425 - Found 6 orders with status NEW
+2016-06-29 14:21:49 INFO  UserServiceJdbcImpl:443 - Create map of distances from orders to driver address Ukraine Kiev Starokievskaya 10

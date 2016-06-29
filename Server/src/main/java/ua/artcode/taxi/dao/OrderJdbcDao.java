@@ -12,44 +12,51 @@ import java.util.List;
 
 public class OrderJdbcDao implements OrderDao {
 
-    private UserJdbcDao userDao;
-    private OrderJdbcDao orderDao;
+    private UserDao userDao;
     private AddressDao addressDao;
+
+    public OrderJdbcDao(UserDao userDao, AddressDao addressDao) {
+        this.userDao = userDao;
+        this.addressDao = addressDao;
+    }
 
     @Override
     public Order create(User user, Order order) {
 
         try(Connection connection = ConnectionFactory.createConnection();
-
             Statement statement = connection.createStatement();){
+
             connection.setAutoCommit(false);
 
-            ResultSet resultSet = statement.executeQuery("SELECT status_id FROM statuses WHERE type='NEW';");
+            ResultSet resultSet = statement.executeQuery("SELECT id FROM statuses WHERE status='NEW';");
+            resultSet.next();
 
             String sqlInsert = String.format
-                    ("INSERT INTO orders(status_id, addressfrom_id, addressto_id, passenger_id, distance, price, message) VALUES (%d, %d, %d, %d, '%s', '%s', '%s');",
-                            resultSet.getInt("status_id"),
+                    ("INSERT INTO orders(status_id, addressfrom_id, addressto_id, passenger_id, distance, price, message) VALUES (%d, %d, %d, %d, %d, %d, '%s');",
+                            resultSet.getInt("id"),
                             addressDao.create(order.getFrom()).getId(),
                             addressDao.create(order.getTo()).getId(),
                             user.getId(),
                             order.getDistance(),
                             order.getPrice(),
                             order.getMessage());
-            statement.executeQuery(sqlInsert);
+
+            System.out.println(sqlInsert);
+
+            statement.execute(sqlInsert);
 
             //set id for new order
             resultSet = statement.executeQuery("SELECT id FROM orders s ORDER BY id DESC LIMIT 1;");
             resultSet.next();
             order.setId(resultSet.getLong("id"));
+            order.setOrderStatus(OrderStatus.NEW);
+            order.setPassenger(user);
 
             connection.commit();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        order.setOrderStatus(OrderStatus.NEW);
-        order.setPassenger(user);
 
         return order;
     }
@@ -67,7 +74,7 @@ public class OrderJdbcDao implements OrderDao {
             ResultSet resultSet = statement.executeQuery("SELECT id FROM orders;");
 
             while (resultSet.next()) {
-                orders.add(orderDao.findById(resultSet.getLong("id")));
+                orders.add(findById(resultSet.getLong("id")));
             }
 
             connection.commit();
@@ -132,7 +139,7 @@ public class OrderJdbcDao implements OrderDao {
     @Override
     public Order findById(long id) {
 
-        Order order = null;
+        Order order = new Order();
 
         try (Connection connection = ConnectionFactory.createConnection();
             Statement statement = connection.createStatement();) {
@@ -143,11 +150,16 @@ public class OrderJdbcDao implements OrderDao {
             ResultSet resultSet = statement.executeQuery(sqlSelect);
             resultSet.next();
 
+            order.setId(resultSet.getLong("id"));
             order.setOrderStatus(getOrderStatusById(id));
             order.setFrom(addressDao.findById(resultSet.getInt("addressfrom_id")));
             order.setTo(addressDao.findById(resultSet.getInt("addressto_id")));
             order.setPassenger(userDao.findById(resultSet.getInt("passenger_id")));
-            order.setDriver(userDao.findById(resultSet.getInt("driver_id")));
+
+            if (resultSet.getInt("driver_id") > 0) {
+                order.setDriver(userDao.findById(resultSet.getInt("driver_id")));
+            }
+
             order.setDistance(resultSet.getInt("distance"));
             order.setPrice(resultSet.getInt("price"));
             order.setMessage(resultSet.getString("message"));
@@ -172,7 +184,7 @@ public class OrderJdbcDao implements OrderDao {
             connection.setAutoCommit(false);
 
             String sqlSelectStatus = String.format
-                    ("SELECT id FROM statuses WHERE type='%s';" , status.toString());
+                    ("SELECT id FROM statuses WHERE status='%s';" , status.toString());
             ResultSet resultSet = statement.executeQuery(sqlSelectStatus);
             resultSet.next();
 
@@ -181,7 +193,36 @@ public class OrderJdbcDao implements OrderDao {
             resultSet = statement.executeQuery(sqlSelect);
 
             while (resultSet.next()) {
-                orders.add(orderDao.findById(resultSet.getLong("id")));
+                orders.add(findById(resultSet.getLong("id")));
+            }
+
+            connection.commit();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return orders;
+    }
+
+    @Override
+    public List<Order> getOrdersOfUser(User user) {
+
+        List<Order> orders = new ArrayList<>();
+
+        try (Connection connection =
+                     ConnectionFactory.createConnection();
+             Statement statement = connection.createStatement();) {
+
+            connection.setAutoCommit(false);
+
+            String sqlSelect = String.format
+                    ("SELECT id FROM orders WHERE passenger_id='%s' OR driver_id='%s';",
+                            user.getId(), user.getId());
+            ResultSet resultSet = statement.executeQuery(sqlSelect);
+
+            while (resultSet.next()) {
+                orders.add(findById(resultSet.getLong("id")));
             }
 
             connection.commit();
@@ -203,7 +244,7 @@ public class OrderJdbcDao implements OrderDao {
 
             String sqlInsert = String.format
                     ("INSERT INTO orders(driver_id) VALUES (%d);", user.getId());
-            statement.executeQuery(sqlInsert);
+            statement.execute(sqlInsert);
 
             connection.commit();
 
@@ -225,15 +266,15 @@ public class OrderJdbcDao implements OrderDao {
             connection.setAutoCommit(false);
 
             String sqlSelect = String.format("SELECT status_id FROM orders WHERE id=%d;",
-                    id);
+                    (int) id);
             ResultSet resultSet = statement.executeQuery(sqlSelect);
             resultSet.next();
 
-            String sqlSelect2 = String.format("SELECT type FROM statuses WHERE id=%d;",
+            String sqlSelect2 = String.format("SELECT status FROM statuses WHERE id=%d;",
                     resultSet.getInt("status_id"));
             ResultSet resultSetId = statement.executeQuery(sqlSelect2);
             resultSetId.next();
-            String typeOrderStatus = resultSetId.getString("type");
+            String typeOrderStatus = resultSetId.getString("status");
 
             if (typeOrderStatus.equals("NEW")) {
                 status = OrderStatus.NEW;

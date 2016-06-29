@@ -11,52 +11,55 @@ import java.util.List;
 
 public class UserJdbcDao implements UserDao {
 
-    private AddressDao addressDao = new AddressDao();
-    private OrderDao orderDao = new OrderJdbcDao();
-    private CarDao carDao = new CarDao();
+    private AddressDao addressDao;
+    private CarDao carDao;
+
+    public UserJdbcDao(AddressDao addressDao, CarDao carDao) {
+        this.addressDao = addressDao;
+        this.carDao = carDao;
+    }
 
     @Override
     public User createUser(User user) {
 
-        UserIdentifier identifier = user.getIdentifier();
+        //for all users (incl. anonymous)
+        User newUser = addBaseUserToJdbc(user.getIdentifier(), user.getPhone(), user.getName());
 
         try (Connection connection = ConnectionFactory.createConnection();
              Statement statement = connection.createStatement()) {
 
             connection.setAutoCommit(false);
 
-            int identifierId = getIdIdentifierFromJdbs(identifier);
-
             String sqlInsert = String.format
-                    ("INSERT INTO users(identifier_id, phone, pass, name) VALUES (%d, '%s', '%s', '%s');",
-                            identifierId,
-                            user.getPhone(),
+                    ("UPDATE users SET pass='%s' WHERE phone='%s';",
                             user.getPass(),
-                            user.getName());
+                            newUser.getPhone());
             statement.execute(sqlInsert);
 
             //for passenger
-            if (identifier.equals(UserIdentifier.P)) {
-                sqlInsert = String.format
-                        ("INSERT INTO users(pass, address_id) WHERE phone='%s' VALUES (%d);",
-                                user.getPhone(),
-                                addressDao.create(user.getHomeAddress()).getId());
-                statement.execute(sqlInsert);
+            if (user.getIdentifier().equals(UserIdentifier.P)) {
+
+                String[] addressArray = user.getHomeAddress().toLine().split(" ");
+                long addressId = addressArray.length > 0 ?
+                        addressDao.create(user.getHomeAddress()).getId() : -1 ;
+
+                if (addressId > 0) {
+                    sqlInsert = String.format
+                            ("UPDATE users SET address_id=%d WHERE phone='%s';",
+                                    addressId,
+                                    newUser.getPhone());
+                    statement.execute(sqlInsert);
+                }
             }
 
             //for driver
-            else if (identifier.equals(UserIdentifier.D)) {
+            else if (user.getIdentifier().equals(UserIdentifier.D)) {
                 sqlInsert = String.format
-                        ("INSERT INTO users(phone, pass, car_id) WHERE phone='%s' VALUES (%d);",
-                                user.getPhone(),
-                                carDao.create(user.getCar()).getId());
+                        ("UPDATE users SET car_id=%d WHERE phone='%s';",
+                                carDao.create(user.getCar()).getId(),
+                                newUser.getPhone());
                 statement.execute(sqlInsert);
             }
-
-            //set id for new user
-            ResultSet resultSet = statement.executeQuery("SELECT id FROM users s ORDER BY id DESC LIMIT 1;");
-            resultSet.next();
-            user.setId(resultSet.getInt("id"));
 
             connection.commit();
 
@@ -64,7 +67,7 @@ public class UserJdbcDao implements UserDao {
             e.printStackTrace();
         }
 
-        return user;
+        return newUser;
     }
 
     @Override
@@ -154,10 +157,9 @@ public class UserJdbcDao implements UserDao {
 
             String sqlSelect = String.format
                     ("SELECT id FROM users WHERE phone='%s';", phone);
-            statement.execute(sqlSelect);
-
             ResultSet resultSet = statement.executeQuery(sqlSelect);
             resultSet.next();
+
             user = findById(resultSet.getInt("id"));
 
             connection.commit();
@@ -197,35 +199,6 @@ public class UserJdbcDao implements UserDao {
     }
 
     @Override
-    public List<Order> getOrdersOfUser(User user) {
-
-        List<Order> orders = new ArrayList<>();
-
-        try (Connection connection =
-                     ConnectionFactory.createConnection();
-             Statement statement = connection.createStatement();) {
-
-            connection.setAutoCommit(false);
-
-            String sqlSelect = String.format
-                    ("SELECT id FROM orders WHERE passenger_id='%s' OR driver_id='%s';",
-                            user.getId(), user.getId());
-            ResultSet resultSet = statement.executeQuery(sqlSelect);
-
-            while (resultSet.next()) {
-                orders.add(orderDao.findById(resultSet.getLong("id")));
-            }
-
-            connection.commit();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return orders;
-    }
-
-    @Override
     public User findById(int id) {
 
         User user = null;
@@ -239,10 +212,14 @@ public class UserJdbcDao implements UserDao {
             ResultSet resultSet = statement.executeQuery(sqlSelect);
             resultSet.next();
 
-            user.setIdentifier(getUserIdentifierByIdFromJdbc(resultSet.getInt("identifier_id")));
-            user.setPhone(resultSet.getString("phone"));
+            user = new User(
+                    getUserIdentifierByIdFromJdbc(resultSet.getInt("identifier_id")),
+                    resultSet.getString("phone"),
+                    resultSet.getString("name")
+            );
+
+            user.setId(resultSet.getInt("id"));
             user.setPass(resultSet.getString("pass"));
-            user.setName(resultSet.getString("name"));
             user.setHomeAddress(addressDao.findById(resultSet.getInt("address_id")));
             user.setCar(carDao.findById(resultSet.getInt("car_id")));
 
@@ -255,6 +232,30 @@ public class UserJdbcDao implements UserDao {
         return user;
     }
 
+    @Override
+    public List<String> getAllRegisteredPhones() {
+
+        List<String> phones = new ArrayList<>();
+
+        try(Connection connection = ConnectionFactory.createConnection();
+            Statement statement = connection.createStatement();) {
+
+            connection.setAutoCommit(false);
+
+            ResultSet resultSet = statement.executeQuery("SELECT phone FROM users;");
+
+            while(resultSet.next()) {
+                phones.add(resultSet.getString("phone"));
+            }
+
+            connection.commit();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return phones;
+    }
 
     //------------------------------------------------------------------------------------
     //additional methods
@@ -304,6 +305,38 @@ public class UserJdbcDao implements UserDao {
         resultSet.next();
 
         return resultSet.getInt("id");
+    }
+
+    public User addBaseUserToJdbc(UserIdentifier identifier, String phone, String name) {
+
+        User baseUser = new User(identifier, phone, name);
+
+        try (Connection connection = ConnectionFactory.createConnection();
+             Statement statement = connection.createStatement()) {
+
+            connection.setAutoCommit(false);
+
+            int identifierId = getIdIdentifierFromJdbs(identifier);
+
+            String sqlInsert = String.format
+                    ("INSERT INTO users(identifier_id, phone, name) VALUES (%d, '%s', '%s');",
+                            identifierId,
+                            baseUser.getPhone(),
+                            baseUser.getName());
+            statement.execute(sqlInsert);
+
+            //set id for new user
+            ResultSet resultSet = statement.executeQuery("SELECT id FROM users s ORDER BY id DESC LIMIT 1;");
+            resultSet.next();
+            baseUser.setId(resultSet.getInt("id"));
+
+            connection.commit();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return baseUser;
     }
 }
 

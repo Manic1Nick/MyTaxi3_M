@@ -9,9 +9,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
-/**
- * Created by serhii on 26.06.16.
- */
 public class AddressDao implements GenericDao<Address> {
 
     @Override
@@ -22,18 +19,18 @@ public class AddressDao implements GenericDao<Address> {
 
             connection.setAutoCommit(false);
 
-            String sqlSelect = String.format
+            String sqlInsert = String.format
                     ("INSERT INTO addresses(country, city, street, house_num) VALUES ('%s', '%s', '%s', '%s');",
                             el.getCountry(),
                             el.getCity(),
                             el.getStreet(),
                             el.getHouseNum());
-            statement.executeQuery(sqlSelect);
+            statement.execute(sqlInsert);
 
-            ResultSet resultSet2 = statement.executeQuery
+            ResultSet resultSet = statement.executeQuery
                     ("SELECT id FROM addresses s ORDER BY id DESC LIMIT 1;");
-            resultSet2.next();
-            el.setId(resultSet2.getLong("id"));
+            resultSet.next();
+            el.setId(resultSet.getLong("id"));
 
             connection.commit();
 
@@ -63,14 +60,15 @@ public class AddressDao implements GenericDao<Address> {
             String sqlSelect = String.format
                     ("SELECT * FROM addresses WHERE id=%d;", id);
             ResultSet resultSet = statement.executeQuery(sqlSelect);
-            resultSet.next();
 
-            address = new Address(
-                    resultSet.getString("country"),
-                    resultSet.getString("city"),
-                    resultSet.getString("street"),
-                    resultSet.getString("house_num"));
-            address.setId(resultSet.getLong("id"));
+            while (resultSet.next()) {
+                address = new Address(
+                        resultSet.getString("country"),
+                        resultSet.getString("city"),
+                        resultSet.getString("street"),
+                        resultSet.getString("house_num"));
+                address.setId(resultSet.getLong("id"));
+            }
 
             connection.commit();
 

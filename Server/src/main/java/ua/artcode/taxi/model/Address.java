@@ -1,8 +1,5 @@
 package ua.artcode.taxi.model;
 
-/**
- * Created by serhii on 23.04.16.
- */
 public class Address {
 
     private long id;

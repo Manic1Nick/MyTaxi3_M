@@ -1,6 +1,8 @@
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import ua.artcode.taxi.dao.AddressDao;
+import ua.artcode.taxi.dao.CarDao;
 import ua.artcode.taxi.dao.OrderJdbcDao;
 import ua.artcode.taxi.dao.UserJdbcDao;
 import ua.artcode.taxi.model.*;
@@ -16,6 +18,8 @@ public class TestMyTaxi {
 
     private static UserJdbcDao userDao;
     private static OrderJdbcDao orderDao;
+    private static AddressDao addressDao;
+    private static CarDao carDao;
     private static ValidatorJdbcImpl validator;
     private static double pricePerKilometer = 5;
     private static GoogleMapsAPI googleMapsAPI = new GoogleMapsAPIImpl();
@@ -31,8 +35,10 @@ public class TestMyTaxi {
 
     @BeforeClass
     public static void beforeClass() {
-        userDao = new UserJdbcDao();
-        orderDao = new OrderJdbcDao();
+        addressDao = new AddressDao();
+        carDao = new CarDao();
+        userDao = new UserJdbcDao(addressDao, carDao);
+        orderDao = new OrderJdbcDao(userDao, addressDao);
         validator = new ValidatorJdbcImpl(userDao);
         userService = new UserServiceJdbcImpl(userDao, orderDao, validator);
 
@@ -175,7 +181,7 @@ public class TestMyTaxi {
     @Test()
     public void _11getLastOrderInfoPositive() {
 
-        List<Order> allUserOrders = userDao.getOrdersOfUser(passenger);
+        List<Order> allUserOrders = orderDao.getOrdersOfUser(passenger);
 
         Order testOrder = allUserOrders.get(allUserOrders.size() - 1);
 
@@ -185,7 +191,7 @@ public class TestMyTaxi {
     @Test()
     public void _12getLastOrderInfoNegative() {
 
-        List<Order> allUserOrders = userDao.getOrdersOfUser(passenger);
+        List<Order> allUserOrders = orderDao.getOrdersOfUser(passenger);
 
         Order testOrder = allUserOrders.get(-1);
 
@@ -289,7 +295,7 @@ public class TestMyTaxi {
     @Test()
     public void _21getAllOrdersUserPositive() {
 
-        List<Order> testList = userDao.getOrdersOfUser(accessKeys.get(accessKey));
+        List<Order> testList = orderDao.getOrdersOfUser(accessKeys.get(accessKey));
         int count = 0;
 
         for (int i = 0; i < testList.size(); i++) {
@@ -304,7 +310,7 @@ public class TestMyTaxi {
     @Test()
     public void _22getAllOrdersUserNegative() {
 
-        List<Order> testList = userDao.getOrdersOfUser(null);
+        List<Order> testList = orderDao.getOrdersOfUser(null);
         int count = 0;
 
         for (int i = 0; i < testList.size(); i++) {

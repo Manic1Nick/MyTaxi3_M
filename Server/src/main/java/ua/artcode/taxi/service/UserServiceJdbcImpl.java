@@ -2,9 +2,7 @@ package ua.artcode.taxi.service;
 
 import org.apache.log4j.Logger;
 import ua.artcode.taxi.dao.OrderDao;
-import ua.artcode.taxi.dao.OrderJdbcDao;
 import ua.artcode.taxi.dao.UserDao;
-import ua.artcode.taxi.dao.UserJdbcDao;
 import ua.artcode.taxi.exception.*;
 import ua.artcode.taxi.model.*;
 import ua.artcode.taxi.utils.geolocation.GoogleMapsAPI;
@@ -27,7 +25,7 @@ public class UserServiceJdbcImpl implements UserService {
     private GoogleMapsAPI googleMapsAPI;
     private Map<String, User> accessKeys;
 
-    public UserServiceJdbcImpl(UserJdbcDao userDao, OrderJdbcDao orderDao, ValidatorJdbcImpl validator) {
+    public UserServiceJdbcImpl(UserDao userDao, OrderDao orderDao, Validator validator) {
         this.userDao = userDao;
         this.orderDao = orderDao;
         this.validator = validator;
@@ -92,10 +90,8 @@ public class UserServiceJdbcImpl implements UserService {
         boolean valid = validator.validateLogin(phone, pass);
 
         if (valid) {
-            Collection<User> users = userDao.getAllUsers();
-            for (User user : users) {
-                found = user.getPhone().equals(phone) ? user : found ;
-            }
+
+            found = userDao.findByPhone(phone);
 
         } else {
 
@@ -127,7 +123,9 @@ public class UserServiceJdbcImpl implements UserService {
             throw  new InputDataWrongException("Wrong input data addresses. Can not make order");
         }
 
-        if (accessKeys.get(accessToken) != null) {
+        User user = accessKeys.get(accessToken);
+
+        if (user != null) {
 
             try {
                 Location location = googleMapsAPI.findLocation(from.getCountry(), from.getCity(),
@@ -136,12 +134,12 @@ public class UserServiceJdbcImpl implements UserService {
                         to.getStreet(), to.getHouseNum());
                 int distance = (int) (googleMapsAPI.getDistance(location, location1) / 1000);
                 int price = (int) pricePerKilometer * distance + 30;
-                message = message.equals("") ? "" : accessKeys.get(accessToken).getName() + ": " + message;
+                message = message.equals("") ? "" : user.getName() + ": " + message;
 
-                newOrder = new Order(from, to, accessKeys.get(accessToken), distance, price, message);
+                newOrder = new Order(from, to, user, distance, price, message);
 
-                orderDao.create(accessKeys.get(accessToken), newOrder);
-                accessKeys.get(accessToken).getOrderIds().add(newOrder.getId());
+                orderDao.create(user, newOrder);
+                user.getOrderIds().add(newOrder.getId());
 
             } catch (InputDataWrongException | IndexOutOfBoundsException e) {
 
@@ -151,7 +149,7 @@ public class UserServiceJdbcImpl implements UserService {
             }
         }
 
-        LOG.info("User " + accessKeys.get(accessToken).getPhone() + " makes new order " + newOrder.getId());
+        LOG.info("User " + user.getPhone() + " makes new order " + newOrder.getId());
 
         return newOrder;
     }
@@ -308,7 +306,7 @@ public class UserServiceJdbcImpl implements UserService {
 
         User user = accessKeys.get(accessToken);
         Order closed = orderDao.findById(orderId);
-        List<Order> ordersUser = userDao.getOrdersOfUser(user);
+        List<Order> ordersUser = orderDao.getOrdersOfUser(user);
         Order result = null;
 
         for (Order order : ordersUser) {
@@ -354,7 +352,7 @@ public class UserServiceJdbcImpl implements UserService {
 
         User user = accessKeys.get(accessToken);
         Order inProgress = orderDao.findById(orderId);
-        List<Order> ordersUser = userDao.getOrdersOfUser(user);
+        List<Order> ordersUser = orderDao.getOrdersOfUser(user);
 
         for (Order order : ordersUser) {
             if (order.getOrderStatus().equals(OrderStatus.IN_PROGRESS)) {
@@ -410,7 +408,7 @@ public class UserServiceJdbcImpl implements UserService {
 
         User user = accessKeys.get(accessToken);
 
-        List<Order> ordersOfUser = userDao.getOrdersOfUser(user);
+        List<Order> ordersOfUser = orderDao.getOrdersOfUser(user);
 
         LOG.info("Get all orders of user " + user.getPhone());
 

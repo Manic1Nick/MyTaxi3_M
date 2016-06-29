@@ -19,17 +19,17 @@ public class CarDao implements GenericDao<Car> {
 
             connection.setAutoCommit(false);
 
-            String sqlSelect = String.format
+            String sqlInsert = String.format
                     ("INSERT INTO cars(type, model, number) VALUES ('%s', '%s', '%s');",
                             el.getType(),
                             el.getModel(),
                             el.getNumber());
-            statement.executeQuery(sqlSelect);
+            statement.execute(sqlInsert);
 
-            ResultSet resultSet2 = statement.executeQuery
+            ResultSet resultSet = statement.executeQuery
                     ("SELECT id FROM cars s ORDER BY id DESC LIMIT 1;");
-            resultSet2.next();
-            el.setId(resultSet2.getLong("id"));
+            resultSet.next();
+            el.setId(resultSet.getLong("id"));
 
             connection.commit();
 
@@ -59,13 +59,14 @@ public class CarDao implements GenericDao<Car> {
             String sqlSelect = String.format
                     ("SELECT * FROM cars WHERE id=%d;", id);
             ResultSet resultSet = statement.executeQuery(sqlSelect);
-            resultSet.next();
 
-            car = new Car(
-                    resultSet.getString("type"),
-                    resultSet.getString("model"),
-                    resultSet.getString("number"));
-            car.setId(resultSet.getLong("id"));
+            while (resultSet.next()) {
+                car = new Car(
+                        resultSet.getString("type"),
+                        resultSet.getString("model"),
+                        resultSet.getString("number"));
+                car.setId(resultSet.getLong("id"));
+            }
 
             connection.commit();
 

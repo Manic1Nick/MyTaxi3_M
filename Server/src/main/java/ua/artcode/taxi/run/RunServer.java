@@ -1,8 +1,7 @@
 package ua.artcode.taxi.run;
 
 import com.google.gson.Gson;
-import ua.artcode.taxi.dao.OrderJdbcDao;
-import ua.artcode.taxi.dao.UserJdbcDao;
+import ua.artcode.taxi.dao.*;
 import ua.artcode.taxi.exception.*;
 import ua.artcode.taxi.model.Order;
 import ua.artcode.taxi.model.User;
@@ -33,13 +32,13 @@ public class RunServer {
         Gson gson = new Gson();
 
         //create test data
-        UserJdbcDao userDao = new UserJdbcDao();
-        OrderJdbcDao orderDao = new OrderJdbcDao();
+        AddressDao addressDao = new AddressDao();
+        CarDao carDao = new CarDao();
+        UserDao userDao = new UserJdbcDao(addressDao, carDao);
+        OrderDao orderDao = new OrderJdbcDao(userDao, addressDao);
+        ValidatorJdbcImpl validator = new ValidatorJdbcImpl(userDao);
 
-        UserService userService = new UserServiceJdbcImpl(
-                userDao,
-                orderDao,
-                new ValidatorJdbcImpl(userDao));
+        UserService userService = new UserServiceJdbcImpl(userDao, orderDao, validator);
 /*
         User passenger1 = new User(UserIdentifier.P,
                 "1234", "test", "Vasya", new Address("Ukraine", "Kiev", "Khreschatik", "5"));

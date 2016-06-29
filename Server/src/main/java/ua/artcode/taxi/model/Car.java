@@ -1,12 +1,5 @@
 package ua.artcode.taxi.model;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Роман
- * Date: 23.04.16
- * Time: 17:03
- * To change this template use File | Settings | File Templates.
- */
 public class Car {
 
     private long id;

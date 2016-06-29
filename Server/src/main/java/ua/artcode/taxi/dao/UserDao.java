@@ -1,6 +1,5 @@
 package ua.artcode.taxi.dao;
 
-import ua.artcode.taxi.model.Order;
 import ua.artcode.taxi.model.User;
 import ua.artcode.taxi.model.UserIdentifier;
 
@@ -18,5 +17,6 @@ public interface UserDao {
     User findByPhone(String phone);
     User findById(int id);
     List<User> getAllUsersByIdentifier(UserIdentifier identifier);
-    List<Order> getOrdersOfUser(User user);
+
+    List<String> getAllRegisteredPhones();
 }

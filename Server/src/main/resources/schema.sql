@@ -45,7 +45,7 @@ CREATE TABLE users(
 CREATE TABLE orders (
     id INT AUTO_INCREMENT PRIMARY KEY,
     status_id INT,
-    FOREIGN KEY (status_id) REFERENCES statusses(id),
+    FOREIGN KEY (status_id) REFERENCES statuses(id),
     addressfrom_id INT,
     FOREIGN KEY (addressfrom_id) REFERENCES addresses(id),
     addressto_id INT,
