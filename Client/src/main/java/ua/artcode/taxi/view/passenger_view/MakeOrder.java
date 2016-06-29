@@ -116,7 +116,7 @@ public class MakeOrder extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (ClientAccessToken.accessToken != null) {
                     User current = userService.getUser(ClientAccessToken.accessToken);
-                    if (current.getHomeAddress().toLine().equals("")) {
+                    if (current.getHomeAddress().toLine().equals("") || current.getHomeAddress() == null) {
                         JOptionPane.showMessageDialog(getParent(), "You didn't enter your home address");
                     }
                     toText.setText(current.getHomeAddress().toLine());
