@@ -99,7 +99,7 @@ public class AddressDao implements GenericDao<Address> {
                             el.getCity(),
                             el.getStreet(),
                             el.getHouseNum(),
-                            findById(el.getId()));
+                            el.getId());
             statement.executeQuery(sqlUpdate);
 
             connection.commit();
