@@ -89,12 +89,12 @@ public class AddressDao implements GenericDao<Address> {
     @Override
     public Address update(Address el) {
         try (Connection connection = ConnectionFactory.createConnection();
-             Statement statement = connection.createStatement();) {
+             Statement statement = connection.createStatement()) {
 
             connection.setAutoCommit(false);
 
             String sqlUpdate = String.format
-                    ("UPDATE addresses SET country='%s', city='%s', street='%s', house_num=%s WHERE id=%d;",
+                    ("UPDATE addresses SET country='%s', city='%s', street='%s', house_num='%s' WHERE id=%d;",
                             el.getCountry(),
                             el.getCity(),
                             el.getStreet(),
