@@ -94,7 +94,7 @@ public class CarDao implements GenericDao<Car> {
                             el.getType(),
                             el.getModel(),
                             el.getNumber(),
-                            findById(el.getId()));
+                            el.getId());
             statement.executeQuery(sqlUpdate);
 
             connection.commit();
