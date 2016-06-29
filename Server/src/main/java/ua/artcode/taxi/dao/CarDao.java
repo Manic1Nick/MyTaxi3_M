@@ -84,7 +84,26 @@ public class CarDao implements GenericDao<Car> {
 
     @Override
     public Car update(Car el) {
-        return null;
+        try (Connection connection = ConnectionFactory.createConnection();
+             Statement statement = connection.createStatement();) {
+
+            connection.setAutoCommit(false);
+
+            String sqlUpdate = String.format
+                    ("UPDATE cars SET type='%s', model='%s', number='%s' WHERE id=%d;",
+                            el.getType(),
+                            el.getModel(),
+                            el.getNumber(),
+                            findById(el.getId()));
+            statement.executeQuery(sqlUpdate);
+
+            connection.commit();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return el;
     }
 
     @Override
