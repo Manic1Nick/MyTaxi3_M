@@ -1,6 +1,8 @@
 import org.junit.Assert;
 import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 import ua.artcode.taxi.dao.AddressDao;
 import ua.artcode.taxi.dao.CarDao;
 import ua.artcode.taxi.dao.OrderJdbcDao;
@@ -13,7 +15,7 @@ import ua.artcode.taxi.utils.geolocation.GoogleMapsAPI;
 import ua.artcode.taxi.utils.geolocation.GoogleMapsAPIImpl;
 
 import java.util.*;
-
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestMyTaxi {
 
     private static UserJdbcDao userDao;

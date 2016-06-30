@@ -62,7 +62,7 @@ public class CarDao implements GenericDao<Car> {
             Statement statement = connection.createStatement();
             connection.setAutoCommit(false);
             resultSet = statement.execute(String.format("delete from cars where type=%d;", el.getId()));
-
+            connection.commit();
             }
              catch (SQLException e) {
                 e.printStackTrace();
