@@ -23,7 +23,7 @@ public class ConnectionFactory {
         // load from properties
         url = "jdbc:mysql://localhost:3306/mytaxi";
         user = "root";
-        password = "hp6930p";
+        password = "root";
     }
 
     public static Connection createConnection() throws SQLException {

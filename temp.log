@@ -1247,3 +1247,12 @@
 2016-06-29 14:21:46 INFO  UserServiceJdbcImpl:520 - Get all order by status NEW
 2016-06-29 14:21:46 INFO  UserServiceJdbcImpl:425 - Found 6 orders with status NEW
 2016-06-29 14:21:49 INFO  UserServiceJdbcImpl:443 - Create map of distances from orders to driver address Ukraine Kiev Starokievskaya 10
+2016-06-30 08:39:06 ERROR UserServiceJdbcImpl:98 - LoginException: failed attempt to log in with phone 0937504566
+2016-06-30 08:40:17 ERROR UserServiceJdbcImpl:98 - LoginException: failed attempt to log in with phone 0937504566
+2016-06-30 08:40:47 ERROR UserServiceJdbcImpl:98 - LoginException: failed attempt to log in with phone 0937504566
+2016-06-30 08:42:05 INFO  UserServiceJdbcImpl:106 - User 0937504566 logged in
+2016-06-30 08:42:05 INFO  UserServiceJdbcImpl:401 - Request user 0937504566
+2016-06-30 08:42:33 INFO  UserServiceJdbcImpl:401 - Request user 0937504566
+2016-06-30 08:42:48 INFO  UserServiceJdbcImpl:152 - User 0937504566 makes new order 0
+2016-06-30 08:43:45 INFO  UserServiceJdbcImpl:229 - Someone calculates order from Ukraine Kiev Starokievskaya 10 to Ukraine Kiev Kirov 2
+2016-06-30 08:43:55 INFO  UserServiceJdbcImpl:152 - User 0937504566 makes new order 0
