@@ -35,6 +35,7 @@ public class UserJdbcDao implements UserDao {
                             user.getPass(),
                             newUser.getPhone());
             statement.execute(sqlInsert);
+            newUser.setPass(user.getPass());
 
             //for passenger
             if (user.getIdentifier().equals(UserIdentifier.P)) {
@@ -49,6 +50,7 @@ public class UserJdbcDao implements UserDao {
                                     addressId,
                                     newUser.getPhone());
                     statement.execute(sqlInsert);
+                    newUser.setHomeAddress(user.getHomeAddress());
                 }
             }
 
@@ -131,7 +133,7 @@ public class UserJdbcDao implements UserDao {
         try(Connection connection =
                     ConnectionFactory.createConnection();
             PreparedStatement preparedStatement = connection.prepareStatement
-                    ("DELETE FROM clients c WHERE c.id = ?;")){
+                    ("DELETE FROM users WHERE id = ?;")){
 
             preparedStatement.setInt((int) 1, id);
             preparedStatement.execute();
