@@ -28,7 +28,7 @@ public class AddressDao implements GenericDao<Address> {
             statement.execute(sqlInsert);
 
             ResultSet resultSet = statement.executeQuery
-                    ("SELECT id FROM addresses s ORDER BY id DESC LIMIT 1;");
+                    ("SELECT id FROM addresses ORDER BY id DESC LIMIT 1;");
             resultSet.next();
             el.setId(resultSet.getLong("id"));
 
