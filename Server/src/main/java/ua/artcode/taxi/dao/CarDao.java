@@ -19,30 +19,55 @@ public class CarDao implements GenericDao<Car> {
 
             connection.setAutoCommit(false);
 
-            String sqlInsert = String.format
-                    ("INSERT INTO cars(type, model, number) VALUES ('%s', '%s', '%s');",
+            ResultSet resultSet1 = statement.executeQuery(String.format
+                    ("Select id from cars where type='%s' and model='%s' and number='%s' limit 1;",
                             el.getType(),
                             el.getModel(),
-                            el.getNumber());
-            statement.execute(sqlInsert);
+                            el.getNumber()));
 
-            ResultSet resultSet = statement.executeQuery
-                    ("SELECT id FROM cars s ORDER BY id DESC LIMIT 1;");
-            resultSet.next();
-            el.setId(resultSet.getLong("id"));
+            if (resultSet1.next()) {
+                el.setId(resultSet1.getLong("id"));
+            }
+            else {
 
-            connection.commit();
+                String sqlInsert = String.format
+                        ("INSERT INTO cars(type, model, number) VALUES ('%s', '%s', '%s');",
+                                el.getType(),
+                                el.getModel(),
+                                el.getNumber());
+                statement.execute(sqlInsert);
+
+                ResultSet resultSet = statement.executeQuery
+                        ("SELECT id FROM cars s ORDER BY id DESC LIMIT 1;");
+                resultSet.next();
+                el.setId(resultSet.getLong("id"));
+
+                connection.commit();
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
 
         return el;
     }
 
     @Override
     public boolean delete(Car el) {
-        return false;
+        Connection connection = null;
+        boolean resultSet = false;
+        try {
+            connection = ConnectionFactory.createConnection();
+            Statement statement = connection.createStatement();
+            connection.setAutoCommit(false);
+            resultSet = statement.execute(String.format("delete from cars where type=%d;", el.getId()));
+
+            }
+             catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return resultSet;
     }
 
     @Override
