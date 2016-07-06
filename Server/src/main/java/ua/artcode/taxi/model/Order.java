@@ -1,20 +1,37 @@
 package ua.artcode.taxi.model;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Date;
 
+@Entity
+@Table(name = "orders")
 public class Order {
-
+    @Id
+    @GeneratedValue( strategy = GenerationType.AUTO)
     private long id;
+    @Enumerated(EnumType.ORDINAL)
     private OrderStatus orderStatus;
+    @ManyToOne
+    @JoinColumn (referencedColumnName = "id")
     private Address from;
+    @ManyToOne
+    @JoinColumn (referencedColumnName = "id")
     private Address to;
+    @ManyToOne
+    @JoinColumn (referencedColumnName = "id")
     private User passenger;
+    @ManyToOne
+    @JoinColumn (referencedColumnName = "id")
     private User driver;
+    @Column
     private int distance;
+    @Column
     private int price;
+    @Column
     private String message;
-
-    private LocalDateTime makeOrderTime;
+    @Temporal(TemporalType.DATE)
+    private Date date;
 
     public Order() {
     }
@@ -33,6 +50,8 @@ public class Order {
         this.from = from;
         this.to = to;
     }
+
+
 
     public long getId() {
         return id;
@@ -106,12 +125,12 @@ public class Order {
         this.message = message;
     }
 
-    public LocalDateTime getMakeOrderTime() {
-        return makeOrderTime;
+    public Date getDate() {
+        return date;
     }
 
-    public void setMakeOrderTime(LocalDateTime makeOrderTime) {
-        this.makeOrderTime = makeOrderTime;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public String toStringForView() {

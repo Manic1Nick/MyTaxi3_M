@@ -1,10 +1,21 @@
 package ua.artcode.taxi.model;
 
-public class Car {
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
+@Entity
+public class Car {
+    @Id
+    @GeneratedValue( strategy = GenerationType.AUTO)
     private long id;
+    @OneToMany(mappedBy = "car")
+    private List<User> users = new ArrayList<User>();
+    @Column
     String type;
+    @Column
     String model;
+    @Column
     String number;
 
     public Car() {
@@ -15,6 +26,14 @@ public class Car {
         this.number = number;
         this.model = model;
         this.type = type;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 
     public long getId() {

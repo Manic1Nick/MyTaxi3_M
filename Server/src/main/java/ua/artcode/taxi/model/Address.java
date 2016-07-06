@@ -1,12 +1,36 @@
 package ua.artcode.taxi.model;
 
-public class Address {
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
+@Entity
+public class Address {
+    @Id
+    @GeneratedValue( strategy = GenerationType.AUTO)
     private long id;
+    @OneToMany (mappedBy = "homeAddress")
+    private List<User> users = new ArrayList<User>(); //User mapping
+    @OneToMany (mappedBy = "from")
+    private List<Order> from = new ArrayList<Order>(); //Order mapping
+    @OneToMany (mappedBy = "to")
+    private List<Order> to = new ArrayList<Order>(); //Order mapping
+    @Column
     private String country;
+    @Column
     private String city;
+    @Column
     private String street;
+    @Column
     private String houseNum;
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
 
     // google api
     private double lat;
@@ -17,6 +41,22 @@ public class Address {
         this.street = street;
         this.houseNum = houseNum;
         this.country = country;
+    }
+
+    public List<Order> getFrom() {
+        return from;
+    }
+
+    public void setFrom(List<Order> from) {
+        this.from = from;
+    }
+
+    public List<Order> getTo() {
+        return to;
+    }
+
+    public void setTo(List<Order> to) {
+        this.to = to;
     }
 
     public Address(double lat, double lon) {
