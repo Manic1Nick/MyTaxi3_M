@@ -1,0 +1,201 @@
+[33mcommit 6bc742e0a322a58e448ee10a5ddabfbb0da50711[m
+Author: Iurii <stepanchuck@gmail.com>
+Date:   Wed Jul 6 12:32:28 2016 +0300
+
+    started hibernate
+
+[33mcommit a7282ccc0c1fd482ec30caf5c1f143d91daa5aff[m
+Merge: c4e3427 3d4ec0e
+Author: Iurii <stepanchuck@gmail.com>
+Date:   Wed Jul 6 12:00:08 2016 +0300
+
+    Merge remote-tracking branch 'origin/new' into iurii
+    
+    # Conflicts:
+    #	Server/src/main/java/ua/artcode/taxi/dao/AddressDao.java
+    #	Server/src/main/java/ua/artcode/taxi/dao/CarDao.java
+    #	Server/src/main/java/ua/artcode/taxi/dao/UserJdbcDao.java
+    #	Server/src/main/java/ua/artcode/taxi/utils/BeansFactory.java
+    #	Server/src/test/java/TestMyTaxi.java
+    #	temp.log
+
+[33mcommit c4e3427682f55cd088a109ced61f5bf7154cd5d7[m
+Author: Iurii <stepanchuck@gmail.com>
+Date:   Sat Jul 2 18:40:09 2016 +0300
+
+    d
+
+[33mcommit f0332cbbd1527f4a6c418103e0b0e61539f3de17[m
+Author: Iurii <stepanchuck@gmail.com>
+Date:   Thu Jun 30 12:13:59 2016 +0300
+
+    User dao update
+
+[33mcommit 55880f09af2e5386076ba1d7e3ba0542406f2f6b[m
+Author: Iurii <stepanchuck@gmail.com>
+Date:   Thu Jun 30 10:48:02 2016 +0300
+
+    TestClass
+
+[33mcommit e3f88d84fd3e87e8225c08f91c6c9f3a507ff462[m
+Author: Iurii <stepanchuck@gmail.com>
+Date:   Thu Jun 30 09:42:16 2016 +0300
+
+    CarDAO
+
+[33mcommit a2333246d9ff57eba94c9595c8d085b02f0d17c4[m
+Author: Ivpion <ivanpiontkevich@gmail.com>
+Date:   Wed Jun 29 22:34:34 2016 +0300
+
+    fix update
+
+[33mcommit 768cd77e4c43eab73926d4e913ce54847ec92d0c[m
+Author: Ivpion <ivanpiontkevich@gmail.com>
+Date:   Wed Jun 29 21:47:35 2016 +0300
+
+    fix update
+
+[33mcommit 9928d7bdee7529c2b16bb9bc2a624ae51bba7e1b[m
+Author: Ivpion <ivanpiontkevich@gmail.com>
+Date:   Wed Jun 29 19:53:47 2016 +0300
+
+    add getAll in CarDao
+
+[33mcommit 3586fa79798e7d254dd24520921cc4f87acab668[m
+Author: Ivpion <ivanpiontkevich@gmail.com>
+Date:   Wed Jun 29 19:43:02 2016 +0300
+
+    add gelAll in AddressDao
+
+[33mcommit a0922836fa9b8e02d7f652a00a885caad11d3d3b[m
+Author: nick.no.cave@gmail.com <nick.no.cave@gmail.com>
+Date:   Wed Jun 29 14:51:01 2016 +0300
+
+    fix bugs, some changed in dao user+order
+
+[33mcommit 4b83e123bdfd161a5e491669af8e17a6644af6f8[m
+Author: nick.no.cave@gmail.com <nick.no.cave@gmail.com>
+Date:   Tue Jun 28 21:06:54 2016 +0300
+
+    change dao user+order+car+address
+
+[33mcommit b8fd21072c8af8cec9536673abf9a65b3f3b8d01[m
+Author: nick.no.cave@gmail.com <nick.no.cave@gmail.com>
+Date:   Tue Jun 28 18:57:03 2016 +0300
+
+    deleted old dao and logic with appdb
+
+[33mcommit 0baf7fdafa742ec7b4861d848327b9f923f15e99[m
+Author: nick.no.cave@gmail.com <nick.no.cave@gmail.com>
+Date:   Tue Jun 28 18:50:31 2016 +0300
+
+     add some methods to DAO User, Order, Address, Car + long id to Car, Address
+
+[33mcommit d770841fc008a39451e80e2556d8e8dbb3ea3736[m
+Author: nick.no.cave@gmail.com <nick.no.cave@gmail.com>
+Date:   Tue Jun 28 18:40:45 2016 +0300
+
+    add some methods to UserJdbcDao, OrderJdbcDao, AddressDao, CarDao + add log id to address, car
+
+[33mcommit da84b8f3e20badd5ae785600aa3d71164d572758[m
+Author: Ivpion <ivanpiontkevich@gmail.com>
+Date:   Mon Jun 27 22:35:38 2016 +0300
+
+    finish getUserIdentifier
+
+[33mcommit 4b0fdbf9ddf189b5dd7799133182494a05559e85[m
+Author: Ivpion <ivanpiontkevich@gmail.com>
+Date:   Mon Jun 27 21:55:52 2016 +0300
+
+    finish getUserIdentifier
+
+[33mcommit 590482efd6c1471d03befdd3d501f7b3c1188f74[m
+Author: Ivpion <ivanpiontkevich@gmail.com>
+Date:   Sun Jun 26 14:20:01 2016 +0300
+
+    finish user methods getAllDrivers, getAllPassedger
+
+[33mcommit 1a356131c2a7e0801a14ae081ef4bbcee1843595[m
+Author: presly808 <presly808@gmail.com>
+Date:   Sat Jul 2 12:22:01 2016 +0300
+
+    week 7servlets
+
+[33mcommit 7117917ffea4eaebf0bb37919255c010e5753b0e[m
+Author: presly808 <presly808@gmail.com>
+Date:   Sat Jul 2 10:23:11 2016 +0300
+
+    add car dao
+
+[33mcommit 3d4ec0e81450433326492a9a6f347cf1822673fb[m
+Author: nick.no.cave@gmail.com <nick.no.cave@gmail.com>
+Date:   Wed Jun 29 14:51:01 2016 +0300
+
+    fix bugs, some changed in dao user+order
+
+[33mcommit 96167afe856dcc8c98a08a8977967704789103ed[m
+Author: nick.no.cave@gmail.com <nick.no.cave@gmail.com>
+Date:   Tue Jun 28 21:06:54 2016 +0300
+
+    change dao user+order+car+address
+
+[33mcommit 6394047db5faacadcd09f93658c0c718c23ce392[m
+Author: nick.no.cave@gmail.com <nick.no.cave@gmail.com>
+Date:   Tue Jun 28 18:57:03 2016 +0300
+
+    deleted old dao and logic with appdb
+
+[33mcommit ade3ffcc8534c9e8a18376ceee1d140f0bc01f70[m
+Author: nick.no.cave@gmail.com <nick.no.cave@gmail.com>
+Date:   Tue Jun 28 18:50:31 2016 +0300
+
+     add some methods to DAO User, Order, Address, Car + long id to Car, Address
+
+[33mcommit c07f341182d2451bd0f0fc8592b243faab6388e4[m
+Author: nick.no.cave@gmail.com <nick.no.cave@gmail.com>
+Date:   Tue Jun 28 18:40:45 2016 +0300
+
+    add some methods to UserJdbcDao, OrderJdbcDao, AddressDao, CarDao + add log id to address, car
+
+[33mcommit 4b36b612e0ab2c46d2bf63e2cce9e61e76fb3b38[m
+Author: presly808 <presly808@gmail.com>
+Date:   Sun Jun 26 11:09:39 2016 +0300
+
+    add Generic dao
+
+[33mcommit 0f5c7ff2f8a8fe0bf09fe7a6be065b09faa18c47[m
+Author: presly808 <presly808@gmail.com>
+Date:   Sat Jun 25 12:18:57 2016 +0300
+
+    week 6 db
+
+[33mcommit cf95e532b75d7f1e24b2b590d0164a1241c6ccfd[m
+Merge: 9ed9836 d7d39cb
+Author: presly808 <presly808@gmail.com>
+Date:   Sat Jun 25 11:03:19 2016 +0300
+
+    Merge branch 'master' of github.com:Manic1Nick/MyTaxi3_M
+
+[33mcommit 9ed983667461cfa75661e40aa835328b4e1e3725[m
+Author: presly808 <presly808@gmail.com>
+Date:   Sat Jun 25 10:02:03 2016 +0300
+
+    multithreading project arch
+
+[33mcommit d7d39cb663bfd2ff30ff8cb042a14dbd76d0562c[m
+Author: nick.no.cave@gmail.com <nick.no.cave@gmail.com>
+Date:   Sat Jun 18 13:46:49 2016 +0300
+
+    add client-server architecture, change some logic, change some view
+
+[33mcommit 80a0367e0a311dff73c46ca8a58370af12035198[m
+Author: nick.no.cave@gmail.com <nick.no.cave@gmail.com>
+Date:   Sat Jun 18 12:01:06 2016 +0300
+
+    add client-server architecture, change some logic, change some view
+
+[33mcommit ef5258d49552487e56f17a7c9f3ecfac467243c2[m
+Author: nick.no.cave@gmail.com <nick.no.cave@gmail.com>
+Date:   Thu Jun 9 23:10:57 2016 +0300
+
+    add client-server architecture, change some logic
