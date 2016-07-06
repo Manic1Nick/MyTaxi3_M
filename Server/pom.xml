@@ -14,9 +14,15 @@
     <artifactId>Server</artifactId>
     <packaging>war</packaging>
     <version>1.0</version>
-    <packaging>war</packaging>
 
     <dependencies>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>5.2.1.Final</version>
+        </dependency>
+
         <dependency>
             <groupId>ua.artcode</groupId>
             <artifactId>Base</artifactId>
@@ -39,6 +45,11 @@
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>3.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>5.2.1.Final</version>
         </dependency>
 
     </dependencies>

@@ -1,12 +1,10 @@
 package ua.artcode.taxi.servlet;
 
 import org.apache.log4j.Logger;
-import ua.artcode.taxi.dao.*;
 import ua.artcode.taxi.model.User;
 import ua.artcode.taxi.service.UserService;
-import ua.artcode.taxi.service.UserServiceImpl;
-import ua.artcode.taxi.service.ValidatorImpl;
-import ua.artcode.taxi.utils.BeansFactory;
+import ua.artcode.taxi.service.UserServiceJdbcImpl;
+import ua.artcode.taxi.service.ValidatorJdbcImpl;
 
 import javax.security.auth.login.LoginException;
 import javax.servlet.ServletException;
@@ -23,10 +21,6 @@ public class RegisterServlet extends HttpServlet {
     private UserService userService;
     private static final Logger LOG = Logger.getLogger(RegisterServlet.class);
 
-    @Override
-    public void init() throws ServletException {
-        userService = BeansFactory.createUserService();
-    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -48,7 +42,7 @@ public class RegisterServlet extends HttpServlet {
 
             req.getRequestDispatcher("/WEB-INF/pages/user-info.jsp").forward(req,resp);
 
-        } catch (LoginException e) {
+        } catch (Exception e) {
             LOG.error(e);
 
             req.setAttribute("error", e);

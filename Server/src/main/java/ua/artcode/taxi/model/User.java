@@ -1,18 +1,31 @@
 package ua.artcode.taxi.model;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
+@Entity
+@Table(name="users")
 public class User implements PassengerActive, DriverActive {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    @Enumerated(EnumType.ORDINAL)
     private UserIdentifier identifier;
+    @Column(nullable = false)
     private String phone;
+    @Column
     private String pass;
+    @Column(nullable = false)
     private String name;
     private Address homeAddress;
     private Car car;
     private List<Long> orderIds = new ArrayList<>();
+
+    public User() {
+    }
 
     //for passenger
     public User(UserIdentifier identifier, String phone, String pass, String name, Address homeAddress) {
@@ -117,5 +130,39 @@ public class User implements PassengerActive, DriverActive {
     @Override
     public void setCar(Car car) {
         this.car = car;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", identifier=" + identifier +
+                ", phone='" + phone + '\'' +
+                ", name='" + name + '\'' +
+                ", homeAddress=" + homeAddress +
+                ", car=" + car +
+                ", orderIds=" + orderIds +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (id != user.id) return false;
+        if (identifier != user.identifier) return false;
+        return phone.equals(user.phone);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + identifier.hashCode();
+        result = 31 * result + phone.hashCode();
+        return result;
     }
 }

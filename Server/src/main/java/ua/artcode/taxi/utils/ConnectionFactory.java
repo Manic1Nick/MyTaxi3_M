@@ -14,11 +14,11 @@ public class ConnectionFactory {
     private static String password;
 
     static {
-        /*try {
+        try {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-        }*/
+        }
 
         // load from properties
         url = "jdbc:mysql://localhost:3306/mytaxi";
