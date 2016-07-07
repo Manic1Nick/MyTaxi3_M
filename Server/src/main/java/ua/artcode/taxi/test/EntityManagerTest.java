@@ -1,4 +1,6 @@
-package ua.artcode.taxi.model;
+package ua.artcode.taxi.test;
+
+import ua.artcode.taxi.model.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
