@@ -9,12 +9,16 @@ public class Address {
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO)
     private long id;
+
     @OneToMany (mappedBy = "homeAddress", cascade=CascadeType.ALL)
     private List<User> users = new ArrayList<>(); //User mapping
+
     @OneToMany (mappedBy = "from", cascade=CascadeType.ALL)
     private List<Order> from = new ArrayList<>(); //Order mapping
+
     @OneToMany (mappedBy = "to", cascade=CascadeType.ALL)
     private List<Order> to = new ArrayList<>(); //Order mapping
+
     @Column
     private String country;
     @Column
@@ -33,7 +37,9 @@ public class Address {
     }
 
     // google api
+    @Transient
     private double lat;
+    @Transient
     private double lon;
 
     public Address(String country, String city, String street, String houseNum) {

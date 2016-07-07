@@ -24,11 +24,11 @@ public class User implements PassengerActive, DriverActive {
     private String pass;
     @Column(nullable = false)
     private String name;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn (referencedColumnName = "id")
     private Address homeAddress;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn (referencedColumnName = "id")
     private Car car;
     @Transient

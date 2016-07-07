@@ -12,13 +12,13 @@ public class Order {
     private long id;
     @Enumerated(EnumType.ORDINAL)
     private OrderStatus orderStatus;
-    @ManyToOne
-    @JoinColumn (name = "from", referencedColumnName = "id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn ( referencedColumnName = "id")
     private Address from;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn (referencedColumnName = "id")
     private Address to;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn (referencedColumnName = "id")
     private User passenger;
     @ManyToOne

@@ -40,6 +40,11 @@ public class EntityManagerTest {
 
         manager.getTransaction().begin();
 
+        manager.persist(passenger1);
+        manager.persist(passenger2);
+        manager.persist(driver1);
+        manager.persist(driver2);
+        manager.persist(order1);
         manager.persist(order2);
         manager.persist(order3);
         manager.persist(order4);
