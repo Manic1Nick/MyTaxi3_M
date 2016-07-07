@@ -178,16 +178,31 @@ public class User implements PassengerActive, DriverActive {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public boolean equals(Object obj) {
 
-        User user = (User) o;
+        if (obj instanceof User) {
 
-        if (id != user.id) return false;
-        if (identifier != user.identifier) return false;
-        return phone.equals(user.phone);
+            if (((User)obj).identifier.equals(UserIdentifier.P)) {
+                return  id == (((User)obj).id) &&
+                        identifier.equals(((User)obj).identifier) &&
+                        phone.equals(((User)obj).phone) &&
+                        name.equals(((User)obj).name) &&
+                        pass.equals(((User)obj).pass) &&
+                        homeAddress.equals(((User)obj).homeAddress);
 
+            } else if (((User)obj).identifier.equals(UserIdentifier.D)) {
+                return  id == (((User)obj).id) &&
+                        identifier.equals(((User)obj).identifier) &&
+                        phone.equals(((User)obj).phone) &&
+                        name.equals(((User)obj).name) &&
+                        pass.equals(((User)obj).pass) &&
+                        car.equals(((User)obj).car);
+            }
+        }
+
+        return false;
+
+        //todo equals list ids
     }
 
     @Override
