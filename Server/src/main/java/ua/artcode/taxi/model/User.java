@@ -34,10 +34,10 @@ public class User implements PassengerActive, DriverActive {
     @Transient
     private List<Long> orderIds = new ArrayList<>();
 
-    @OneToMany (mappedBy = "driver")
-    private List<Order> drivers = new ArrayList<Order>(); //Order mapping
-    @OneToMany (mappedBy = "passenger")
-    private List<Order> passengers = new ArrayList<Order>(); //Order mapping
+    @OneToMany (mappedBy = "driver", cascade = CascadeType.ALL)
+    private List<Order> drivers = new ArrayList<>(); //Order mapping
+    @OneToMany (mappedBy = "passenger", cascade=CascadeType.ALL)
+    private List<Order> passengers = new ArrayList<>(); //Order mapping
 
     public User() {
     }

@@ -13,7 +13,7 @@ public class Order {
     @Enumerated(EnumType.ORDINAL)
     private OrderStatus orderStatus;
     @ManyToOne
-    @JoinColumn (referencedColumnName = "id")
+    @JoinColumn (name = "from", referencedColumnName = "id")
     private Address from;
     @ManyToOne
     @JoinColumn (referencedColumnName = "id")

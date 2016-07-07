@@ -9,12 +9,12 @@ public class Address {
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO)
     private long id;
-    @OneToMany (mappedBy = "homeAddress")
-    private List<User> users = new ArrayList<User>(); //User mapping
-    @OneToMany (mappedBy = "from")
-    private List<Order> from = new ArrayList<Order>(); //Order mapping
-    @OneToMany (mappedBy = "to")
-    private List<Order> to = new ArrayList<Order>(); //Order mapping
+    @OneToMany (mappedBy = "homeAddress", cascade=CascadeType.ALL)
+    private List<User> users = new ArrayList<>(); //User mapping
+    @OneToMany (mappedBy = "from", cascade=CascadeType.ALL)
+    private List<Order> from = new ArrayList<>(); //Order mapping
+    @OneToMany (mappedBy = "to", cascade=CascadeType.ALL)
+    private List<Order> to = new ArrayList<>(); //Order mapping
     @Column
     private String country;
     @Column

@@ -9,7 +9,7 @@ public class Car {
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO)
     private long id;
-    @OneToMany(mappedBy = "car")
+    @OneToMany(mappedBy = "car", cascade=CascadeType.ALL)
     private List<User> users = new ArrayList<User>();
     @Column
     String type;
