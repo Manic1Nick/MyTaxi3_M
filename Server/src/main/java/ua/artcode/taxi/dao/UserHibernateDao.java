@@ -5,6 +5,7 @@ import ua.artcode.taxi.model.UserIdentifier;
 import ua.artcode.taxi.utils.ConnectionFactory;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,8 +23,9 @@ public class UserHibernateDao implements UserDaoHibernate {
     }
 
     @Override
-    public User createUser(User user, EntityManager manager) {
+    public User createUser(User user, EntityManagerFactory entityManagerFactory) {
 
+        EntityManager manager = entityManagerFactory.createEntityManager();
         //for all users (incl. anonymous)
         manager.getTransaction().begin();
         manager.persist(user);
@@ -33,8 +35,8 @@ public class UserHibernateDao implements UserDaoHibernate {
     }
 
     @Override
-    public Collection<User> getAllUsers(EntityManager manager) {
-
+    public Collection<User> getAllUsers(EntityManagerFactory entityManagerFactory) {
+        EntityManager manager = entityManagerFactory.createEntityManager();
         List<User> users = new ArrayList<>();
         manager.getTransaction().begin();
         users =  manager.createQuery("SELECT u FROM User u", User.class)
@@ -93,10 +95,10 @@ public class UserHibernateDao implements UserDaoHibernate {
     }
 
     @Override
-    public User findByPhone(String phone, EntityManager manager) {
+    public User findByPhone(String phone, EntityManagerFactory entityManagerFactory) {
 
         User user = null;
-
+        EntityManager manager = entityManagerFactory.createEntityManager();
         manager.getTransaction().begin();
         user =  manager.createQuery("SELECT u FROM User u WHERE u.phone = :uPhone", User.class)
                 .setParameter("uPhone", phone).getSingleResult();
@@ -105,8 +107,8 @@ public class UserHibernateDao implements UserDaoHibernate {
     }
 
     @Override
-    public List<User> getAllUsersByIdentifier(UserIdentifier identifier, EntityManager manager) {
-
+    public List<User> getAllUsersByIdentifier(UserIdentifier identifier, EntityManagerFactory entityManagerFactory) {
+        EntityManager manager = entityManagerFactory.createEntityManager();
         List<User> users = new ArrayList<>();
         manager.getTransaction().begin();
         users =  manager.createQuery("SELECT u FROM User u WHERE u.identifier = :uIdentifier", User.class)
@@ -150,10 +152,10 @@ public class UserHibernateDao implements UserDaoHibernate {
     }
 
     @Override
-    public List<String> getAllRegisteredPhones(EntityManager manager) {
+    public List<String> getAllRegisteredPhones(EntityManagerFactory entityManagerFactory) {
 
         List<String> phones = new ArrayList<>();
-
+        EntityManager manager = entityManagerFactory.createEntityManager();
         manager.getTransaction().begin();
         phones =  manager.createQuery("SELECT phone FROM User").getResultList();
 
@@ -197,10 +199,10 @@ public class UserHibernateDao implements UserDaoHibernate {
 
 
 
-    public User addBaseUserToJdbc(UserIdentifier identifier, String phone, String name, EntityManager manager) {
+    public User addBaseUserToJdbc(UserIdentifier identifier, String phone, String name, EntityManagerFactory entityManagerFactory) {
 
         User baseUser = new User(identifier, phone, name);
-
+        EntityManager manager = entityManagerFactory.createEntityManager();
         manager.getTransaction().begin();
         manager.persist(baseUser);
         manager.getTransaction().commit();

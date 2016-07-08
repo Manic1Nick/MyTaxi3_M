@@ -8,6 +8,7 @@ import ua.artcode.taxi.model.User;
 import ua.artcode.taxi.model.UserIdentifier;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import java.util.List;
 
 public class ValidatorHibernateImpl implements ValidatorHibernate {
@@ -19,14 +20,14 @@ public class ValidatorHibernateImpl implements ValidatorHibernate {
     }
 
     @Override
-    public boolean validateLogin(String phone, String password, EntityManager manager) {
+    public boolean validateLogin(String phone, String password, EntityManagerFactory entityManagerFactory) {
         boolean result = false;
-
-        List<String> phones = userDaoHibernate.getAllRegisteredPhones(manager);
+        EntityManager manager = entityManagerFactory.createEntityManager();
+        List<String> phones = userDaoHibernate.getAllRegisteredPhones(entityManagerFactory);
 
         for (String s : phones) {
             if (phone.equals(s)) {
-                String foundPass = userDaoHibernate.findByPhone(phone, manager).getPass();
+                String foundPass = userDaoHibernate.findByPhone(phone, entityManagerFactory).getPass();
 
                 if(password.equals(foundPass)){
                     result = true;
@@ -38,9 +39,9 @@ public class ValidatorHibernateImpl implements ValidatorHibernate {
     }
 
     @Override
-    public boolean validateRegistration(String phone, EntityManager manager) throws RegisterException {
+    public boolean validateRegistration(String phone, EntityManagerFactory entityManagerFactory) throws RegisterException {
 
-        List<String> phones = userDaoHibernate.getAllRegisteredPhones(manager);
+        List<String> phones = userDaoHibernate.getAllRegisteredPhones(entityManagerFactory);
 
         for (String s : phones) {
             if (phone.equals(s)) {
@@ -52,7 +53,7 @@ public class ValidatorHibernateImpl implements ValidatorHibernate {
     }
 
     @Override
-    public boolean validateAddress(Address address, EntityManager manager) throws InputDataWrongException {
+    public boolean validateAddress(Address address, EntityManagerFactory entityManagerFactory) throws InputDataWrongException {
 
         if (address.getCountry().equals("")) {
             throw new InputDataWrongException("Wrong data: country");
@@ -72,14 +73,14 @@ public class ValidatorHibernateImpl implements ValidatorHibernate {
     }
 
     @Override
-    public boolean validateChangeRegistration(UserIdentifier identifier, int id, String phone, EntityManager manager)
+    public boolean validateChangeRegistration(UserIdentifier identifier, int id, String phone, EntityManagerFactory entityManagerFactory)
             throws RegisterException {
 
-        List<String> phones = userDaoHibernate.getAllRegisteredPhones(manager);
+        List<String> phones = userDaoHibernate.getAllRegisteredPhones(entityManagerFactory);
 
         for (String s : phones) {
             if (phone.equals(s)) {
-                User foundUser = userDaoHibernate.findByPhone(phone , manager);
+                User foundUser = userDaoHibernate.findByPhone(phone , entityManagerFactory);
                 if (id != foundUser.getId() && !identifier.equals(foundUser.getIdentifier())) {
                     throw new RegisterException("This phone using already");
                 }

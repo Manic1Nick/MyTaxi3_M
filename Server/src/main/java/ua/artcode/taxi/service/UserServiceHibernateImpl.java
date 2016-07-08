@@ -11,6 +11,7 @@ import ua.artcode.taxi.utils.geolocation.GoogleMapsAPIImpl;
 import ua.artcode.taxi.utils.geolocation.Location;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.security.auth.login.LoginException;
 import java.net.UnknownHostException;
 import java.util.*;
@@ -37,9 +38,9 @@ public class UserServiceHibernateImpl implements UserServiceHibernate {
     }
 
     @Override
-    public User registerPassenger(Map<String, String> map, EntityManager manager) throws RegisterException {
+    public User registerPassenger(Map<String, String> map, EntityManagerFactory entityManagerFactory) throws RegisterException {
 
-        if (!validatorHibernate.validateRegistration(map.get("phone"),manager)) {
+        if (!validatorHibernate.validateRegistration(map.get("phone"),entityManagerFactory)) {
 
             LOG.error("RegisterException: failed attempt to register with phone " + map.get("phone"));
 
@@ -53,7 +54,7 @@ public class UserServiceHibernateImpl implements UserServiceHibernate {
                 map.get("name"),
                 new Address(map.get("homeAddress")));
 
-        User createdUser = userDaoHibernate.createUser(newUser, manager);
+        User createdUser = userDaoHibernate.createUser(newUser, entityManagerFactory);
 
         LOG.info("New passenger " + createdUser.getPhone() + " registered");
 
@@ -61,9 +62,9 @@ public class UserServiceHibernateImpl implements UserServiceHibernate {
     }
 
     @Override
-    public User registerDriver(Map<String, String> map, EntityManager manager) throws RegisterException {
+    public User registerDriver(Map<String, String> map, EntityManagerFactory entityManagerFactory) throws RegisterException {
 
-        if (!validatorHibernate.validateRegistration(map.get("phone"),manager)) {
+        if (!validatorHibernate.validateRegistration(map.get("phone"),entityManagerFactory)) {
 
             LOG.error("RegisterException: failed attempt to register with phone " + map.get("phone"));
 
@@ -77,7 +78,7 @@ public class UserServiceHibernateImpl implements UserServiceHibernate {
                 map.get("name"),
                 new Car(map.get("carType"), map.get("carModel"), map.get("carNumber")));
 
-        User createdUser = userDaoHibernate.createUser(newUser,manager);
+        User createdUser = userDaoHibernate.createUser(newUser,entityManagerFactory);
 
         LOG.info("New driver " + createdUser.getPhone() + " registered");
 
@@ -85,15 +86,15 @@ public class UserServiceHibernateImpl implements UserServiceHibernate {
     }
 
     @Override
-    public String login(String phone, String pass, EntityManager manager) throws Exception {
+    public String login(String phone, String pass, EntityManagerFactory entityManagerFactory) throws Exception {
 
         User found = null;
 
-        boolean valid = validatorHibernate.validateLogin(phone, pass, manager);
+        boolean valid = validatorHibernate.validateLogin(phone, pass, entityManagerFactory);
 
         if (valid) {
 
-            found = userDaoHibernate.findByPhone(phone, manager);
+            found = userDaoHibernate.findByPhone(phone, entityManagerFactory);
 
         } else {
 
@@ -111,14 +112,14 @@ public class UserServiceHibernateImpl implements UserServiceHibernate {
     }
 
     @Override
-    public Order makeOrder(String accessToken, String lineFrom, String lineTo, String message, EntityManager manager) throws
+    public Order makeOrder(String accessToken, String lineFrom, String lineTo, String message, EntityManagerFactory entityManagerFactory) throws
             OrderMakeException, UserNotFoundException, InputDataWrongException, UnknownHostException {
 
         Address from = new Address(lineFrom);
         Address to = new Address(lineTo);
         Order newOrder = null;
 
-        if (!validatorHibernate.validateAddress(from, manager) && !validatorHibernate.validateAddress(to, manager)) {
+        if (!validatorHibernate.validateAddress(from, entityManagerFactory) && !validatorHibernate.validateAddress(to, entityManagerFactory)) {
 
             LOG.error("InputDataWrongException: wrong input data address");
 
@@ -157,14 +158,14 @@ public class UserServiceHibernateImpl implements UserServiceHibernate {
     }
 
     @Override
-    public Order makeOrderAnonymous(String phone, String name, String lineFrom, String lineTo, String message, EntityManager manager)
+    public Order makeOrderAnonymous(String phone, String name, String lineFrom, String lineTo, String message, EntityManagerFactory entityManagerFactory)
             throws OrderMakeException, InputDataWrongException {
 
         Address from = new Address(lineFrom);
         Address to = new Address(lineTo);
         Order newOrder = null;
 
-        if (!validatorHibernate.validateAddress(from, manager) && !validatorHibernate.validateAddress(to,manager)) {
+        if (!validatorHibernate.validateAddress(from, entityManagerFactory) && !validatorHibernate.validateAddress(to, entityManagerFactory)) {
 
             LOG.error("InputDataWrongException: wrong input data address");
 
@@ -179,7 +180,7 @@ public class UserServiceHibernateImpl implements UserServiceHibernate {
             int distance = (int) (googleMapsAPI.getDistance(location, location1) / 1000);
             int price = (int) pricePerKilometer * distance + 30;
 
-            User anonymousUser = userDaoHibernate.createUser(new User(UserIdentifier.A, phone, name), manager);
+            User anonymousUser = userDaoHibernate.createUser(new User(UserIdentifier.A, phone, name), entityManagerFactory);
             newOrder = new Order(from, to, anonymousUser, distance, price, message);
             orderDao.create(anonymousUser, newOrder);
 
@@ -196,14 +197,14 @@ public class UserServiceHibernateImpl implements UserServiceHibernate {
     }
 
     @Override
-    public Map<String, Object> calculateOrder(String lineFrom, String lineTo, EntityManager manager) throws
+    public Map<String, Object> calculateOrder(String lineFrom, String lineTo, EntityManagerFactory entityManagerFactory) throws
             InputDataWrongException, UnknownHostException {
 
         Address from = new Address(lineFrom);
         Address to = new Address(lineTo);
         Map<String, Object> map = new HashMap<>();
 
-        if (!validatorHibernate.validateAddress(from, manager) && !validatorHibernate.validateAddress(to, manager)) {
+        if (!validatorHibernate.validateAddress(from, entityManagerFactory) && !validatorHibernate.validateAddress(to, entityManagerFactory)) {
 
             LOG.error("InputDataWrongException: wrong input data address");
 
@@ -448,13 +449,13 @@ public class UserServiceHibernateImpl implements UserServiceHibernate {
     }
 
     @Override
-    public User updateUser(Map<String, String> map, String accessToken, EntityManager manager) throws RegisterException {
+    public User updateUser(Map<String, String> map, String accessToken, EntityManagerFactory entityManagerFactory) throws RegisterException {
 
         User user = accessKeys.get(accessToken);
         UserIdentifier typeUser = user.getIdentifier();
         int idUser = user.getId();
 
-        if (!validatorHibernate.validateChangeRegistration(typeUser, idUser, map.get("phone"),manager)) {
+        if (!validatorHibernate.validateChangeRegistration(typeUser, idUser, map.get("phone"),entityManagerFactory)) {
 
             LOG.error("RegisterException: failed attempt to update user " +
                     user.getPhone() + " (phone " + map.get("phone") + " already in use by another user)");

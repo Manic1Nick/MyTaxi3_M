@@ -6,11 +6,12 @@ import ua.artcode.taxi.model.Address;
 import ua.artcode.taxi.model.UserIdentifier;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 
 public interface ValidatorHibernate {
 
-    boolean validateLogin(String phone, String password, EntityManager manager) throws Exception;
-    boolean validateRegistration(String phone, EntityManager manager) throws RegisterException;
-    boolean validateAddress(Address address, EntityManager manager) throws InputDataWrongException;
-    boolean validateChangeRegistration(UserIdentifier identifier, int id, String phone, EntityManager manager) throws RegisterException;
+    boolean validateLogin(String phone, String password, EntityManagerFactory entityManagerFactory) throws Exception;
+    boolean validateRegistration(String phone, EntityManagerFactory entityManagerFactory) throws RegisterException;
+    boolean validateAddress(Address address, EntityManagerFactory entityManagerFactory) throws InputDataWrongException;
+    boolean validateChangeRegistration(UserIdentifier identifier, int id, String phone, EntityManagerFactory entityManagerFactory) throws RegisterException;
 }

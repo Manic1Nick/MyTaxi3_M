@@ -144,7 +144,7 @@ class ClientThreadLogicHibernate implements Runnable {
                 }
 
                 try {
-                    User newUser = userServiceHibernate.registerPassenger(mapForNewUser, manager);
+                    User newUser = userServiceHibernate.registerPassenger(mapForNewUser, entityManagerFactory);
 
                     Message responseMessage = new Message();
                     MessageBody messageBody = new MessageBody(ReflectionFormatter.userToJsonMap(newUser));
@@ -168,7 +168,7 @@ class ClientThreadLogicHibernate implements Runnable {
                 }
 
                 try {
-                    User newUser = userServiceHibernate.registerDriver(mapForNewUser, manager);
+                    User newUser = userServiceHibernate.registerDriver(mapForNewUser, entityManagerFactory);
 
                     Message responseMessage = new Message();
                     MessageBody messageBody = new MessageBody(ReflectionFormatter.userToJsonMap(newUser));
@@ -190,7 +190,7 @@ class ClientThreadLogicHibernate implements Runnable {
                 Object pass = map.get("pass");
 
                 try {
-                    String accessKey = userServiceHibernate.login(phone.toString(), pass.toString(),manager);
+                    String accessKey = userServiceHibernate.login(phone.toString(), pass.toString(),entityManagerFactory);
 
                     Message responseMessage = new Message();
                     MessageBody messageBody = new MessageBody();
@@ -222,7 +222,7 @@ class ClientThreadLogicHibernate implements Runnable {
                             accessToken.toString(),
                             addressFrom.toString(),
                             addressTo.toString(),
-                            messageText.toString(),manager);
+                            messageText.toString(),entityManagerFactory);
 
                     Message responseMessage = new Message();
                     MessageBody messageBody = new MessageBody(ReflectionFormatter.orderToJsonMap(newOrder));
@@ -259,7 +259,7 @@ class ClientThreadLogicHibernate implements Runnable {
                             name.toString(),
                             addressFrom.toString(),
                             addressTo.toString(),
-                            messageText.toString(),manager);
+                            messageText.toString(),entityManagerFactory);
 
                     Message responseMessage = new Message();
                     MessageBody messageBody = new MessageBody(ReflectionFormatter.orderToJsonMap(newOrder));
@@ -286,7 +286,7 @@ class ClientThreadLogicHibernate implements Runnable {
                 Object addressTo = map.get("addressTo");
                 try {
                     Map<String, Object> mapForMessage = userServiceHibernate.calculateOrder(
-                            addressFrom.toString(), addressTo.toString(),manager);
+                            addressFrom.toString(), addressTo.toString(),entityManagerFactory);
 
                     Message responseMessage = new Message();
                     MessageBody messageBody = new MessageBody(mapForMessage);
@@ -514,7 +514,7 @@ class ClientThreadLogicHibernate implements Runnable {
                 Object accessToken = map.get("accessToken");
 
                 try {
-                    User updatedUser = userServiceHibernate.updateUser(mapForNewUser, accessToken.toString(),manager);
+                    User updatedUser = userServiceHibernate.updateUser(mapForNewUser, accessToken.toString(),entityManagerFactory);
 
                     Message responseMessage = new Message();
                     MessageBody messageBody = new MessageBody(ReflectionFormatter.userToJsonMap(updatedUser));
