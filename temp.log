@@ -2566,3 +2566,72 @@ Caused by: java.sql.SQLException: Cannot add foreign key constraint
 2016-07-07 15:06:35 INFO  InformationExtractorJdbcDatabaseMetaDataImpl:393 - HHH000262: Table not found: users
 2016-07-07 15:06:35 INFO  InformationExtractorJdbcDatabaseMetaDataImpl:393 - HHH000262: Table not found: UserTest
 2016-07-07 15:06:35 INFO  InformationExtractorJdbcDatabaseMetaDataImpl:393 - HHH000262: Table not found: UserTest
+2016-07-08 12:04:14 INFO  LogHelper:31 - HHH000204: Processing PersistenceUnitInfo [
+	name: myunit
+	...]
+2016-07-08 12:04:14 INFO  Version:45 - HHH000412: Hibernate Core {5.2.1.Final}
+2016-07-08 12:04:14 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2016-07-08 12:04:14 INFO  Environment:318 - HHH000021: Bytecode provider name : javassist
+2016-07-08 12:04:14 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2016-07-08 12:04:15 WARN  connections:71 - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+2016-07-08 12:04:15 INFO  connections:127 - HHH10001005: using driver [com.mysql.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/mytaxi]
+2016-07-08 12:04:15 INFO  connections:136 - HHH10001001: Connection properties: {user=root, password=****}
+2016-07-08 12:04:15 INFO  connections:141 - HHH10001003: Autocommit mode: false
+2016-07-08 12:04:15 INFO  DriverManagerConnectionProviderImpl:39 - HHH000115: Hibernate connection pool size: 20 (min=1)
+2016-07-08 12:04:16 INFO  Dialect:153 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2016-07-08 12:04:16 INFO  LobCreatorBuilderImpl:98 - HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4
+2016-07-08 12:07:27 INFO  LogHelper:31 - HHH000204: Processing PersistenceUnitInfo [
+	name: myunit
+	...]
+2016-07-08 12:07:27 INFO  Version:45 - HHH000412: Hibernate Core {5.2.1.Final}
+2016-07-08 12:07:27 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2016-07-08 12:07:27 INFO  Environment:318 - HHH000021: Bytecode provider name : javassist
+2016-07-08 12:07:27 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2016-07-08 12:07:27 WARN  connections:71 - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+2016-07-08 12:07:27 INFO  connections:127 - HHH10001005: using driver [com.mysql.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/mytaxi]
+2016-07-08 12:07:27 INFO  connections:136 - HHH10001001: Connection properties: {user=root, password=****}
+2016-07-08 12:07:27 INFO  connections:141 - HHH10001003: Autocommit mode: false
+2016-07-08 12:07:27 INFO  DriverManagerConnectionProviderImpl:39 - HHH000115: Hibernate connection pool size: 20 (min=1)
+2016-07-08 12:07:28 INFO  Dialect:153 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2016-07-08 12:07:28 INFO  LobCreatorBuilderImpl:98 - HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4
+2016-07-08 15:54:57 INFO  LogHelper:31 - HHH000204: Processing PersistenceUnitInfo [
+	name: myunit
+	...]
+2016-07-08 15:54:57 INFO  Version:45 - HHH000412: Hibernate Core {5.2.1.Final}
+2016-07-08 15:54:57 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2016-07-08 15:54:57 INFO  Environment:318 - HHH000021: Bytecode provider name : javassist
+2016-07-08 15:54:58 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2016-07-08 15:54:58 WARN  connections:71 - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+2016-07-08 15:54:58 INFO  connections:127 - HHH10001005: using driver [com.mysql.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/mytaxi]
+2016-07-08 15:54:58 INFO  connections:136 - HHH10001001: Connection properties: {user=root, password=****}
+2016-07-08 15:54:58 INFO  connections:141 - HHH10001003: Autocommit mode: false
+2016-07-08 15:54:58 INFO  DriverManagerConnectionProviderImpl:39 - HHH000115: Hibernate connection pool size: 20 (min=1)
+2016-07-08 15:54:59 INFO  Dialect:153 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2016-07-08 15:54:59 INFO  LobCreatorBuilderImpl:98 - HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4
+2016-07-08 15:56:13 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2016-07-08 15:56:14 INFO  connections:235 - HHH10001008: Cleaning up connection pool [jdbc:mysql://localhost:3306/mytaxi]
+2016-07-08 15:56:14 INFO  LogHelper:31 - HHH000204: Processing PersistenceUnitInfo [
+	name: myunit
+	...]
+2016-07-08 15:56:14 WARN  connections:71 - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+2016-07-08 15:56:14 INFO  connections:127 - HHH10001005: using driver [com.mysql.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/mytaxi]
+2016-07-08 15:56:14 INFO  connections:136 - HHH10001001: Connection properties: {user=root, password=****}
+2016-07-08 15:56:14 INFO  connections:141 - HHH10001003: Autocommit mode: false
+2016-07-08 15:56:14 INFO  DriverManagerConnectionProviderImpl:39 - HHH000115: Hibernate connection pool size: 20 (min=1)
+2016-07-08 15:56:14 INFO  Dialect:153 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2016-07-08 15:56:14 INFO  LobCreatorBuilderImpl:98 - HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4
+2016-07-08 19:51:03 INFO  LogHelper:31 - HHH000204: Processing PersistenceUnitInfo [
+	name: myunit
+	...]
+2016-07-08 19:51:04 INFO  Version:45 - HHH000412: Hibernate Core {5.2.1.Final}
+2016-07-08 19:51:04 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2016-07-08 19:51:04 INFO  Environment:318 - HHH000021: Bytecode provider name : javassist
+2016-07-08 19:51:04 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2016-07-08 19:51:05 WARN  connections:71 - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+2016-07-08 19:51:05 INFO  connections:127 - HHH10001005: using driver [com.mysql.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/mytaxi]
+2016-07-08 19:51:05 INFO  connections:136 - HHH10001001: Connection properties: {user=root, password=****}
+2016-07-08 19:51:05 INFO  connections:141 - HHH10001003: Autocommit mode: false
+2016-07-08 19:51:05 INFO  DriverManagerConnectionProviderImpl:39 - HHH000115: Hibernate connection pool size: 20 (min=1)
+2016-07-08 19:51:05 INFO  Dialect:153 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2016-07-08 19:51:05 INFO  LobCreatorBuilderImpl:98 - HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4
+2016-07-08 19:52:11 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory

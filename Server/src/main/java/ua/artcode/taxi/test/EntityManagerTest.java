@@ -16,7 +16,7 @@ public class EntityManagerTest {
         EntityManager manager = entityManagerFactory.createEntityManager();
 
         User passenger1 = new User(UserIdentifier.P,
-                "1234", "test", "Vasya", new Address("Ukraine", "Kiev", "Khreschatik", "5"));
+                "1234", "test", "Iurii", new Address("Ukraine", "Kiev", "Khreschatik", "5"));
         User passenger2 = new User(UserIdentifier.P,
                 "1111", "test1", "Ivan", new Address("Ukraine", "Kiev", "Zhukova", "51"));
 
@@ -43,18 +43,9 @@ public class EntityManagerTest {
         manager.getTransaction().begin();
 
         manager.persist(passenger1);
-        manager.persist(passenger2);
-        manager.persist(driver1);
-        manager.persist(driver2);
-        manager.persist(order1);
-        manager.persist(order2);
-        manager.persist(order3);
-        manager.persist(order4);
-        manager.persist(order5);
-        manager.persist(order6);
-
 
         manager.getTransaction().commit();
-
+        System.out.println(passenger1.getId() + passenger1.getName() + passenger1.getIdentifier() );
+        manager.close();
     }
 }
