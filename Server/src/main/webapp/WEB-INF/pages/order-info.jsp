@@ -1,5 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page isELIgnored="false" %>
+<%@ include file="include.jsp" %>
 
 <html>
 <head>
@@ -7,33 +6,76 @@
 </head>
 <body>
 
-    <table>
-        <thead>
-            <tr>
-                <td>Id</td>
-                <td>Status</td>
-                <td>AddressFrom</td>
-                <td>AddressTo</td>
-                <td>Passenger</td>
-                <td>Driver</td>
-                <td>Distance</td>
-                <td>Price</td>
-                <td>Message</td>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>${order.id}</td>
-                <td>${order.orderStatus}</td>
-                <td>${order.addressFrom}</td>
-                <td>${order.addressTo}</td>
-                <td>${order.passenger}</td>
-                <td>${order.driver}</td>
-                <td>${order.distance}</td>
-                <td>${order.price}</td>
-                <td>${order.message}</td>
-            </tr>
-        </tbody>
-    </table>
+<c:set var="transfered" value="${order}"/>
+
+<div class="container">
+    <h1>Order Info page</h1>
+
+    <ul>
+        <li>
+            <div class="column">
+                id : ${transfered.id}
+            </div>
+        </li>
+
+        <li>
+            <div class="column">
+                orderStatus : ${transfered.orderStatus}
+            </div>
+        </li>
+
+        <li>
+            <div class="column">
+                addressFrom : ${transfered.from.country},
+                ${transfered.from.city},
+                ${transfered.from.street},
+                ${transfered.from.houseNum}
+
+            </div>
+        </li>
+
+        <li>
+            <div class="column">
+                addressTo : ${transfered.to.country},
+                ${transfered.to.city},
+                ${transfered.to.street},
+                ${transfered.to.houseNum}
+            </div>
+        </li>
+
+        <li>
+            <div class="column">
+                passenger : ${transfered.passenger.name}
+            </div>
+        </li>
+
+        <li>
+            <div class="column">
+                driver : ${transfered.driver.name},
+                ${transfered.driver.phone}
+            </div>
+        </li>
+
+        <li>
+            <div class="column">
+                distance : ${transfered.distance}
+            </div>
+        </li>
+
+        <li>
+            <div class="column">
+                price : ${transfered.price}
+            </div>
+        </li>
+
+        <li>
+            <div class="column">
+                message : ${transfered.message}
+            </div>
+        </li>
+
+    </ul>
+</div>
+
 </body>
 </html>
