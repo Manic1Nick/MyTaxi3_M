@@ -10,7 +10,7 @@ import java.util.List;
 public interface OrderDao {
 
     Order create(User user, Order order);
-    Collection<Order> getAll();
+    Collection<Order> getAllOrders();
     Order update(Order newOrder);
     Order delete(long id);
 

@@ -1,15 +1,46 @@
 package ua.artcode.taxi.model;
 
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "addresses")
 public class Address {
 
+    /*@OneToMany(mappedBy = "homeAddress", cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+    List<User> users = new ArrayList<>();
+
+    @OneToMany(mappedBy = "from", cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+    List<Order> ordersFrom = new ArrayList<>();
+
+    @OneToMany(mappedBy = "to", cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+    List<Order> ordersTo = new ArrayList<>();*/
+
+    @OneToOne(cascade=CascadeType.ALL)
+    @JoinColumn(referencedColumnName = "id")
+    private User user;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
+    @Column(name = "country", nullable = false)
     private String country;
+
+    @Column(name = "city", nullable = false)
     private String city;
+
+    @Column(name = "street", nullable = false)
     private String street;
+
+    @Column(name = "houseNum", nullable = false)
     private String houseNum;
 
     // google api
+    @Transient
     private double lat;
+    @Transient
     private double lon;
 
     public Address(String country, String city, String street, String houseNum) {
@@ -100,6 +131,14 @@ public class Address {
         this.lon = lon;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @Override
     public String toString() {
         return "Address{" +
@@ -117,4 +156,25 @@ public class Address {
     }
 
 
+    @Override
+    public boolean equals(Object obj) {
+
+        if (obj instanceof Address) {
+            return country.equals(((Address) obj).country) &&
+                    city.equals(((Address) obj).city) &&
+                    street.equals(((Address) obj).street) &&
+                    houseNum.equals(((Address) obj).houseNum);
+        }
+
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = country.hashCode();
+        result = 31 * result + city.hashCode();
+        result = 31 * result + street.hashCode();
+        result = 31 * result + houseNum.hashCode();
+        return result;
+    }
 }

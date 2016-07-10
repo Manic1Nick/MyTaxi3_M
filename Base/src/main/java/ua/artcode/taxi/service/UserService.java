@@ -41,5 +41,5 @@ public interface UserService {
     User getUser(String accessToken);
     List<Order> getAllOrdersUser(String accessToken);
     User updateUser(Map<String, String> map, String accessToken) throws RegisterException;
-    User deleteUser(String accessToken);
+    User deleteUser(String accessToken) throws WrongStatusOrderException;
 }

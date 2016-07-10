@@ -190,7 +190,7 @@ public class MakeOrder extends JFrame {
                                 "Your order id " + newOrder.getId() + " was created");
 
                     } catch (OrderMakeException e1) {
-                        JOptionPane.showMessageDialog(getParent(),"Order can not make");
+                        JOptionPane.showMessageDialog(getParent(),"User has orders NEW already");
                         e1.printStackTrace();
                     } catch (UserNotFoundException e1) {
                         JOptionPane.showMessageDialog(getParent(),"User not found");

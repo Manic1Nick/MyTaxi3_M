@@ -1,26 +1,51 @@
 package ua.artcode.taxi.model;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "orders")
+@NamedQueries({@NamedQuery(name = "getAllOrders", query = "SELECT c FROM Order c")})
 public class Order {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
+    @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
+
+    @ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(referencedColumnName = "id")
     private Address from;
+
+    @ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(referencedColumnName = "id")
     private Address to;
+
+    @ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(referencedColumnName = "id")
     private User passenger;
+
+    @ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(referencedColumnName = "id")
     private User driver;
+
+    @Column(name = "distance", nullable = false)
     private int distance;
+
+    @Column(name = "price", nullable = false)
     private int price;
+
     private String message;
 
+    @Transient
     private LocalDateTime makeOrderTime;
 
     public Order() {
     }
 
-    public Order(Address from, Address to, User passenger,
-                                            int distance, int price, String message) {
+    public Order(Address from, Address to, User passenger, int distance, int price, String message) {
         this.from = from;
         this.to = to;
         this.passenger = passenger;
@@ -114,6 +139,8 @@ public class Order {
         this.makeOrderTime = makeOrderTime;
     }
 
+
+
     public String toStringForView() {
         return "id " + id +
                 ", status " + orderStatus +
@@ -127,4 +154,37 @@ public class Order {
         return "id " + id +
                 ", price " + price + "uah";
     }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (obj instanceof Order) {
+
+            return  id == (((Order)obj).id) &&
+                    orderStatus.equals(((Order)obj).orderStatus) &&
+                    from.equals(((Order)obj).from) &&
+                    to.equals(((Order)obj).to) &&
+                    passenger.equals(((Order)obj).passenger) &&
+                    driver.equals(((Order)obj).driver) &&
+                    distance == (((Order)obj).distance) &&
+                    price == (((Order)obj).price) &&
+                    message.equals(((Order)obj).message);
+        }
+
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = orderStatus.hashCode();
+        result = 31 * result + from.hashCode();
+        result = 31 * result + to.hashCode();
+        result = 31 * result + passenger.hashCode();
+        result = 31 * result + driver.hashCode();
+        result = 31 * result + distance;
+        result = 31 * result + price;
+        result = 31 * result + message.hashCode();
+        return result;
+    }
 }
+

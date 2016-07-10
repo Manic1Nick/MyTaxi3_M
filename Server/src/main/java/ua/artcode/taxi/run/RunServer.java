@@ -1,7 +1,10 @@
 package ua.artcode.taxi.run;
 
 import com.google.gson.Gson;
-import ua.artcode.taxi.dao.*;
+import ua.artcode.taxi.dao.OrderDao;
+import ua.artcode.taxi.dao.OrderJdbcDao;
+import ua.artcode.taxi.dao.UserDao;
+import ua.artcode.taxi.dao.UserJdbcDao;
 import ua.artcode.taxi.exception.*;
 import ua.artcode.taxi.model.Order;
 import ua.artcode.taxi.model.User;
@@ -32,10 +35,8 @@ public class RunServer {
         Gson gson = new Gson();
 
         //create test data
-        AddressDao addressDao = new AddressDao();
-        CarDao carDao = new CarDao();
-        UserDao userDao = new UserJdbcDao(addressDao, carDao);
-        OrderDao orderDao = new OrderJdbcDao(userDao, addressDao);
+        UserDao userDao = new UserJdbcDao();
+        OrderDao orderDao = new OrderJdbcDao(userDao);
         ValidatorJdbcImpl validator = new ValidatorJdbcImpl(userDao);
 
         UserService userService = new UserServiceJdbcImpl(userDao, orderDao, validator);
@@ -90,13 +91,8 @@ public class RunServer {
             clientThread.start();
         }
     }
-
-
-    public static String getMenu(){
-
-        return "1. Add user \n" + "2. Exit\n";
-    }
 }
+
 
 class ClientThreadLogic implements Runnable {
 
@@ -115,6 +111,7 @@ class ClientThreadLogic implements Runnable {
         this.bf = bf;
     }
 
+
     @Override
     public void run() {
         while (!Thread.currentThread().isInterrupted()) {
@@ -127,6 +124,8 @@ class ClientThreadLogic implements Runnable {
             }
 
             Message message = gson.fromJson(requestBody, Message.class);
+
+            System.out.println("CLIENT ---> SERVER: " + requestBody);
 
             //registerPassenger
             if ("registerPassenger".equals(message.getMethodName())) {
@@ -453,8 +452,6 @@ class ClientThreadLogic implements Runnable {
                     pw.println(e);
                     pw.flush();
                 }
-
-
             }
 
             //getUser
@@ -527,15 +524,21 @@ class ClientThreadLogic implements Runnable {
                 Map<String, Object> map = message.getMessageBody().getMap();
                 Object accessToken = map.get("accessToken");
 
-                User deletedUser = userService.deleteUser(
-                        accessToken.toString());
+                try {
+                    User deletedUser = userService.deleteUser(
+                            accessToken.toString());
 
-                Message responseMessage = new Message();
-                MessageBody messageBody = new MessageBody(ReflectionFormatter.userToJsonMap(deletedUser));
-                responseMessage.setMessageBody(messageBody);
+                    Message responseMessage = new Message();
+                    MessageBody messageBody = new MessageBody(ReflectionFormatter.userToJsonMap(deletedUser));
+                    responseMessage.setMessageBody(messageBody);
 
-                pw.println(gson.toJson(responseMessage));
-                pw.flush();
+                    pw.println(gson.toJson(responseMessage));
+                    pw.flush();
+
+                } catch (WrongStatusOrderException e) {
+                    pw.println(e);
+                    pw.flush();
+                }
             }
         }
     }

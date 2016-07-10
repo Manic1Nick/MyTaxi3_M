@@ -71,7 +71,12 @@ public class PassengerRegistration extends JFrame {
                 phoneText.setText(current.getPhone());
                 passText.setText(current.getPass());
                 nameText.setText(current.getName());
-                homeAddressText.setText(current.getHomeAddress().toLine());
+
+                if (current.getHomeAddress() == null) {
+                    homeAddressText.setText("");
+                } else if (current.getHomeAddress() != null) {
+                    homeAddressText.setText(current.getHomeAddress().toLine());
+                }
             }
         }
 

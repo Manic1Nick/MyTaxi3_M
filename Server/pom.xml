@@ -12,6 +12,7 @@
 
     <groupId>ua.artcode</groupId>
     <artifactId>Server</artifactId>
+    <packaging>war</packaging>
     <version>1.0</version>
 
 
@@ -26,12 +27,10 @@
             <artifactId>Client</artifactId>
             <version>1.0</version>
         </dependency>
-
-        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.6</version>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>7.0</version>
         </dependency>
 
     </dependencies>

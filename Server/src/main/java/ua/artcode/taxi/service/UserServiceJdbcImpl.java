@@ -121,11 +121,21 @@ public class UserServiceJdbcImpl implements UserService {
             LOG.error("InputDataWrongException: wrong input data address");
 
             throw  new InputDataWrongException("Wrong input data addresses. Can not make order");
+
         }
 
         User user = accessKeys.get(accessToken);
 
         if (user != null) {
+
+            for (Order order : user.getOrdersPassenger()) {
+                if (order.getOrderStatus().equals(OrderStatus.NEW)) {
+
+                    LOG.error("OrderMakeException: failed attempt to make order by user " + user.getPhone());
+
+                    throw new OrderMakeException("User has orders NEW already");
+                }
+            }
 
             try {
                 Location location = googleMapsAPI.findLocation(from.getCountry(), from.getCity(),
@@ -136,10 +146,9 @@ public class UserServiceJdbcImpl implements UserService {
                 int price = (int) pricePerKilometer * distance + 30;
                 message = message.equals("") ? "" : user.getName() + ": " + message;
 
-                newOrder = new Order(from, to, user, distance, price, message);
+                newOrder = orderDao.create(user, new Order(from, to, user, distance, price, message));
 
-                orderDao.create(user, newOrder);
-                user.getOrderIds().add(newOrder.getId());
+                LOG.info("User " + user.getPhone() + " makes new order " + newOrder.getId());
 
             } catch (InputDataWrongException | IndexOutOfBoundsException e) {
 
@@ -148,9 +157,6 @@ public class UserServiceJdbcImpl implements UserService {
                 throw new InputDataWrongException("Wrong calculation in Google API");
             }
         }
-
-        LOG.info("User " + user.getPhone() + " makes new order " + newOrder.getId());
-
         return newOrder;
     }
 
@@ -167,6 +173,20 @@ public class UserServiceJdbcImpl implements UserService {
             LOG.error("InputDataWrongException: wrong input data address");
 
             throw new InputDataWrongException("Wrong input data. Can not make order");
+        }
+
+
+        User user = userDao.findByPhone(phone);
+
+        if (user != null) {
+            for (Order order : user.getOrdersPassenger()) {
+                if (order.getOrderStatus().equals(OrderStatus.NEW)) {
+
+                    LOG.error("OrderMakeException: failed attempt to make order by user " + phone);
+
+                    throw new OrderMakeException("User has orders NEW already");
+                }
+            }
         }
 
         try {
@@ -254,8 +274,7 @@ public class UserServiceJdbcImpl implements UserService {
 
         if (accessToken == null) {
 
-            LOG.error("UserNotFoundException: failed attempt to find user by key " +
-                    accessToken + " in data base");
+            LOG.error("UserNotFoundException: failed attempt to find user in data base");
 
             throw new UserNotFoundException("wrong data user");
         }
@@ -352,9 +371,8 @@ public class UserServiceJdbcImpl implements UserService {
 
         User user = accessKeys.get(accessToken);
         Order inProgress = orderDao.findById(orderId);
-        List<Order> ordersUser = orderDao.getOrdersOfUser(user);
 
-        for (Order order : ordersUser) {
+        for (Order order : user.getOrdersDriver()) {
             if (order.getOrderStatus().equals(OrderStatus.IN_PROGRESS)) {
 
                 LOG.error("DriverOrderActionException: failed attempt to take order with ID " +
@@ -383,14 +401,11 @@ public class UserServiceJdbcImpl implements UserService {
         inProgress.setDriver(user);
         inProgress.setOrderStatus(OrderStatus.IN_PROGRESS);
 
-        orderDao.addToDriver(user, inProgress);
-        orderDao.update(inProgress);
+        Order takenOrder = orderDao.update(inProgress);
 
-        user.getOrderIds().add(inProgress.getId());
+        LOG.info("User " + user.getPhone() + " was take order " + takenOrder.getId() + " for execution");
 
-        LOG.info("User " + user.getPhone() + " was take order " + orderId + " for execution");
-
-        return inProgress;
+        return takenOrder;
     }
 
     @Override
@@ -408,7 +423,7 @@ public class UserServiceJdbcImpl implements UserService {
 
         User user = accessKeys.get(accessToken);
 
-        List<Order> ordersOfUser = orderDao.getOrdersOfUser(user);
+        List<Order> ordersOfUser = userDao.getAllOrdersOfUser(user);
 
         LOG.info("Get all orders of user " + user.getPhone());
 
@@ -470,7 +485,6 @@ public class UserServiceJdbcImpl implements UserService {
             } else if (typeUser.equals(UserIdentifier.D)) {
                 newUser.setCar(new Car(map.get("carType"), map.get("carModel"), map.get("carNumber")));
             }
-            newUser.setOrderIds(user.getOrderIds());
 
             User updatedUser = userDao.updateUser(newUser);
             accessKeys.put(accessToken, updatedUser);
@@ -482,9 +496,27 @@ public class UserServiceJdbcImpl implements UserService {
     }
 
     @Override
-    public User deleteUser(String accessToken) {
+    public User deleteUser(String accessToken) throws WrongStatusOrderException {
 
         User user = accessKeys.get(accessToken);
+
+        //check open orders of user (NEW or IN_PROGRESS)
+        List<Order> orders = getAllOrdersUser(accessToken);
+        for (Order order : orders) {
+            if (order.getOrderStatus().equals(OrderStatus.NEW) ||
+                    order.getOrderStatus().equals(OrderStatus.IN_PROGRESS)) {
+
+                LOG.error("WrongStatusOrderException: failed attempt to delete user " + user.getPhone());
+
+                throw new WrongStatusOrderException
+                        ("Can't delete user. User can't has orders with status NEW or IN_PROGRESS");
+            }
+        }
+
+        //delete orders of user from jdbc
+        for (Order order : orders) {
+            orderDao.delete(order.getId());
+        }
 
         User deleteUser = userDao.deleteUser(user.getId());
 

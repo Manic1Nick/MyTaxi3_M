@@ -4,7 +4,6 @@ import ua.artcode.taxi.exception.*;
 import ua.artcode.taxi.model.Order;
 import ua.artcode.taxi.model.User;
 
-import javax.security.auth.login.LoginException;
 import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Map;
@@ -44,5 +43,5 @@ public interface UserService {
     User getUser(String accessToken);
     List<Order> getAllOrdersUser(String accessToken);
     User updateUser(Map<String, String> map, String accessToken) throws RegisterException;
-    User deleteUser(String accessToken);
+    User deleteUser(String accessToken) throws WrongStatusOrderException;
 }

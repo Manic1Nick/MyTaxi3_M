@@ -1,8 +1,5 @@
 package ua.artcode.taxi.model;
 
-import java.util.Collection;
-import java.util.List;
-
 public interface PassengerActive {
 
     int getId();
@@ -22,9 +19,6 @@ public interface PassengerActive {
 
     Address getHomeAddress();
     void setHomeAddress(Address homeAddress);
-
-    Collection<Long> getOrderIds();
-    void setOrderIds(List<Long> orderIds);
 
     String toString();
 }

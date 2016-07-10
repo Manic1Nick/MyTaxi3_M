@@ -162,7 +162,7 @@ public class DriverOrderInfo extends JFrame {
                     Order takenOrder = userService.takeOrder(ClientAccessToken.accessToken, myOrder.getId());
 
                     JOptionPane.showMessageDialog(getParent(), "Order id " +
-                                            myOrder.getId() + " will be taken by you");
+                                            takenOrder.getId() + " will be taken by you");
                     dispose();
                     new DriverOrderInfo(userService, takenOrder);
 

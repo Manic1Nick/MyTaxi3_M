@@ -2,6 +2,7 @@ package ua.artcode.taxi.view.passenger_view;
 
 import ua.artcode.taxi.exception.OrderNotFoundException;
 import ua.artcode.taxi.exception.UserNotFoundException;
+import ua.artcode.taxi.exception.WrongStatusOrderException;
 import ua.artcode.taxi.model.ClientAccessToken;
 import ua.artcode.taxi.model.Order;
 import ua.artcode.taxi.model.User;
@@ -134,13 +135,20 @@ public class PassengerMenu extends JFrame {
                     User currentUser = userService.getUser(ClientAccessToken.getAccessToken());
                     JOptionPane.showMessageDialog(getParent(), currentUser.getName() + " will be deleted");
 
-                    User deletedUser = userService.deleteUser(ClientAccessToken.getAccessToken());
-                    if (deletedUser.getId() == currentUser.getId()) {
-                        ClientAccessToken.setAccessToken(null);
+                    try {
+                        User deletedUser = userService.deleteUser(ClientAccessToken.getAccessToken());
+
+                        if (deletedUser.getId() == currentUser.getId()) {
+                            ClientAccessToken.setAccessToken(null);
+                        }
+                        dispose();
+                        new UserLogin(userService);
+
+                    } catch (WrongStatusOrderException e1) {
+                        JOptionPane.showMessageDialog(getParent(), "User can't has existing orders");
                     }
                 }
-                dispose();
-                new UserLogin(userService);
+
             }
         });
         buttonPanel6.add(deleteButton);

@@ -1,8 +1,5 @@
 package ua.artcode.taxi.model;
 
-import java.util.Collection;
-import java.util.List;
-
 public interface DriverActive {
 
     int getId();
@@ -22,9 +19,6 @@ public interface DriverActive {
 
     Car getCar();
     void setCar(Car car);
-
-    Collection<Long> getOrderIds();
-    void setOrderIds(List<Long> orderIds);
 
     String toString();
 }

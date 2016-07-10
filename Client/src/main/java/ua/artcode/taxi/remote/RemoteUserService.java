@@ -619,7 +619,7 @@ public class RemoteUserService implements UserService {
     }
 
     @Override
-    public User deleteUser(String accessToken) {
+    public User deleteUser(String accessToken) throws WrongStatusOrderException {
 
         Message src = new Message();
         src.setMethodName("deleteUser");
@@ -641,6 +641,13 @@ public class RemoteUserService implements UserService {
         }
 
         System.out.println("SERVER OUT ---> CLIENT TAKE (deleteUser): " + jsonResponse);
+
+        if (jsonResponse == null) {
+            // ??
+        } else if (jsonResponse.contains("WrongStatusOrderException")) {
+            throw new WrongStatusOrderException(jsonResponse);
+        }
+
         Message response = gson.fromJson(jsonResponse, Message.class);
 
         return getUserFromMessage(response.getMessageBody().getMap());
