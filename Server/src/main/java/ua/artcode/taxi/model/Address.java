@@ -1,5 +1,7 @@
 package ua.artcode.taxi.model;
 
+import com.google.gson.annotations.Expose;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,13 +12,19 @@ public class Address {
     @GeneratedValue( strategy = GenerationType.AUTO)
     private long id;
 
-    @OneToMany (mappedBy = "homeAddress", cascade=CascadeType.ALL)
+    @Transient
+    @Expose(serialize = false, deserialize = false)
+    @OneToMany (mappedBy = "homeAddress", cascade=CascadeType.ALL,fetch = FetchType.LAZY)
     private List<User> users = new ArrayList<>(); //User mapping
 
-    @OneToMany (mappedBy = "from", cascade=CascadeType.ALL)
+    @Transient
+    @Expose(serialize = false, deserialize = false)
+    @OneToMany (mappedBy = "from", cascade=CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Order> from = new ArrayList<>(); //Order mapping
 
-    @OneToMany (mappedBy = "to", cascade=CascadeType.ALL)
+    @Transient
+    @Expose(serialize = false, deserialize = false)
+    @OneToMany (mappedBy = "to", cascade=CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Order> to = new ArrayList<>(); //Order mapping
 
     @Column

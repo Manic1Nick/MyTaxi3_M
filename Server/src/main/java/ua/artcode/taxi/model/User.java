@@ -4,6 +4,8 @@ package ua.artcode.taxi.model;
 
 
 
+import com.google.gson.annotations.Expose;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,19 +26,23 @@ public class User implements PassengerActive, DriverActive {
     private String pass;
     @Column(nullable = false)
     private String name;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn (referencedColumnName = "id")
     private Address homeAddress;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn (referencedColumnName = "id")
     private Car car;
     @Transient
     private List<Long> orderIds = new ArrayList<>();
 
-    @OneToMany (mappedBy = "driver", cascade = CascadeType.ALL)
+    @Transient
+    @Expose(serialize = false, deserialize = false)
+    @OneToMany (mappedBy = "driver", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Order> drivers = new ArrayList<>(); //Order mapping
-    @OneToMany (mappedBy = "passenger", cascade=CascadeType.ALL)
+    @Transient
+    @Expose(serialize = false, deserialize = false)
+    @OneToMany (mappedBy = "passenger", cascade=CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Order> passengers = new ArrayList<>(); //Order mapping
 
     public User() {

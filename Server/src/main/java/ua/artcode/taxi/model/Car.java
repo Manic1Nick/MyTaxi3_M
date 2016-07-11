@@ -1,5 +1,7 @@
 package ua.artcode.taxi.model;
 
+import com.google.gson.annotations.Expose;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +11,9 @@ public class Car {
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO)
     private long id;
-    @OneToMany(mappedBy = "car", cascade=CascadeType.ALL)
+    @Transient
+    @Expose(serialize = false, deserialize = false)
+    @OneToMany(mappedBy = "car", cascade=CascadeType.ALL,fetch = FetchType.LAZY)
     private List<User> users = new ArrayList<User>();
     @Column
     String type;
