@@ -3,44 +3,69 @@
 <html>
 <head>
     <title>Register Passenger Page</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 </head>
 <body>
 
 <div class="container">
     <h1>Register Passenger form</h1>
 
-    <form method="post" action="register-passenger">
+    <form id="register" action="register-passenger" method="post">
         <ul>
             <li>Input phone:
-                <input name="phone" type="text">
+                <input id="phone" name="phone"  type="text">
             </li>
             <li>Input password:
-                <input name="pass" type="password">
+                <input id="pass" name="pass" type="password">
             </li>
             <li>Input name:
-                <input name="name" type="text">
+                <input id="name" name="name" type="text">
             </li>
             <li>Input country:
-                <input name="country" type="text">
+                <input id="country" name="country" type="text">
             </li>
             <li>Input city:
-                <input name="city" type="text">
+                <input id="city" name="city" type="text">
             </li>
             <li>Input street:
-                <input name="street" type="text">
+                <input id="street" name="street" type="text">
             </li>
             <li>Input house number:
-                <input name="houseNum" type="text">
+                <input id="houseNum" name="houseNum" type="text">
             </li>
-
-            <li>Submit:
-                <input type="submit">
+            <li>
+                <input type="submit" value="Register">
             </li>
         </ul>
     </form>
 
+    <div id="responseText"></div>
 
 </div>
+
+<script>
+
+    $(document).on("submit", "#register", function(event) {
+        var $form = $(this);
+
+        $.post($form.attr("action"),
+                $form.serialize(),
+                function(response) {
+                    $('#responseText').html(response);
+
+                });
+
+        event.preventDefault(); // Important! Prevents submitting the form.
+
+
+
+    });
+
+
+
+
+
+</script>
 
 </body>
 </html>

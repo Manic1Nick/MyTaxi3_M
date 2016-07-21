@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+    <bean id="userDao" class="ua.artcode.taxi.dao.UserJpaDao" >
+
+    </bean>
+    <bean id="orderJpaDao" class="ua.artcode.taxi.dao.OrderJpaDao">
+        <constructor-arg ref="userDao"/>
+    </bean>
+    
+    <bean id="validator" class="ua.artcode.taxi.service.ValidatorJdbcImpl">
+        <constructor-arg ref="userDao"/>
+    </bean>
+
+    <bean id="userService" class="ua.artcode.taxi.service.UserServiceJdbcImpl" scope="singleton">
+        <constructor-arg index="0" ref="userDao"/>
+        <constructor-arg index="1" ref="orderJpaDao"/>
+        <constructor-arg index="2" ref="validator"/>
+    </bean>
+
+
+
+</beans>

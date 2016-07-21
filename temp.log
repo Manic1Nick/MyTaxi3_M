@@ -2774,3 +2774,123 @@
 2016-07-10 13:58:16 INFO  UserServiceJdbcImpl:296 - User 1234 get information for his last order 3
 2016-07-10 13:58:19 INFO  UserServiceJdbcImpl:365 - User 1234 closed his order 3
 2016-07-10 13:58:22 INFO  UserServiceJdbcImpl:419 - Request user 1234
+2016-07-16 10:17:06 INFO  ClassPathXmlApplicationContext:581 - Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@123a439b: startup date [Sat Jul 16 10:17:06 EEST 2016]; root of context hierarchy
+2016-07-16 10:17:06 INFO  XmlBeanDefinitionReader:317 - Loading XML bean definitions from class path resource [spring-context.xml]
+2016-07-16 10:19:33 INFO  ClassPathXmlApplicationContext:581 - Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@123a439b: startup date [Sat Jul 16 10:19:33 EEST 2016]; root of context hierarchy
+2016-07-16 10:19:33 INFO  XmlBeanDefinitionReader:317 - Loading XML bean definitions from class path resource [spring-context.xml]
+2016-07-16 10:22:53 INFO  ClassPathXmlApplicationContext:581 - Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@123a439b: startup date [Sat Jul 16 10:22:53 EEST 2016]; root of context hierarchy
+2016-07-16 10:22:53 INFO  XmlBeanDefinitionReader:317 - Loading XML bean definitions from class path resource [spring-context.xml]
+2016-07-16 10:24:32 INFO  ClassPathXmlApplicationContext:581 - Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@123a439b: startup date [Sat Jul 16 10:24:32 EEST 2016]; root of context hierarchy
+2016-07-16 10:24:33 INFO  XmlBeanDefinitionReader:317 - Loading XML bean definitions from class path resource [spring-context.xml]
+2016-07-16 10:24:33 WARN  ClassPathXmlApplicationContext:549 - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.CannotLoadBeanClassException: Cannot find class [org.springframework.jdbc.datasource.DriverManagerDataSource] for bean with name 'dataSource' defined in class path resource [spring-context.xml]; nested exception is java.lang.ClassNotFoundException: org.springframework.jdbc.datasource.DriverManagerDataSource
+2016-07-16 10:26:37 INFO  ClassPathXmlApplicationContext:581 - Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@123a439b: startup date [Sat Jul 16 10:26:37 EEST 2016]; root of context hierarchy
+2016-07-16 10:26:37 INFO  XmlBeanDefinitionReader:317 - Loading XML bean definitions from class path resource [spring-context.xml]
+2016-07-16 10:26:38 INFO  LogHelper:31 - HHH000204: Processing PersistenceUnitInfo [
+	name: myunit
+	...]
+2016-07-16 10:26:38 INFO  Version:37 - HHH000412: Hibernate Core {5.0.3.Final}
+2016-07-16 10:26:38 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2016-07-16 10:26:38 INFO  Environment:317 - HHH000021: Bytecode provider name : javassist
+2016-07-16 10:26:38 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.0.Final}
+2016-07-16 10:26:38 WARN  DriverManagerConnectionProviderImpl:72 - HHH000402: Using Hibernate built-in connection pool (not for production use!)
+2016-07-16 10:26:38 INFO  DriverManagerConnectionProviderImpl:128 - HHH000401: using driver [com.mysql.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/mytaxi_hibernate]
+2016-07-16 10:26:38 INFO  DriverManagerConnectionProviderImpl:137 - HHH000046: Connection properties: {user=root, password=****}
+2016-07-16 10:26:38 INFO  DriverManagerConnectionProviderImpl:142 - HHH000006: Autocommit mode: false
+2016-07-16 10:26:38 INFO  DriverManagerConnectionProviderImpl:39 - HHH000115: Hibernate connection pool size: 20 (min=1)
+2016-07-16 10:26:39 WARN  ClassPathXmlApplicationContext:549 - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'userDao' defined in class path resource [spring-context.xml]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [ua.artcode.taxi.dao.UserJpaDao]: Constructor threw exception; nested exception is java.lang.ExceptionInInitializerError
+2016-07-16 11:12:47 INFO  ClassPathXmlApplicationContext:581 - Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@123a439b: startup date [Sat Jul 16 11:12:47 EEST 2016]; root of context hierarchy
+2016-07-16 11:12:47 INFO  XmlBeanDefinitionReader:317 - Loading XML bean definitions from class path resource [spring-context.xml]
+2016-07-16 11:12:48 INFO  LogHelper:31 - HHH000204: Processing PersistenceUnitInfo [
+	name: myunit
+	...]
+2016-07-16 11:12:48 INFO  Version:37 - HHH000412: Hibernate Core {5.0.3.Final}
+2016-07-16 11:12:48 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2016-07-16 11:12:48 INFO  Environment:317 - HHH000021: Bytecode provider name : javassist
+2016-07-16 11:12:48 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.0.Final}
+2016-07-16 11:12:48 WARN  DriverManagerConnectionProviderImpl:72 - HHH000402: Using Hibernate built-in connection pool (not for production use!)
+2016-07-16 11:12:48 INFO  DriverManagerConnectionProviderImpl:128 - HHH000401: using driver [com.mysql.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/mytaxi_hibernate]
+2016-07-16 11:12:48 INFO  DriverManagerConnectionProviderImpl:137 - HHH000046: Connection properties: {user=root, password=****}
+2016-07-16 11:12:48 INFO  DriverManagerConnectionProviderImpl:142 - HHH000006: Autocommit mode: false
+2016-07-16 11:12:48 INFO  DriverManagerConnectionProviderImpl:39 - HHH000115: Hibernate connection pool size: 20 (min=1)
+2016-07-16 11:12:49 INFO  Dialect:154 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2016-07-16 11:12:49 INFO  LobCreatorBuilderImpl:98 - HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4
+2016-07-16 11:12:50 INFO  SchemaUpdate:101 - HHH000228: Running hbm2ddl schema update
+2016-07-16 11:12:51 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2016-07-16 11:12:51 WARN  ClassPathXmlApplicationContext:549 - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.CannotLoadBeanClassException: Cannot find class [org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean] for bean with name 'entityManagerFactory' defined in class path resource [spring-context.xml]; nested exception is java.lang.ClassNotFoundException: org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean
+2016-07-16 11:13:36 INFO  ClassPathXmlApplicationContext:581 - Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@123a439b: startup date [Sat Jul 16 11:13:36 EEST 2016]; root of context hierarchy
+2016-07-16 11:13:36 INFO  XmlBeanDefinitionReader:317 - Loading XML bean definitions from class path resource [spring-context.xml]
+2016-07-16 11:13:37 INFO  LogHelper:31 - HHH000204: Processing PersistenceUnitInfo [
+	name: myunit
+	...]
+2016-07-16 11:13:37 INFO  Version:37 - HHH000412: Hibernate Core {5.0.3.Final}
+2016-07-16 11:13:37 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2016-07-16 11:13:37 INFO  Environment:317 - HHH000021: Bytecode provider name : javassist
+2016-07-16 11:13:37 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.0.Final}
+2016-07-16 11:13:37 WARN  DriverManagerConnectionProviderImpl:72 - HHH000402: Using Hibernate built-in connection pool (not for production use!)
+2016-07-16 11:13:37 INFO  DriverManagerConnectionProviderImpl:128 - HHH000401: using driver [com.mysql.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/mytaxi_hibernate]
+2016-07-16 11:13:37 INFO  DriverManagerConnectionProviderImpl:137 - HHH000046: Connection properties: {user=root, password=****}
+2016-07-16 11:13:37 INFO  DriverManagerConnectionProviderImpl:142 - HHH000006: Autocommit mode: false
+2016-07-16 11:13:37 INFO  DriverManagerConnectionProviderImpl:39 - HHH000115: Hibernate connection pool size: 20 (min=1)
+2016-07-16 11:13:38 INFO  Dialect:154 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2016-07-16 11:13:38 INFO  LobCreatorBuilderImpl:98 - HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4
+2016-07-16 11:13:39 INFO  SchemaUpdate:101 - HHH000228: Running hbm2ddl schema update
+2016-07-16 11:13:39 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2016-07-16 11:17:21 INFO  ClassPathXmlApplicationContext:581 - Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@123a439b: startup date [Sat Jul 16 11:17:21 EEST 2016]; root of context hierarchy
+2016-07-16 11:17:22 INFO  XmlBeanDefinitionReader:317 - Loading XML bean definitions from class path resource [spring-context.xml]
+2016-07-16 11:17:22 INFO  LogHelper:31 - HHH000204: Processing PersistenceUnitInfo [
+	name: myunit
+	...]
+2016-07-16 11:17:22 INFO  Version:37 - HHH000412: Hibernate Core {5.0.3.Final}
+2016-07-16 11:17:22 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2016-07-16 11:17:22 INFO  Environment:317 - HHH000021: Bytecode provider name : javassist
+2016-07-16 11:17:22 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.0.Final}
+2016-07-16 11:17:23 WARN  DriverManagerConnectionProviderImpl:72 - HHH000402: Using Hibernate built-in connection pool (not for production use!)
+2016-07-16 11:17:23 INFO  DriverManagerConnectionProviderImpl:128 - HHH000401: using driver [com.mysql.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/mytaxi_hibernate]
+2016-07-16 11:17:23 INFO  DriverManagerConnectionProviderImpl:137 - HHH000046: Connection properties: {user=root, password=****}
+2016-07-16 11:17:23 INFO  DriverManagerConnectionProviderImpl:142 - HHH000006: Autocommit mode: false
+2016-07-16 11:17:23 INFO  DriverManagerConnectionProviderImpl:39 - HHH000115: Hibernate connection pool size: 20 (min=1)
+2016-07-16 11:17:23 INFO  Dialect:154 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2016-07-16 11:17:24 INFO  LobCreatorBuilderImpl:98 - HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4
+2016-07-16 11:17:24 INFO  SchemaUpdate:101 - HHH000228: Running hbm2ddl schema update
+2016-07-16 11:17:25 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2016-07-16 11:17:25 INFO  UserServiceJdbcImpl:106 - User 093 logged in
+2016-07-16 11:20:07 INFO  ClassPathXmlApplicationContext:581 - Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@123a439b: startup date [Sat Jul 16 11:20:07 EEST 2016]; root of context hierarchy
+2016-07-16 11:20:07 INFO  XmlBeanDefinitionReader:317 - Loading XML bean definitions from class path resource [spring-context.xml]
+2016-07-16 11:20:07 INFO  LogHelper:31 - HHH000204: Processing PersistenceUnitInfo [
+	name: myunit
+	...]
+2016-07-16 11:20:07 INFO  Version:37 - HHH000412: Hibernate Core {5.0.3.Final}
+2016-07-16 11:20:07 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2016-07-16 11:20:07 INFO  Environment:317 - HHH000021: Bytecode provider name : javassist
+2016-07-16 11:20:08 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.0.Final}
+2016-07-16 11:20:08 WARN  DriverManagerConnectionProviderImpl:72 - HHH000402: Using Hibernate built-in connection pool (not for production use!)
+2016-07-16 11:20:08 INFO  DriverManagerConnectionProviderImpl:128 - HHH000401: using driver [com.mysql.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/mytaxi_hibernate]
+2016-07-16 11:20:08 INFO  DriverManagerConnectionProviderImpl:137 - HHH000046: Connection properties: {user=root, password=****}
+2016-07-16 11:20:08 INFO  DriverManagerConnectionProviderImpl:142 - HHH000006: Autocommit mode: false
+2016-07-16 11:20:08 INFO  DriverManagerConnectionProviderImpl:39 - HHH000115: Hibernate connection pool size: 20 (min=1)
+2016-07-16 11:20:08 INFO  Dialect:154 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2016-07-16 11:20:09 INFO  LobCreatorBuilderImpl:98 - HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4
+2016-07-16 11:20:10 INFO  SchemaUpdate:101 - HHH000228: Running hbm2ddl schema update
+2016-07-16 11:20:10 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2016-07-16 11:20:10 INFO  UserServiceJdbcImpl:106 - User 093 logged in
+2016-07-16 11:20:10 INFO  UserServiceJdbcImpl:419 - Request user 093
+2016-07-16 11:20:26 INFO  ClassPathXmlApplicationContext:581 - Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@123a439b: startup date [Sat Jul 16 11:20:26 EEST 2016]; root of context hierarchy
+2016-07-16 11:20:26 INFO  XmlBeanDefinitionReader:317 - Loading XML bean definitions from class path resource [spring-context.xml]
+2016-07-16 11:20:26 INFO  LogHelper:31 - HHH000204: Processing PersistenceUnitInfo [
+	name: myunit
+	...]
+2016-07-16 11:20:26 INFO  Version:37 - HHH000412: Hibernate Core {5.0.3.Final}
+2016-07-16 11:20:26 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2016-07-16 11:20:26 INFO  Environment:317 - HHH000021: Bytecode provider name : javassist
+2016-07-16 11:20:27 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.0.Final}
+2016-07-16 11:20:27 WARN  DriverManagerConnectionProviderImpl:72 - HHH000402: Using Hibernate built-in connection pool (not for production use!)
+2016-07-16 11:20:27 INFO  DriverManagerConnectionProviderImpl:128 - HHH000401: using driver [com.mysql.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/mytaxi_hibernate]
+2016-07-16 11:20:27 INFO  DriverManagerConnectionProviderImpl:137 - HHH000046: Connection properties: {user=root, password=****}
+2016-07-16 11:20:27 INFO  DriverManagerConnectionProviderImpl:142 - HHH000006: Autocommit mode: false
+2016-07-16 11:20:27 INFO  DriverManagerConnectionProviderImpl:39 - HHH000115: Hibernate connection pool size: 20 (min=1)
+2016-07-16 11:20:28 INFO  Dialect:154 - HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2016-07-16 11:20:28 INFO  LobCreatorBuilderImpl:98 - HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [3] less than 4
+2016-07-16 11:20:28 INFO  SchemaUpdate:101 - HHH000228: Running hbm2ddl schema update
+2016-07-16 11:20:29 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2016-07-16 11:20:29 INFO  UserServiceJdbcImpl:106 - User 093 logged in
+2016-07-16 11:20:29 INFO  UserServiceJdbcImpl:419 - Request user 093
